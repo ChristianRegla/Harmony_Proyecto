@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignupActivity">
+
+    <!-- Esta es la imagen de fondo -->
+    <ImageView
+        android:id="@+id/background_image_login"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_login_signup"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Esto es lo que hace que haya algo de opacidad en la imagen de fondo -->
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#BF295E84"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Nombre de la app centrado -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lobster"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="64sp"
+        app:layout_constraintBottom_toTopOf="@+id/text_username_input_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <!-- Campo de entrada para el usuario -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusTopStart="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        app:boxCornerRadiusBottomEnd="15dp"
+        android:id="@+id/text_username_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:hint="@string/user_name"
+        app:boxBackgroundColor="#F2F3F7"
+        app:hintTextColor="#A1A4B2"
+        app:layout_constraintBottom_toTopOf="@+id/text_email_input_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_username_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Campo de entrada para el correo -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusTopStart="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        app:boxCornerRadiusBottomEnd="15dp"
+        android:id="@+id/text_email_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:hint="@string/email"
+        app:boxBackgroundColor="#F2F3F7"
+        app:hintTextColor="#A1A4B2"
+        app:layout_constraintBottom_toTopOf="@+id/text_password_input_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_email_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Campo de entrada para la contraseña -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusTopStart="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        app:boxCornerRadiusBottomEnd="15dp"
+        android:id="@+id/text_password_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:hint="@string/password"
+        app:layout_constraintBottom_toTopOf="@+id/crear_cuenta_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:endIconMode="password_toggle"
+        app:iconTint="@null"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="1dp"
+        app:boxBackgroundColor="#F2F3F7"
+        app:hintTextColor="#A1A4B2">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Botón de inicio de sesión -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/crear_cuenta_button"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/sign_up"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/azul_oscuro"
+        app:cornerRadius="100dp"
+        app:layout_constraintBottom_toTopOf="@id/texto_o"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Línea izquierda de continuar con Google -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/container_line"
+        app:layout_constraintBottom_toTopOf="@id/continuar_google_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/texto_o"
+        android:layout_marginBottom="18dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="8dp"/>
+
+    <!-- Línea derecha de continuar con Google -->
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/container_line1"
+        app:layout_constraintBottom_toTopOf="@id/continuar_google_button"
+        app:layout_constraintStart_toEndOf="@+id/texto_o"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="18dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp" />
+
+    <!-- Texto "O" -->
+    <TextView
+        android:id="@+id/texto_o"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="O"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/continuar_google_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Botón de continuar con Google -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continuar_google_button"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/continuar_google"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/google"
+        app:icon="@drawable/google_icon"
+        app:iconGravity="start"
+        app:iconPadding="10dp"
+        app:iconTint="@null"
+        app:layout_constraintBottom_toTopOf="@+id/text_iniciar_sesion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Texto de crear una cuenta -->
+    <TextView
+        android:id="@+id/text_iniciar_sesion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/Ya_tienes_cuenta"
+        android:textColor="#FAFAFA"
+        android:textSize="14sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:textStyle="normal"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

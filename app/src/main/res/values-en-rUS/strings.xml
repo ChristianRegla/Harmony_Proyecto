@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Harmony</string>
+    <string name="email">Email</string>
+    <string name="user_name">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Log in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="continuar_google">CONTINUE WITH GOOGLE</string>
+    <string name="No_tienes_cuenta">DON\'T HAVE AN ACCOUNT? CREATE ONE</string>
+    <string name="Ya_tienes_cuenta">ALREADY HAVE AN ACCOUNT? LOG IN</string>
+    <string name="editar_perfil">Edit profile</string>
+    <string name="notificaciones">Notifications</string>
+    <string name="donaciones">Donations</string>
+    <string name="centro_de_ayuda">Help center</string>
+    <string name="cerrar_sesi_n">Log out</string>
+    <string name="tucorreo_example_com">youremail@example.com</string>
+    <string name="editar_informacion_de_perfil">Edit profile information</string>
+    <string name="linea_de_ayuda">Helpline</string>
+    <string name="comun_cate_con_amigos">Please contact trusted friends or family. If they are not available, please contact one of the following helplines.</string>
+    <string name="estas_en_crisis">Are you in crisis?</string>
+    <string name="recuerda_no_estas_solo">Please remember, you are not alone. Your call is 100% anonymous and confidential.</string>
+    <string name="te_gustar_a_contar_algo">Feel free to tell me anything.</string>
+    <string name="estoy_para_lo_que_necesites">I\'m here for you, whatever you need.</string>
+    <string name="cobertura_nacional_disponible_24_7">Nationwide coverage. Available 24/7</string>
+    <string name="telefono_de_la_linea_de_ayuda">Helpline phone number</string>
+    <string name="cobertura_en_jalisco_disponible_24_7">Coverage in Jalisco. Available 24/7</string>
+    <string name="nombre_de_usuario">Username</string>
+    <string name="disponible_24_7">Available 24/7</string>
+    <string name="inicio">Home</string>
+    <string name="relajacion">Relaxing</string>
+    <string name="linea_de_la_vida">Lifeline</string>
+    <string name="emergencias">Emergencies</string>
+    <string name="error_campos_vacios">Please ensure all fields are completed</string>
+    <string name="error_correo_invalido">Please enter a valid email address</string>
+    <string name="bienvenido">Welcome</string>
+    <string name="error_apodo">Failed to get nickname</string>
+    <string name="cuenta_creada_exitosamente">Account created successfully</string>
+    <string name="correo_en_uso">Email address already in use</string>
+    <string name="error_al_crear_cuenta">Failed to create account</string>
+    <string name="error_al_iniciar_sesion">Wrong email or password</string>
+    <string name="espa_ol">Spanish</string>
+    <string name="idioma">Languaje</string>
+</resources>

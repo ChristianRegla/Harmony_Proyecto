@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="azul_oscuro">#123B55</color>
+    <color name="google">#EBEAEC</color>
+    <color name="red">#FF0000</color>
+
+    <color name="blue_dark">#295E84</color>
+    <color name="blue_medium">#377BAC</color>
+    <color name="blue_light">#2E4CA6</color>
+    <color name="blue_navy">#15338E</color>
+    <color name="magenta">#C24695</color>
+    <color name="purple">#972CA1</color>
+    <color name="purple_dark">#54175A</color>
+
+    <color name="gray_900">#121212</color> <!-- Un gris muy oscuro para fondos -->
+</resources>

@@ -1,0 +1,63 @@
+<resources>
+    <!-- Estos son más que nada para el login y registro -->
+    <string name="app_name" translatable="false">Harmony</string>
+    <string name="email">Correo</string>
+    <string name="user_name">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="sign_up">Crear cuenta</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="continuar_google">CONTINUAR CON GOOGLE</string>
+    <string name="No_tienes_cuenta">¿NO TIENES UNA CUENTA? CREA UNA</string>
+    <string name="Ya_tienes_cuenta">¿YA TIENES UNA CUENTA? INICIA SESIÓN</string>
+
+    <!-- Aquí van los mensajes de los toast para el login y registro -->
+    <string name="error_campos_vacios">Por favor, complete todos los campos</string>
+    <string name="error_correo_invalido">Por favor, introduce un correo electrónico válido</string>"
+    <string name="bienvenido">Bienvenido</string>
+    <string name="error_apodo">Error al obtener el apodo</string>
+    <string name="cuenta_creada_exitosamente">Cuenta creada exitosamente</string>
+    <string name="correo_en_uso">El correo electrónico ya está en uso</string>
+    <string name="error_al_crear_cuenta">Error al crear la cuenta</string>
+    <string name="error_al_iniciar_sesion">Correo o contraseña incorrectos</string>
+
+    <!-- Estos son para ContentDescription de las imagenes -->
+    <string name="background_image" translatable="false">Background_image</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+
+    <!-- Estos son del menu lateral -->
+    <string name="editar_perfil">Editar perfil</string>
+    <string name="notificaciones">Notificaciones</string>
+    <string name="donaciones">Donaciones</string>
+    <string name="centro_de_ayuda">Centro de ayuda</string>
+    <string name="cerrar_sesi_n">Cerrar Sesión</string>
+
+    <!-- Estos son de la linea de ayuda -->
+    <string name="te_gustar_a_contar_algo">¿Te gustaría contar algo?</string>
+    <string name="estoy_para_lo_que_necesites">Estoy para lo que necesites</string>
+    <string name="container_chatbot" translatable="false">Container_chatbot</string>
+    <string name="flecha_para_acceder" translatable="false">Flecha para acceder</string>
+    <string name="linea_de_ayuda">¡Línea de ayuda!</string>
+    <string name="comun_cate_con_amigos">Comunícate con amigos o familiares de confianza. Si no están disponibles contacta a una de las siguientes líneas.</string>
+    <string name="estas_en_crisis">¿Estás en crisis?</string>
+    <string name="recuerda_no_estas_solo">Recuerda, no estás solo.\nTu llamada es 100% anónima y segura</string>
+    <string name="_800_911_2000" translatable="false">800–911–2000</string>
+    <string name="cobertura_nacional_disponible_24_7">Cobertura nacional. Disponible 24/7</string>
+    <string name="telefono_de_la_linea_de_ayuda">Telefono de la linea de ayuda</string>
+    <string name="cobertura_en_jalisco_disponible_24_7">Cobertura en Jalisco. Disponible 24/7</string>
+    <string name="_911" translatable="false">911</string>
+
+    <!-- Estos son del perfil -->
+    <string name="nombre_de_usuario">Nombre de usuario</string>
+    <string name="tucorreo_example_com">tuCorreo@example.com</string>
+    <string name="editar_informacion_de_perfil">Editar información de perfil</string>
+    <string name="disponible_24_7">Disponible 24/7</string>
+    <string name="inicio">Inicio</string>
+    <string name="relajacion">Relajación</string>
+    <string name="linea_de_la_vida">Línea de la Vida</string>
+    <string name="_075" translatable="false">075</string>
+    <string name="emergencias">Emergencias</string>
+    <string name="espa_ol">Español</string>
+    <string name="idioma">Idioma</string>
+</resources>

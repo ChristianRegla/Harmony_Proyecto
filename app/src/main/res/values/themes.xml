@@ -1,0 +1,23 @@
+<!-- res/values/themes.xml -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Harmony" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Colores primarios -->
+        <item name="colorPrimary">@color/blue_dark</item>
+        <item name="colorPrimaryVariant">@color/blue_medium</item>
+        <item name="colorOnPrimary">@color/white</item> <!-- Color del texto sobre el color primario -->
+
+        <!-- Colores secundarios -->
+        <item name="colorSecondary">@color/magenta</item>
+        <item name="colorSecondaryVariant">@color/purple</item>
+        <item name="colorOnSecondary">@color/white</item> <!-- Color del texto sobre el color secundario -->
+
+        <!-- Fondo y superficie -->
+        <item name="android:windowBackground">@color/white</item> <!-- Fondo de la pantalla -->
+        <item name="colorSurface">@color/white</item> <!-- Fondo de componentes como cards -->
+        <item name="colorOnSurface">@color/black</item> <!-- Color del texto sobre el fondo -->
+
+        <!-- Otros colores -->
+        <item name="colorError">@color/red</item> <!-- Color para errores -->
+        <item name="colorOnError">@color/white</item> <!-- Color del texto sobre el error -->
+    </style>
+</resources>
