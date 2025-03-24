@@ -59,5 +59,15 @@
     <string name="_075" translatable="false">075</string>
     <string name="emergencias">Emergencias</string>
     <string name="espa_ol">Español</string>
+    <string name="ingles">Inglés</string>
     <string name="idioma">Idioma</string>
+    <string name="idioma_actual">Español</string>
+
+    <string name="apodo_desconocido">Apodo desconocido</string>
+    <string name="correo_desconocido">Correo desconocido</string>
+    <string name="apodo_no_encontrado">Apodo no encontrado</string>
+    <string name="usuario_no_autenticado">Usuario no autenticado</string>
+    <string name="titulo_header_inicio">Inicio</string>
+    <string name="seleccionaUnIdioma">Selecciona un idioma</string>
+    <string name="o">O</string>
 </resources>

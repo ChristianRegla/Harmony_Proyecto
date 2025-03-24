@@ -35,11 +35,20 @@
     <string name="error_campos_vacios">Please ensure all fields are completed</string>
     <string name="error_correo_invalido">Please enter a valid email address</string>
     <string name="bienvenido">Welcome</string>
+    <string name="apodo_no_encontrado">Username not found</string>
     <string name="error_apodo">Failed to get nickname</string>
     <string name="cuenta_creada_exitosamente">Account created successfully</string>
     <string name="correo_en_uso">Email address already in use</string>
     <string name="error_al_crear_cuenta">Failed to create account</string>
     <string name="error_al_iniciar_sesion">Wrong email or password</string>
     <string name="espa_ol">Spanish</string>
+    <string name="ingles">English</string>
     <string name="idioma">Languaje</string>
+    <string name="idioma_actual">Selected language</string>
+    <string name="apodo_desconocido">Unknown username</string>
+    <string name="correo_desconocido">Unknown email</string>
+    <string name="usuario_no_autenticado">Username not loged in</string>
+    <string name="titulo_header_inicio">Home</string>
+    <string name="seleccionaUnIdioma">Choose a language</string>
+    <string name="o">Or</string>
 </resources>

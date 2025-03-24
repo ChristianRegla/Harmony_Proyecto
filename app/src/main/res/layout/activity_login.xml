@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".ui.login.LoginActivity">
 
     <!-- Esta es la imagen de fondo -->
     <ImageView
@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Nombre de la app centrado (aunque falta mejorar el centrado) -->
+    <!-- Nombre de la app centrado -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

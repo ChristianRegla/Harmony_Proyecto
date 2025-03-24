@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 android {
@@ -10,6 +11,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 
     defaultConfig {
@@ -41,29 +43,37 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.constraintlayout)
     implementation(libs.google.material)
-    implementation(libs.firebase.crashlytics.buildtools)
-    implementation(libs.firebase.firestore.ktx)
+
+    // Firebase BOM
+    implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
+    // Google Play Services
+    implementation("androidx.credentials:credentials:1.5.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.5.0")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+
+    implementation("androidx.datastore:datastore-preferences:1.1.3")
+    implementation("androidx.navigation:navigation-compose:2.8.9")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation("androidx.compose.material:material:1.7.8")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // Configuración de Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-auth")
-
-    // Google Play Services
-    implementation("androidx.credentials:credentials:1.3.0")
-    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
-
-    implementation("androidx.datastore:datastore-preferences:1.1.3")
+    implementation("androidx.compose.material:material-icons-core:1.7.8")
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+    implementation("androidx.navigation:navigation-compose:2.8.9")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.34.0")
 }
