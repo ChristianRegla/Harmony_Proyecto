@@ -28,7 +28,7 @@ fun BottomNavBar(
         NavigationBarItem(
             selected = false,
             onClick = {
-                navController.navigate("profile")
+                navController.navigate("perfil")
                 onTitleChange("Perfil")
             },
             icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },

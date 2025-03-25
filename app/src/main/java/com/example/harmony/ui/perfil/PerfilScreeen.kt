@@ -49,13 +49,17 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.Dp
 import androidx. compose. ui. draw. drawBehind
 import androidx. compose. ui. geometry. CornerRadius
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
 
 /**
  * Created by codia-figma
  */
 @Composable
-fun PerfilScreen() {
-    // Box-47:1228-Perfil
+fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewModel) {
+    val context = LocalContext.current
+    val usuario = context.getString(R.string.user_name)
+        // Box-47:1228-Perfil
     Box(
         contentAlignment = Alignment.TopStart,
         modifier = Modifier
@@ -97,7 +101,7 @@ fun PerfilScreen() {
                     .offset(x = 40.dp, y = 135.dp)
                     .width(194.dp)
                     .border(0.5.dp, Color(0xff000000)),
-                text = "Slappy",
+                text = usuario,
                 color = Color(0xffffffff),
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Normal,

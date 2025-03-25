@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
+    val context = LocalContext.current
     // Controlador del Drawer
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -94,7 +96,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                             icon = { Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "Profile", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
                             label = { Text("Profile", color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
-                            onClick = {}
+                            onClick = { navController.navigate("perfil") }
                         )
                     }
                 },

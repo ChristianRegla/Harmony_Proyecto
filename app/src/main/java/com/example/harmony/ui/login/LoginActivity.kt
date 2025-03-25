@@ -6,10 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.currentRecomposeScope
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.home.HomeScreen
 import com.example.harmony.ui.home.HomeViewModel
+import com.example.harmony.ui.perfil.PerfilScreen
+import com.example.harmony.ui.perfil.PerfilViewModel
 import com.example.harmony.ui.signup.SignUpScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 
@@ -51,6 +54,10 @@ class LoginActivity : ComponentActivity() {
                 }
                 composable("main"){
                     HomeScreen(navController = navController, homeViewModel = HomeViewModel())
+                }
+
+                composable("perfil"){
+                    PerfilScreen(navController = navController, perfilViewModel = PerfilViewModel())
                 }
             }
         }
