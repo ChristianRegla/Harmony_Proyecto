@@ -1,6 +1,7 @@
 package com.example.harmony.ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -21,12 +23,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
@@ -36,10 +41,12 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
+    val context = LocalContext.current
     // Controlador del Drawer
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+    // Contenedor del Drawer
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -98,14 +105,28 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                         )
                     }
                 },
-                containerColor = Color.Transparent, // haz el scaffold transparente
-                contentColor = Color.White // Ajusta el color del contenido si es necesario
+                containerColor = Color.Transparent,
+                contentColor = Color.White
             ) { paddingValues ->
                 // Aquí iría el contenido de la pantalla principal
-                Text(
-                    text = "Contenido principal",
-                    modifier = Modifier.padding(paddingValues)
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                ) {
+                    ChatbotSection(
+                        modifier = Modifier
+                            .padding(16.dp)
+                    )
+
+                    // Puedes agregar más contenido debajo si es necesario
+                    Text(
+                        text = "Contenido principal",
+                        modifier = Modifier.padding(16.dp),
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                }
             }
         }
     }
@@ -154,4 +175,50 @@ fun DrawerContent(navController: NavHostController) {
 fun DefaultPreview() {
     val navController = rememberNavController()
     HomeScreen(navController = navController, homeViewModel = HomeViewModel())
+}
+
+@Composable
+fun ChatbotSection(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(80.dp)
+            .padding(horizontal = 15.dp)
+            .clip(RoundedCornerShape(12.dp))
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.container_chatbot_background),
+            contentDescription = null,
+            modifier = Modifier.matchParentSize(),
+            contentScale = ContentScale.FillBounds
+        )
+        Image(
+            painter = painterResource(id = R.drawable.logo_harmony),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Image(
+            painter = painterResource(id = R.drawable.image_arrow_right),
+            contentDescription = null,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.logo_harmony),
+            contentDescription = null,
+            modifier = Modifier.size(40.dp)
+        )
+        Column(modifier = Modifier.padding(start = 16.dp)) {
+            Text(text = "¿Te gustaría contar algo?", fontSize = 16.sp, color = Color.Black)
+            Text(text = "Estoy para lo que necesites", fontSize = 14.sp, color = Color(0xFF1D1B20))
+        }
+    }
 }
