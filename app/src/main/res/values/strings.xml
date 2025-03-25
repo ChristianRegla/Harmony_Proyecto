@@ -1,6 +1,6 @@
 <resources>
     <!-- Estos son más que nada para el login y registro -->
-    <string name="app_name" translatable="false">Harmony</string>
+    <string name="app_name">Harmony</string>
     <string name="email">Correo</string>
     <string name="user_name">Usuario</string>
     <string name="password">Contraseña</string>

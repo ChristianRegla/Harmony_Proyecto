@@ -139,7 +139,7 @@ fun SignUpScreen(
                 .padding(start = 32.dp, end = 32.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.login), color = Color.White,
+                text = stringResource(id = R.string.sign_up), color = Color.White,
             )
         }
 
@@ -198,7 +198,7 @@ fun SignUpScreen(
 
         // Texto de crear una cuenta
         Text(
-            text = stringResource(id = R.string.No_tienes_cuenta),
+            text = stringResource(id = R.string.Ya_tienes_cuenta),
             color = Color.White,
             modifier = Modifier.constrainAs(signUpText) {
                 bottom.linkTo(parent.bottom, margin = 15.dp)

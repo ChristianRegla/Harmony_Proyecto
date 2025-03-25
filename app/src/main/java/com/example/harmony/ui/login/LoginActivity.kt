@@ -6,9 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.harmony.ui.home.HomeScreen
+import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.signup.SignUpScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 
@@ -47,6 +48,9 @@ class LoginActivity : ComponentActivity() {
                         onNavigateToLogin = { navController.popBackStack() }, // Regresar
                         onNavigateToMain = { navController.navigate("main") }
                     )
+                }
+                composable("main"){
+                    HomeScreen(navController = navController, homeViewModel = HomeViewModel())
                 }
             }
         }
