@@ -101,7 +101,7 @@ fun ProfileMenuItem(item: MenuItem) {
                     offsetX = 0.dp,
                     offsetY = 1.dp
                 )
-                .background(Color(0xff295e84), RoundedCornerShape(8.dp))
+                .background(Color(0xff295e84))
                 .fillMaxWidth()
                 .height(40.dp), // Altura fija para cada item
             contentAlignment = Alignment.CenterStart
@@ -317,15 +317,17 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                     .offset(x = 35.dp, y = 404.dp)
                     .width(342.dp)
             ) {
-// Grupo de 3
-                Box(modifier = Modifier.fillMaxWidth()) {
+// Grupo de 1
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, Color.DarkGray, RoundedCornerShape(8.dp))
+                ) {
                     Column {
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_editar_perfil, "Editar informacion de perfil"))
-                        Spacer(modifier = Modifier.height(14.dp))
                         ProfileMenuItem(item = MenuItem(R.drawable.icononotificaciones, "Notificaciones", "Si"))
-                        Spacer(modifier = Modifier.height(14.dp))
                         ProfileMenuItem(item = MenuItem(R.drawable.icono_idioma, "Idioma", "Español"))
-                        Spacer(modifier = Modifier.height(14.dp))
+
                     }
                 }
                 Spacer(modifier = Modifier.height(14.dp))
@@ -334,9 +336,8 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Column {
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_seguridad, "Seguridad"))
-                        Spacer(modifier = Modifier.height(14.dp))
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_tema, "Tema", "Modo Claro"))
-                        Spacer(modifier = Modifier.height(14.dp))
+
                     }
                 }
                 Spacer(modifier = Modifier.height(14.dp))
@@ -345,11 +346,8 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Column {
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_asistecia, "Ayuda y Soporte"))
-                        Spacer(modifier = Modifier.height(14.dp))
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_contactanos, "Contactanos"))
-                        Spacer(modifier = Modifier.height(14.dp))
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_politicas, "Politica de Privacidad "))
-                        Spacer(modifier = Modifier.height(14.dp))
                     }
                 }
             }
@@ -404,7 +402,6 @@ fun Modifier.advancedShadow(
     Modifier.drawBehind {
         drawRoundRect(
             color = color.copy(alpha = alpha),
-            cornerRadius = CornerRadius(cornersRadius.toPx()),
             size = size
         )
     }
