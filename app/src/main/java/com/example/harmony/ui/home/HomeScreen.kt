@@ -64,7 +64,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContent()
+                DrawerContent(navController = navController, homeViewModel = homeViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -126,11 +126,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun DrawerContent(
-    modifier: Modifier = Modifier
-        .padding(30.dp)
-        .size(20.dp)
-) {
+fun DrawerContent(navController: NavHostController, homeViewModel: HomeViewModel) {
     val context = LocalContext.current
     Box() {
 
@@ -274,7 +270,7 @@ fun DrawerContent(
             )
         },
         selected = false,
-        onClick = {}
+        onClick = { homeViewModel.cerrarSesion(navController) }
     )
 }
 
