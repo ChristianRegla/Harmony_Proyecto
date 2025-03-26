@@ -321,7 +321,8 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .border(1.dp, Color.DarkGray, RoundedCornerShape(8.dp))
+                        .border(1.dp, color=Color(0x00000000))
+                        .clip(RoundedCornerShape(8.dp))
                 ) {
                     Column {
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_editar_perfil, "Editar informacion de perfil"))
@@ -333,7 +334,12 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 Spacer(modifier = Modifier.height(14.dp))
 
 // Grupo de 2
-                Box(modifier = Modifier.fillMaxWidth()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, color=Color(0x00000000))
+                        .clip(RoundedCornerShape(8.dp))
+                ) {
                     Column {
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_seguridad, "Seguridad"))
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_tema, "Tema", "Modo Claro"))
@@ -343,7 +349,11 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 Spacer(modifier = Modifier.height(14.dp))
 
 // Grupo de 3
-                Box(modifier = Modifier.fillMaxWidth()) {
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .border(1.dp, color=Color(0x00000000))
+                    .clip(RoundedCornerShape(8.dp))
+                ) {
                     Column {
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_asistecia, "Ayuda y Soporte"))
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_contactanos, "Contactanos"))
