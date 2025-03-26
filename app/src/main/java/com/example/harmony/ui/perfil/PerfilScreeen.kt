@@ -71,6 +71,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import com.example.harmony.ui.home.DrawerContent
 import androidx. compose. ui. text. font. Font
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.harmony.ui.theme.Magenta
 
 /**
@@ -164,7 +165,12 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
             DrawerContent(navController)
         }
     ) {
-// Box-47:1228-Perfil
+        ConstraintLayout(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            val (foto, usuario, correo, grupo1, grupo2, grupo3, topBar, bottomNavbar, fondoImg, fondoAzul) = createRefs()
+        }
+        // Box-47:1228-Perfil
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
                 painter = painterResource(id = R.drawable.fondo_perfil),
@@ -262,7 +268,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 )
             }
 
-// Box-47:1230-perfilImagen
+            // Box-47:1230-perfilImagen
             Box(
                 contentAlignment = Alignment.TopStart,
                 modifier = Modifier
@@ -270,7 +276,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                     .offset(x = 69.dp, y = 180.dp)
                     .size(274.dp, 184.dp),
             ) {
-// Image-47:1231-Avatar
+                // Image-47:1231-Avatar
                 Image(
                     painter = painterResource(id = R.drawable.foto_avatar),
                     contentDescription = null,
@@ -321,13 +327,30 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .border(1.dp, color=Color(0x00000000))
+                        .border(1.dp, color = Color(0x00000000))
                         .clip(RoundedCornerShape(8.dp))
                 ) {
                     Column {
-                        ProfileMenuItem(item = MenuItem(R.drawable.ico_editar_perfil, "Editar informacion de perfil"))
-                        ProfileMenuItem(item = MenuItem(R.drawable.icononotificaciones, "Notificaciones", "Si"))
-                        ProfileMenuItem(item = MenuItem(R.drawable.icono_idioma, "Idioma", "Español"))
+                        ProfileMenuItem(
+                            item = MenuItem(
+                                R.drawable.ico_editar_perfil,
+                                "Editar informacion de perfil"
+                            )
+                        )
+                        ProfileMenuItem(
+                            item = MenuItem(
+                                R.drawable.icononotificaciones,
+                                "Notificaciones",
+                                "Si"
+                            )
+                        )
+                        ProfileMenuItem(
+                            item = MenuItem(
+                                R.drawable.icono_idioma,
+                                "Idioma",
+                                "Español"
+                            )
+                        )
 
                     }
                 }
@@ -337,7 +360,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .border(1.dp, color=Color(0x00000000))
+                        .border(1.dp, color = Color(0x00000000))
                         .clip(RoundedCornerShape(8.dp))
                 ) {
                     Column {
@@ -349,19 +372,31 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 Spacer(modifier = Modifier.height(14.dp))
 
 // Grupo de 3
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, color=Color(0x00000000))
-                    .clip(RoundedCornerShape(8.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, color = Color(0x00000000))
+                        .clip(RoundedCornerShape(8.dp))
                 ) {
                     Column {
-                        ProfileMenuItem(item = MenuItem(R.drawable.ico_asistecia, "Ayuda y Soporte"))
+                        ProfileMenuItem(
+                            item = MenuItem(
+                                R.drawable.ico_asistecia,
+                                "Ayuda y Soporte"
+                            )
+                        )
                         ProfileMenuItem(item = MenuItem(R.drawable.ico_contactanos, "Contactanos"))
-                        ProfileMenuItem(item = MenuItem(R.drawable.ico_politicas, "Politica de Privacidad "))
+                        ProfileMenuItem(
+                            item = MenuItem(
+                                R.drawable.ico_politicas,
+                                "Politica de Privacidad "
+                            )
+                        )
                     }
                 }
             }
         }
+
     }
 }
 @Composable
