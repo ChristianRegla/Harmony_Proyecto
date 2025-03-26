@@ -12,11 +12,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.NotificationsNone
+import androidx.compose.material.icons.filled.PersonOutline
+import androidx.compose.material.icons.outlined.HelpOutline
+import androidx.compose.material.icons.outlined.Logout
+import androidx.compose.material.icons.outlined.MonetizationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -29,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +49,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
     val context = LocalContext.current
+    val headerTitle = context.getString(R.string.header_menu_principal)
+
     // Controlador del Drawer
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -50,8 +59,15 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            DrawerContent(navController)
-        }
+            ModalDrawerSheet (
+                drawerContainerColor = BlueDark,
+                modifier = Modifier
+                    .width(250.dp)
+            ){
+                DrawerContent()
+            }
+        },
+        gesturesEnabled = drawerState.isOpen
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
@@ -63,30 +79,14 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
 
             Scaffold(
                 topBar = {
-                    TopAppBar(
-                        title = {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    "Home",
-                                    color = Color.White,
-                                    modifier = Modifier.align(Alignment.CenterVertically)
-                                )
+                    TopBar(
+                        onOpenDrawer = {
+                            scope.launch {
+                                if(drawerState.isClosed) drawerState.open()
                             }
                         },
-                        colors = TopAppBarDefaults.topAppBarColors(containerColor = BlueDark),
-                        navigationIcon = {
-                            IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                Icon(imageVector = Icons.Filled.Home, contentDescription = "Menu", tint = Color.White)
-                            }
-                        },
-                        actions = {
-                            IconButton(onClick = { navController.navigate("chat") }) {
-                                Icon(imageVector = Icons.Filled.Chat, contentDescription = "Chat", tint = Color.White)
-                            }
-                        }
+                        title = headerTitle,
+                        modifier = Modifier.size(20.dp)
                     )
                 },
                 bottomBar = {
@@ -107,67 +107,175 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                 },
                 containerColor = Color.Transparent,
                 contentColor = Color.White
-            ) { paddingValues ->
-                // Aquí iría el contenido de la pantalla principal
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                ) {
-                    ChatbotSection(
-                        modifier = Modifier
-                            .padding(16.dp)
-                    )
-
-                    // Puedes agregar más contenido debajo si es necesario
-                    Text(
-                        text = "Contenido principal",
-                        modifier = Modifier.padding(16.dp),
-                        fontSize = 18.sp,
-                        color = Color.White
-                    )
-                }
+            ) { padding ->
+                ScreenContent(modifier = Modifier.padding(padding))
             }
         }
     }
 }
 
 @Composable
-fun DrawerContent(navController: NavHostController) {
-    // Opciones del menú lateral
-    Column(modifier = Modifier.padding(16.dp)) {
-        TextButton(
-            onClick = { navController.navigate("profile") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
-                .padding(16.dp) // Este es el espacio interno
-        ) {
-            Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "Profile", modifier = Modifier.padding(end = 8.dp))
-            Text(
-                text = "Perfil",
-                color = Color(0xFF295E84),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-        // Espacio entre las opciones
-        Spacer(modifier = Modifier.height(16.dp))
+fun ScreenContent(modifier: Modifier = Modifier) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(30.dp)
+            .background(Color.Transparent)
+    )
 
-        TextButton(
-            onClick = { navController.navigate("settings") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
-                .padding(16.dp) // Este es el espacio interno
+}
 
-        ) {
-            Text(
-                text = "Configuración",
-                color = Color(0xFF295E84),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
+@Composable
+fun DrawerContent(
+    modifier: Modifier = Modifier
+        .padding(30.dp)
+        .size(20.dp)
+) {
+    val context = LocalContext.current
+    Box() {
+
     }
+
+    Spacer(modifier = Modifier.height(32.dp))
+
+    Image(
+        painter = painterResource(id = R.drawable.logo_harmony),
+        contentDescription = null,
+        modifier = Modifier
+            .size(100.dp)
+    )
+
+    Text(
+        text = "Slappy",
+        fontSize = 24.sp,
+        textAlign = TextAlign.Center,
+        color = Color.White,
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    )
+
+    HorizontalDivider()
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    // Ícono de Editar Perfil
+    NavigationDrawerItem(
+        icon = {
+            Icon(
+                imageVector = Icons.Filled.PersonOutline,
+                contentDescription = "Account",
+                tint = Color.White,
+                modifier = Modifier
+                    .size(27.dp)
+            ) },
+        label = {
+            Text(
+                text = context.getString(R.string.editar_perfil),
+                fontSize = 16.sp,
+                color = Color.White,
+                modifier = Modifier.padding(16.dp)
+            )
+        },
+        selected = false,
+        onClick = {}
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    // Ícono de Notificaciones
+    NavigationDrawerItem(
+        icon = {
+            Icon(
+                imageVector = Icons.Filled.NotificationsNone,
+                contentDescription = "Account",
+                tint = Color.White,
+                modifier = Modifier
+                    .size(27.dp)
+            ) },
+        label = {
+            Text(
+                text = context.getString(R.string.notificaciones),
+                fontSize = 16.sp,
+                color = Color.White,
+                modifier = Modifier.padding(16.dp)
+            )
+        },
+        selected = false,
+        onClick = {}
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    // Ícono de Donaciones
+    NavigationDrawerItem(
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.MonetizationOn,
+                contentDescription = "Account",
+                tint = Color.White,
+                modifier = Modifier
+                    .size(27.dp)
+            ) },
+        label = {
+            Text(
+                text = context.getString(R.string.donaciones),
+                fontSize = 16.sp,
+                color = Color.White,
+                modifier = Modifier.padding(16.dp)
+            )
+        },
+        selected = false,
+        onClick = {}
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    // Ícono de Centro de Ayuda
+    NavigationDrawerItem(
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.HelpOutline,
+                contentDescription = "Account",
+                tint = Color.White,
+                modifier = Modifier
+                    .size(27.dp)
+            ) },
+        label = {
+            Text(
+                text = context.getString(R.string.notificaciones),
+                fontSize = 16.sp,
+                color = Color.White,
+                modifier = Modifier.padding(16.dp)
+            )
+        },
+        selected = false,
+        onClick = {}
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    // Ícono de Cerrar Sesión
+    NavigationDrawerItem(
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.Logout,
+                contentDescription = "Account",
+                tint = Color.White,
+                modifier = Modifier
+                    .size(27.dp)
+            ) },
+        label = {
+            Text(
+                text = context.getString(R.string.cerrar_sesi_n),
+                fontSize = 16.sp,
+                color = Color.White,
+                modifier = Modifier.padding(16.dp)
+            )
+        },
+        selected = false,
+        onClick = {}
+    )
 }
 
 @Preview(showBackground = true)

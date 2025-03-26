@@ -70,4 +70,7 @@
     <string name="titulo_header_inicio">Inicio</string>
     <string name="seleccionaUnIdioma">Selecciona un idioma</string>
     <string name="o">O</string>
+
+    <!-- Nombres superiores para las ventanas -->
+    <string name="header_menu_principal">Inicio</string>
 </resources>
