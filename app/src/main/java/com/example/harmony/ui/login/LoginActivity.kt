@@ -17,6 +17,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 class LoginActivity : ComponentActivity() {
 
     private val loginViewModel: LoginViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +35,11 @@ class LoginActivity : ComponentActivity() {
                     LoginScreen(
                         viewModel = loginViewModel,
                         onNavigateToSignUp = { navController.navigate("signup") },
-                        onNavigateToMain = { navController.navigate("main") }
+                        onNavigateToMain = {
+                            navController.navigate("main") {
+                                popUpTo("login"){ inclusive = true }
+                            }
+                        }
                     )
                 }
                 composable(
@@ -50,7 +55,7 @@ class LoginActivity : ComponentActivity() {
                     )
                 }
                 composable("main"){
-                    HomeScreen(navController = navController, homeViewModel = HomeViewModel())
+                    HomeScreen(navController = navController, homeViewModel = homeViewModel)
                 }
             }
         }
