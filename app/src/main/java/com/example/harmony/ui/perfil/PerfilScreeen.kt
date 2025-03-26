@@ -25,13 +25,28 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,30 +66,86 @@ import androidx. compose. ui. draw. drawBehind
 import androidx. compose. ui. geometry. CornerRadius
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import com.example.harmony.ui.theme.BlueDark
+import kotlinx.coroutines.launch
+import android.annotation.SuppressLint
 
 /**
  * Created by codia-figma
  */
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewModel) {
     val context = LocalContext.current
     val usuario = context.getString(R.string.user_name)
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
         // Box-47:1228-Perfil
-    Box(
-        contentAlignment = Alignment.TopStart,
-        modifier = Modifier
-            .size(412.dp, 917.dp)
-            .clip(RoundedCornerShape(20.dp)),
-    ) {
-        // Image-47:1229-fondo1
+    Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.fondo_perfil),
-            contentDescription = null,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .size(412.dp, 272.dp),
+            contentDescription = "Fondo de pantalla",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
         )
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                "Perfil",
+                                color = Color.White
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = BlueDark),
+                    navigationIcon = {
+                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                            Icon(imageVector = Icons.Filled.Home, contentDescription = "Menu", tint = Color.White)
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = { navController.navigate("chat") }) {
+                            Icon(imageVector = Icons.Filled.Chat, contentDescription = "Chat", tint = Color.White)
+                        }
+                    }
+                )
+            },
+            bottomBar = {
+                NavigationBar(containerColor = BlueDark) {
+                    NavigationBarItem(
+                        icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White) },
+                        label = { Text("Home", color = Color.White) },
+                        selected = true,
+                        onClick = {},
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "Profile", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
+                        label = { Text("Profile", color = Color.White, modifier = Modifier.alpha(0.5f)) },
+                        selected = false,
+                        onClick = { navController.navigate("perfil") }
+                    )
+                }
+            },
+            containerColor = Color.Transparent, // haz el scaffold transparente
+            contentColor = Color.White // Ajusta el color del contenido si es necesario
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.fondo1),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .size(412.dp, 272.dp),
+                )
+        }
+
         // Box-47:1230-perfilImagen
         Box(
             contentAlignment = Alignment.TopStart,
@@ -99,8 +170,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                     .align(Alignment.TopStart)
                     .wrapContentHeight()
                     .offset(x = 40.dp, y = 135.dp)
-                    .width(194.dp)
-                    .border(0.5.dp, Color(0xff000000)),
+                    .width(194.dp),
                 text = usuario,
                 color = Color(0xffffffff),
                 fontSize = 22.sp,
@@ -114,8 +184,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                     .align(Alignment.TopStart)
                     .wrapContentHeight()
                     .offset(x = 0.dp, y = 164.dp)
-                    .width(274.dp)
-                    .border(0.5.dp, Color(0xff000000)),
+                    .width(274.dp),
                 text = "youremail@domain.com",
                 color = Color(0xfffafafa),
                 fontSize = 14.sp,
@@ -490,107 +559,6 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                     )
                 }
             }
-        }
-        // Box-47:1254-header
-        Box(
-            contentAlignment = Alignment.TopStart,
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .background(Color(0xff295e84))
-                .size(412.dp, 65.dp)
-                .border(1.dp, Color(0x00ffffff))
-                .clipToBounds(),
-        ) {
-            // Image-47:1255-Mensaje
-            Image(
-                painter = painterResource(id = R.drawable.ico_mensaje),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 368.dp, y = 20.dp)
-                    .size(26.dp, 25.dp),
-            )
-            // Text-47:1256-Perfil
-            Text(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 170.dp, y = 17.dp)
-                    .size(72.dp, 31.dp),
-                text = "Perfil",
-                color = Color(0xffffffff),
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Center,
-                overflow = TextOverflow.Ellipsis,
-            )
-            // Image-47:1257-Group 8628
-            Image(
-                painter = painterResource(id = R.drawable.ic_menu_lateral),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 22.dp, y = 25.dp)
-                    .size(30.dp, 16.dp),
-            )
-        }
-        // Box-155:595-Frame 36
-        Box(
-            contentAlignment = Alignment.TopStart,
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .offset(x = 0.dp, y = 850.dp)
-                .background(Color(0xff295e84))
-                .size(412.dp, 67.dp)
-                .clipToBounds(),
-        ) {
-            // Text-155:596-Inicio
-            Text(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 108.dp, y = 36.dp)
-                    .size(39.dp, 16.dp),
-                text = "Inicio",
-                color = Color(0xffcac4d0),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Left,
-                overflow = TextOverflow.Ellipsis,
-            )
-            // Image-155:597-Vector
-            Image(
-                painter = painterResource(id = R.drawable.ic_menu),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 115.dp, y = 10.dp)
-                    .size(24.228.dp, 26.112.dp),
-            )
-            // Text-155:598-Relajación
-            Text(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 248.dp, y = 36.dp)
-                    .size(73.738.dp, 15.667.dp),
-                text = "Relajación",
-                color = Color(0xffffffff),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Center,
-                overflow = TextOverflow.Ellipsis,
-            )
-            // Image-155:599-yoga 2
-            Image(
-                painter = painterResource(id = R.drawable.ic_yoga),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 271.dp, y = 6.dp)
-                    .size(28.dp, 28.dp),
-            )
         }
     }
 }
