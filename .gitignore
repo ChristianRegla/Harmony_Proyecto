@@ -19,3 +19,4 @@ local.properties
 .idea/runConfigurations.xml
 .idea/studiobot.xml
 .name
+.idea/
