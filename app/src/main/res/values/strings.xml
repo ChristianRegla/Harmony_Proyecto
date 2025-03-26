@@ -70,4 +70,5 @@
     <string name="titulo_header_inicio">Inicio</string>
     <string name="seleccionaUnIdioma">Selecciona un idioma</string>
     <string name="o">O</string>
+    <string name="header_perfil">Perfil</string>
 </resources>
