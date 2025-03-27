@@ -52,4 +52,5 @@
     <string name="seleccionaUnIdioma">Choose a language</string>
     <string name="o">Or</string>
     <string name="header_menu_principal">Home</string>
+    <string name="header_perfil">Profile</string>
 </resources>

@@ -73,4 +73,5 @@
 
     <!-- Nombres superiores para las ventanas -->
     <string name="header_menu_principal">Inicio</string>
+    <string name="header_perfil">Perfil</string>
 </resources>
