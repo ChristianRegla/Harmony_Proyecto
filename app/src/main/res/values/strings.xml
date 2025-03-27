@@ -73,4 +73,6 @@
 
     <!-- Nombres superiores para las ventanas -->
     <string name="header_menu_principal">Inicio</string>
+    <string name="title_activity_privacy_notice_screen">PrivacyNoticeScreen</string>
+    <string name="title_activity_privecy_notice_screen">PrivecyNoticeScreen</string>
 </resources>
