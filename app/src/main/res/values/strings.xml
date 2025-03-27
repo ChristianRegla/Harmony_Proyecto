@@ -54,7 +54,6 @@
     <string name="editar_informacion_de_perfil">Editar información de perfil</string>
     <string name="disponible_24_7">Disponible 24/7</string>
     <string name="inicio">Inicio</string>
-    <string name="relajacion">Relajación</string>
     <string name="linea_de_la_vida">Línea de la Vida</string>
     <string name="_075" translatable="false">075</string>
     <string name="emergencias">Emergencias</string>
@@ -74,4 +73,5 @@
     <!-- Nombres superiores para las ventanas -->
     <string name="header_menu_principal">Inicio</string>
     <string name="header_perfil">Perfil</string>
+    <string name="relajacion">Relajación</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 
@@ -16,26 +17,49 @@ fun BottomNavBar(
     navController: NavController,
     onTitleChange: (String) -> Unit
 ) {
-    val context = LocalContext.current
-    NavigationBar {
 
+    val currentDestination = navController.currentDestination?.route
+
+    NavigationBar(containerColor = Color.Transparent) {
         NavigationBarItem(
-            selected = false,
+            selected = currentDestination == "home",
             onClick = {
                 navController.navigate("home")
                 onTitleChange("Inicio")
             },
-            icon = { Icon(Icons.Default.Home, contentDescription = "Inicio") },
-            label = { Text("Inicio") }
+            icon = {
+                Icon(
+                    Icons.Default.Home,
+                    contentDescription = "Inicio",
+                    tint = if(currentDestination == "home") Color.Magenta else Color.Gray)
+                   },
+            label = {
+                Text(
+                    "Inicio",
+                    color = if(currentDestination == "home") Color.Magenta else Color.Gray
+                )
+            }
         )
         NavigationBarItem(
-            selected = false,
+            selected = currentDestination == "perfil",
             onClick = {
                 navController.navigate("perfil")
                 onTitleChange("Perfil")
             },
-            icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
-            label = { Text("Perfil") }
+            icon = {
+                Icon(
+                    Icons.Default.Person,
+                    contentDescription = "Perfil",
+                    tint = if(currentDestination == "perfil") Color.Magenta else Color.Gray
+                )
+                   },
+            label = {
+                Text(
+                    "Perfil",
+                    color = if(currentDestination == "perfil") Color.Magenta else Color.Gray
+
+                )
+            }
         )
     }
 }

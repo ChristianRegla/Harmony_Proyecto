@@ -49,13 +49,17 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
     val context = LocalContext.current
-    val headerTitle = context.getString(R.string.header_menu_principal)
+    val currentRoute = navController.currentBackStackEntry?.destination?.route
 
-    // Controlador del Drawer
+    // Para los textos y que estén traducidos:
+    val headerTitle = context.getString(R.string.header_menu_principal)
+    val relajacion = context.getString(R.string.relajacion)
+
+    // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    // Contenedor del Drawer
+    // Contenedor del Drawer (menú lateral, lo vuelvo a especificar por si acaso)
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -78,6 +82,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
             )
 
             Scaffold(
+                // Barra de arriba
                 topBar = {
                     TopBar(
                         onOpenDrawer = {
@@ -85,21 +90,23 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                                 if(drawerState.isClosed) drawerState.open()
                             }
                         },
+                        // Este es el título que va en medio de la barra superior
                         title = headerTitle,
                         modifier = Modifier.size(20.dp)
                     )
                 },
+                // Barra de abajo
                 bottomBar = {
                     NavigationBar(containerColor = BlueDark) {
                         NavigationBarItem(
                             icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White) },
-                            label = { Text("Home", color = Color.White) },
+                            label = { Text(headerTitle, color = Color.White) },
                             selected = true,
                             onClick = {},
                         )
                         NavigationBarItem(
                             icon = { Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "Profile", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
-                            label = { Text("Profile", color = Color.White, modifier = Modifier.alpha(0.5f)) },
+                            label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
                             onClick = { navController.navigate("perfil") }
                         )
@@ -175,7 +182,7 @@ fun DrawerContent(navController: NavHostController, homeViewModel: HomeViewModel
             )
         },
         selected = false,
-        onClick = {}
+        onClick = { navController.navigate("perfil") }
     )
 
     Spacer(modifier = Modifier.height(4.dp))

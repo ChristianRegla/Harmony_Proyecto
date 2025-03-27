@@ -21,6 +21,7 @@ class LoginActivity : ComponentActivity() {
 
     private val loginViewModel: LoginViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+    private val perfilViewModel: PerfilViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +63,7 @@ class LoginActivity : ComponentActivity() {
                 }
 
                 composable("perfil"){
-                    PerfilScreen(navController = navController, perfilViewModel = PerfilViewModel())
+                    PerfilScreen(navController = navController, perfilViewModel = perfilViewModel)
                 }
             }
         }
