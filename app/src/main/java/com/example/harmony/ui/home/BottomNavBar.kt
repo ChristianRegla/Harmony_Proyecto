@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 
 @Composable
@@ -15,7 +16,9 @@ fun BottomNavBar(
     navController: NavController,
     onTitleChange: (String) -> Unit
 ) {
+    val context = LocalContext.current
     NavigationBar {
+
         NavigationBarItem(
             selected = false,
             onClick = {
@@ -33,15 +36,6 @@ fun BottomNavBar(
             },
             icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
             label = { Text("Perfil") }
-        )
-        NavigationBarItem(
-            selected = false,
-            onClick = {
-                navController.navigate("settings")
-                onTitleChange("Configuración")
-            },
-            icon = { Icon(Icons.Default.Settings, contentDescription = "Configuración") },
-            label = { Text("Config") }
         )
     }
 }

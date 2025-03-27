@@ -65,6 +65,8 @@ import com.example.harmony.ui.theme.BlueDark
 import kotlinx.coroutines.launch
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.TextButton
 import androidx.compose.ui.text.TextStyle
@@ -72,6 +74,10 @@ import androidx.compose.ui.text.font.FontFamily
 import com.example.harmony.ui.home.DrawerContent
 import androidx. compose. ui. text. font. Font
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.provider.FontsContractCompat
+import androidx.navigation.compose.rememberNavController
+import com.example.harmony.ui.home.HomeScreen
+import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.theme.Magenta
 
 /**
@@ -157,6 +163,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
     val context = LocalContext.current
     val usuario = context.getString(R.string.user_name)
     val header = context.getString(R.string.header_perfil)
+    val scrollState = rememberScrollState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     ModalNavigationDrawer(
@@ -168,16 +175,43 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
         ConstraintLayout(
             modifier = Modifier.fillMaxSize()
         ) {
-            val (foto, usuario, correo, grupo1, grupo2, grupo3, topBar, bottomNavbar, fondoImg, fondoAzul) = createRefs()
-        }
-        // Box-47:1228-Perfil
-        Box(modifier = Modifier.fillMaxSize()) {
+            val (scaffold, containerInfoUsuario, fotoPerfil, nombreUsuario, correoUsuario, containerScrollView,
+                containerOpciones, grupo1, grupo2, grupo3, topBar, bottomNavbar, fondoImg, fondoAzul
+            ) = createRefs()
+
+            // Fondo de pantalla
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .constrainAs(fondoImg){
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.fondo_perfil),
+                    contentDescription = "Fondo de pantalla",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            }
+
             Image(
-                painter = painterResource(id = R.drawable.fondo_perfil),
-                contentDescription = "Fondo de pantalla",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
+                painter = painterResource(id = R.drawable.fondo1),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .size(412.dp, 272.dp)
+                    .padding(top = 0.dp)
+                    .constrainAs(fondoAzul) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
             )
+
             Scaffold(
                 topBar = {
                     TopAppBar(
@@ -217,104 +251,187 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                                     modifier = Modifier.size(32.dp)
                                 )
                             }
-                        }
+                        },
                     )
                 },
                 bottomBar = {
-                    NavigationBar(containerColor = BlueDark) {
-                        NavigationBarItem(
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Filled.Home,
-                                    contentDescription = "Home",
-                                    tint = Color.White
-                                )
-                            },
-                            label = { Text("Home", color = Color.White) },
-                            selected = true,
-                            onClick = {},
-                        )
-                        NavigationBarItem(
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Filled.AccountCircle,
-                                    contentDescription = "Profile",
-                                    tint = Color.White,
-                                    modifier = Modifier.alpha(0.5f)
-                                )
-                            },
-                            label = {
-                                Text(
-                                    "Profile",
-                                    color = Color.White,
-                                    modifier = Modifier.alpha(0.5f)
-                                )
-                            },
-                            selected = false,
-                            onClick = { navController.navigate("perfil") }
-                        )
+                    NavigationBar(
+                        containerColor = BlueDark,
+                    ) {
+                        NavigationBar(containerColor = BlueDark) {
+                            NavigationBarItem(
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.Filled.Home,
+                                        contentDescription = "Home",
+                                        tint = Color.White
+                                    )
+                                },
+                                label = { Text("Home", color = Color.White) },
+                                selected = true,
+                                onClick = {},
+                            )
+                            NavigationBarItem(
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.Filled.AccountCircle,
+                                        contentDescription = "Profile",
+                                        tint = Color.White,
+                                        modifier = Modifier.alpha(0.5f)
+                                    )
+                                },
+                                label = {
+                                    Text(
+                                        "Profile",
+                                        color = Color.White,
+                                        modifier = Modifier.alpha(0.5f)
+                                    )
+                                },
+                                selected = false,
+                                onClick = { navController.navigate("perfil") }
+                            )
+                        }
                     }
+
                 },
                 containerColor = Color.Transparent, // haz el scaffold transparente
-                contentColor = Color.White // Ajusta el color del contenido si es necesario
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.fondo1),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .size(412.dp, 272.dp),
-                )
-            }
-
-            // Box-47:1230-perfilImagen
-            Box(
-                contentAlignment = Alignment.TopStart,
+                contentColor = Color.White, // Ajusta el color del contenido si es necesario
                 modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 69.dp, y = 180.dp)
-                    .size(274.dp, 184.dp),
-            ) {
-                // Image-47:1231-Avatar
-                Image(
-                    painter = painterResource(id = R.drawable.foto_avatar),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
+                    .fillMaxSize()
+                    .constrainAs(scaffold) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                }
+            ) { innerPadding ->
+                Column(
                     modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .offset(x = 74.dp, y = 0.dp)
-                        .size(127.dp, 130.dp),
-                )
-// Text-47:1236-Slappy
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentHeight()
-                        .offset(x = 40.dp, y = 135.dp)
-                        .width(194.dp),
-                    text = usuario,
-                    color = Color(0xffffffff),
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Normal,
-                    textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis,
-                )
-// Text-47:1237-youremail@domain.com
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentHeight()
-                        .offset(x = 0.dp, y = 164.dp)
-                        .width(274.dp),
-                    text = "youremail@domain.com",
-                    color = Color(0xfffafafa),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                    textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .verticalScroll(scrollState)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .background(Color.Transparent)
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        // Foto de perfil
+                        Image(
+                            painter = painterResource(id = R.drawable.foto_avatar),
+                            contentDescription = "Fondo de pantalla",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(120.dp, 120.dp)
+
+                        )
+
+                        // Nombre del usuario
+                        Text(
+                            text = usuario,
+                            color = Color(0xffffffff),
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Normal,
+                            textAlign = TextAlign.Center,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.wrapContentWidth()
+                        )
+                        Text(
+                            text = "youremail@domain.com",
+                            color = Color(0xfffafafa),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Normal,
+                            textAlign = TextAlign.Center,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .wrapContentHeight()
+                                .wrapContentWidth()
+                        )
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .background(Color.Transparent)
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        Column {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .border(1.dp, color = Color(0x00000000))
+                                    .clip(RoundedCornerShape(8.dp))
+                            ) {
+                                Column {
+                                    ProfileMenuItem(
+                                        item = MenuItem(
+                                            R.drawable.ico_editar_perfil,
+                                            "Editar informacion de perfil"
+                                        )
+                                    )
+                                    ProfileMenuItem(
+                                        item = MenuItem(
+                                            R.drawable.icononotificaciones,
+                                            "Notificaciones",
+                                            "Si"
+                                        )
+                                    )
+                                    ProfileMenuItem(
+                                        item = MenuItem(
+                                            R.drawable.icono_idioma,
+                                            "Idioma",
+                                            "Español"
+                                        )
+                                    )
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(14.dp))
+
+                            // Grupo de 2
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .border(1.dp, color = Color(0x00000000))
+                                    .clip(RoundedCornerShape(8.dp))
+                            ) {
+                                Column {
+                                    ProfileMenuItem(item = MenuItem(R.drawable.ico_seguridad, "Seguridad"))
+                                    ProfileMenuItem(item = MenuItem(R.drawable.ico_tema, "Tema", "Modo Claro"))
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(14.dp))
+
+                            // Grupo de 3
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .border(1.dp, color = Color(0x00000000))
+                                    .clip(RoundedCornerShape(8.dp))
+                            ) {
+                                Column {
+                                    ProfileMenuItem(
+                                        item = MenuItem(
+                                            R.drawable.ico_asistecia,
+                                            "Ayuda y Soporte"
+                                        )
+                                    )
+                                    ProfileMenuItem(item = MenuItem(R.drawable.ico_contactanos, "Contactanos"))
+                                    ProfileMenuItem(
+                                        item = MenuItem(
+                                            R.drawable.ico_politicas,
+                                            "Politica de Privacidad "
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             }
+        }
+        // Box-47:1228-Perfil
+        Box(modifier = Modifier.fillMaxSize()) {
 // Box-47:1238-perfilInformacion
             Column(
                 horizontalAlignment = Alignment.Start,
@@ -324,76 +441,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                     .width(342.dp)
             ) {
 // Grupo de 1
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(1.dp, color = Color(0x00000000))
-                        .clip(RoundedCornerShape(8.dp))
-                ) {
-                    Column {
-                        ProfileMenuItem(
-                            item = MenuItem(
-                                R.drawable.ico_editar_perfil,
-                                "Editar informacion de perfil"
-                            )
-                        )
-                        ProfileMenuItem(
-                            item = MenuItem(
-                                R.drawable.icononotificaciones,
-                                "Notificaciones",
-                                "Si"
-                            )
-                        )
-                        ProfileMenuItem(
-                            item = MenuItem(
-                                R.drawable.icono_idioma,
-                                "Idioma",
-                                "Español"
-                            )
-                        )
 
-                    }
-                }
-                Spacer(modifier = Modifier.height(14.dp))
-
-// Grupo de 2
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(1.dp, color = Color(0x00000000))
-                        .clip(RoundedCornerShape(8.dp))
-                ) {
-                    Column {
-                        ProfileMenuItem(item = MenuItem(R.drawable.ico_seguridad, "Seguridad"))
-                        ProfileMenuItem(item = MenuItem(R.drawable.ico_tema, "Tema", "Modo Claro"))
-
-                    }
-                }
-                Spacer(modifier = Modifier.height(14.dp))
-
-// Grupo de 3
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(1.dp, color = Color(0x00000000))
-                        .clip(RoundedCornerShape(8.dp))
-                ) {
-                    Column {
-                        ProfileMenuItem(
-                            item = MenuItem(
-                                R.drawable.ico_asistecia,
-                                "Ayuda y Soporte"
-                            )
-                        )
-                        ProfileMenuItem(item = MenuItem(R.drawable.ico_contactanos, "Contactanos"))
-                        ProfileMenuItem(
-                            item = MenuItem(
-                                R.drawable.ico_politicas,
-                                "Politica de Privacidad "
-                            )
-                        )
-                    }
-                }
             }
         }
 
@@ -451,3 +499,10 @@ fun Modifier.advancedShadow(
         )
     }
 )
+
+@Preview(showBackground = true)
+@Composable
+fun PerfilPreview() {
+    val navController = rememberNavController()
+    PerfilScreen(navController = navController, perfilViewModel = PerfilViewModel())
+}
