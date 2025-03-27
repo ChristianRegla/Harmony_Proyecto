@@ -101,7 +101,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                             icon = { Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "Profile", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
                             label = { Text("Profile", color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
-                            onClick = {}
+                            onClick = { navController.navigate("perfil") }
                         )
                     }
                 },
