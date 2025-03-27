@@ -128,18 +128,19 @@ fun ScreenContent(modifier: Modifier = Modifier) {
 @Composable
 fun DrawerContent(navController: NavHostController, homeViewModel: HomeViewModel) {
     val context = LocalContext.current
-    Box() {
-
-    }
 
     Spacer(modifier = Modifier.height(32.dp))
 
-    Image(
-        painter = painterResource(id = R.drawable.logo_harmony),
-        contentDescription = null,
-        modifier = Modifier
-            .size(100.dp)
-    )
+    Box(
+        modifier = Modifier.fillMaxWidth(), // Asegura que el Box ocupe todo el ancho disponible
+        contentAlignment = Alignment.Center // Centra el contenido dentro del Box
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.logo_harmony),
+            contentDescription = null,
+            modifier = Modifier.size(100.dp)
+        )
+    }
 
     Text(
         text = "Slappy",
@@ -276,7 +277,7 @@ fun DrawerContent(navController: NavHostController, homeViewModel: HomeViewModel
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun HomePreview() {
     val navController = rememberNavController()
     HomeScreen(navController = navController, homeViewModel = HomeViewModel())
 }
