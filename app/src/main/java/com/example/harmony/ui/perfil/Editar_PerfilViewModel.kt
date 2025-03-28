@@ -7,10 +7,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class Editar_PerfilViewModel : ViewModel() {
-    private val _currentTitle = MutableStateFlow("Editar Perfil")
-    val currentTitle: StateFlow<String> = _currentTitle
-    fun updateTitle(newTitle: String) {
-        _currentTitle.value = newTitle
+    private val _Title = MutableStateFlow("Editar Perfil")
+    val curTitle: StateFlow<String> = _Title
+
+    fun tituloActualizado(newTitle: String) {
+        _Title.value = newTitle
     }
     fun cerrarSesion(navController: NavHostController) {
         FirebaseAuth.getInstance().signOut()
