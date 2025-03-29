@@ -29,6 +29,7 @@
     <string name="nombre_de_usuario">Username</string>
     <string name="disponible_24_7">Available 24/7</string>
     <string name="inicio">Home</string>
+    <string name="header_Editarperfil">Profile Information</string>
     <string name="relajacion">Relaxing</string>
     <string name="linea_de_la_vida">Lifeline</string>
     <string name="emergencias">Emergencies</string>
@@ -50,6 +51,7 @@
     <string name="usuario_no_autenticado">Username not loged in</string>
     <string name="titulo_header_inicio">Home</string>
     <string name="seleccionaUnIdioma">Choose a language</string>
+    <string name="nombre">Name</string>
     <string name="o">Or</string>
     <string name="header_menu_principal">Home</string>
     <string name="header_perfil">Profile</string>

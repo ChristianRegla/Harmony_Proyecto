@@ -61,5 +61,26 @@ fun BottomNavBar(
                 )
             }
         )
+        NavigationBarItem(
+            selected = currentDestination == "editar_perfil",
+            onClick = {
+                navController.navigate("editar_perfil")
+                onTitleChange("Perfil Information")
+            },
+            icon = {
+                Icon(
+                    Icons.Default.Person,
+                    contentDescription = "Perfil Information",
+                    tint = if(currentDestination == "editar_perfil") Color.Magenta else Color.Gray
+                )
+            },
+            label = {
+                Text(
+                    "Perfil Information",
+                    color = if(currentDestination == "editar_perfil") Color.Magenta else Color.Gray
+
+                )
+            }
+        )
     }
 }

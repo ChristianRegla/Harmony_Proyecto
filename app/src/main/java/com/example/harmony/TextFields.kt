@@ -103,3 +103,26 @@ fun PasswordTextField(
         }
     )
 }
+@Composable
+fun NombreTextField(
+    nombre: String,
+    onNombreChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = nombre,
+        onValueChange = onNombreChange,
+        label = { Text(text = stringResource(id = R.string.nombre)) },
+        shape = RoundedCornerShape(15.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = Color(0xFFEEEEEE),
+            focusedBorderColor = Color.Black,
+            unfocusedBorderColor = Color.Gray,
+            textColor = Color.Black,
+            focusedLabelColor = Color.Black,
+            unfocusedLabelColor = Color.Gray
+        ),
+        modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
+        singleLine = true
+    )
+}
