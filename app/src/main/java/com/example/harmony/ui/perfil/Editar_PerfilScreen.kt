@@ -2,96 +2,53 @@ package com.example.harmony.ui.perfil
 
 import androidx.compose.foundation.Image
 import com.example.harmony.R
-import androidx. compose. ui. draw. clipToBounds
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.unit.Dp
-import androidx. compose. ui. draw. drawBehind
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
-import com.example.harmony.ui.theme.BlueDark
 import kotlinx.coroutines.launch
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.icons.filled.NotificationsNone
-import androidx.compose.material.icons.filled.PersonOutline
-import androidx.compose.material.icons.outlined.HelpOutline
-import androidx.compose.material.icons.outlined.Logout
-import androidx.compose.material.icons.outlined.MonetizationOn
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.TextButton
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import com.example.harmony.ui.home.DrawerContent
-import androidx. compose. ui. text. font. Font
 import androidx.navigation.compose.rememberNavController
-import com.example.harmony.ui.home.HomeViewModel
-import com.example.harmony.ui.home.TopBar
-import androidx. compose. foundation. layout. wrapContentSize
-import androidx.compose.material.icons.filled.West
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.example.harmony.ApodoTextField
+import com.example.harmony.Apodo2TextField
 import com.example.harmony.EmailTextField
 import com.example.harmony.NombreTextField
 import com.example.harmony.NumeroTextField
 import com.example.harmony.CiudadDropdown
 import com.example.harmony.GeneroDropdown
-
-import com.example.harmony.ui.theme.BlueNavy
+import com.example.harmony.DomicilioTextField
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,12 +61,12 @@ fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel:
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     var nombre by remember { mutableStateOf("") }
-    var apodo by remember { mutableStateOf("") }
+    var apodo2 by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var numero by remember { mutableStateOf("") }
     var ciudadSeleccionada by remember { mutableStateOf("") }
     var generoSeleccionado by remember { mutableStateOf("") }
-
+    var domicilio by remember { mutableStateOf("") }
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -160,7 +117,7 @@ fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel:
                     .fillMaxSize()
                     .padding(innerPadding)
                     .verticalScroll(scrollState)
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = 10.dp)
                     .padding(top = 20.dp)
             ) {
                 Column(
@@ -177,9 +134,9 @@ fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel:
                     )
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    ApodoTextField(
-                        apodo = apodo,
-                        onApodoChange = { apodo = it },
+                    Apodo2TextField(
+                        apodo2 = apodo2,
+                        onApodo2Change = { apodo2 = it },
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                     )
                     Spacer(modifier = Modifier.height(20.dp))
@@ -213,7 +170,27 @@ fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel:
                             modifier = Modifier.width(200.dp) // Ancho ajustado
                         )
                     }
-
+                    Spacer(modifier = Modifier.height(20.dp))
+                    DomicilioTextField(
+                        domicilio = domicilio,
+                        onDomicilioChange = { domicilio = it },
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    // Botón de Actualizar
+                    Button(
+                        onClick = { },
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.azul_oscuro)),
+                        shape = RoundedCornerShape(50.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                            .padding(start = 32.dp, end = 32.dp)
+                    ) {
+                        androidx.compose.material.Text(
+                            text = stringResource(id = R.string.actualizar), color = Color.White,
+                        )
+                    }
                 }
             }
         }

@@ -69,7 +69,10 @@
     <string name="titulo_header_inicio">Inicio</string>
     <string name="seleccionaUnIdioma">Selecciona un idioma</string>
     <string name="nombre" translatable="false">Nombre</string>
+    <string name="domicilio" translatable="false">Domicilio</string>
     <string name="Numero_Telefonico" translatable="false">Numero Telefonico</string>
+    <string name="actualizar" translatable="false">Actualizar</string>
+    <string name="apodo" translatable="false">Apodo</string>
     <string name="o">O</string>
 
     <!-- Nombres superiores para las ventanas -->

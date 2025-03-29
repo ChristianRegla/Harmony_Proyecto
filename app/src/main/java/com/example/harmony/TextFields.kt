@@ -136,6 +136,29 @@ fun NombreTextField(
     )
 }
 @Composable
+fun Apodo2TextField(
+    apodo2: String,
+    onApodo2Change: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = apodo2,
+        onValueChange = onApodo2Change,
+        label = { Text(text = stringResource(id = R.string.apodo)) },
+        shape = RoundedCornerShape(15.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = Color(0xFFEEEEEE),
+            focusedBorderColor = Color.Black,
+            unfocusedBorderColor = Color.Gray,
+            textColor = Color.Black,
+            focusedLabelColor = Color.Black,
+            unfocusedLabelColor = Color.Gray
+        ),
+        modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
+        singleLine = true
+    )
+}
+@Composable
 fun NumeroTextField(
     numero: String,
     onNumeroChange: (String) -> Unit,
@@ -280,5 +303,27 @@ fun GeneroDropdown(
         }
     }
 }
-
+@Composable
+fun DomicilioTextField(
+    domicilio: String,
+    onDomicilioChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = domicilio,
+        onValueChange = onDomicilioChange,
+        label = { Text(text = stringResource(id =R.string.domicilio)) },
+        shape = RoundedCornerShape(15.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = Color(0xFFEEEEEE),
+            focusedBorderColor = Color.Black,
+            unfocusedBorderColor = Color.Gray,
+            textColor = Color.Black,
+            focusedLabelColor = Color.Black,
+            unfocusedLabelColor = Color.Gray
+        ),
+        modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
+        singleLine = true
+    )
+}
 
