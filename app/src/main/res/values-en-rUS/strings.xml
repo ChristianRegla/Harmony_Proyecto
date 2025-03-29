@@ -52,6 +52,7 @@
     <string name="titulo_header_inicio">Home</string>
     <string name="seleccionaUnIdioma">Choose a language</string>
     <string name="nombre">Name</string>
+    <string name="Numero_Telefonico">Phone Number</string>
     <string name="o">Or</string>
     <string name="header_menu_principal">Home</string>
     <string name="header_perfil">Profile</string>

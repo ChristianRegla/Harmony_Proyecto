@@ -84,8 +84,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.harmony.ApodoTextField
 import com.example.harmony.EmailTextField
 import com.example.harmony.NombreTextField
+import com.example.harmony.NumeroTextField
+import com.example.harmony.CiudadDropdown
+import com.example.harmony.GeneroDropdown
+
 import com.example.harmony.ui.theme.BlueNavy
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -99,6 +104,11 @@ fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel:
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     var nombre by remember { mutableStateOf("") }
+    var apodo by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var numero by remember { mutableStateOf("") }
+    var ciudadSeleccionada by remember { mutableStateOf("") }
+    var generoSeleccionado by remember { mutableStateOf("") }
 
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
@@ -122,8 +132,8 @@ fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel:
         }
         Scaffold(
             topBar = {
-                TopBar(
-                    onOpenDrawer = {
+                TopBarEditar(
+                    onOpenDrawer2 = {
                         scope.launch {
                             if (drawerState.isClosed) drawerState.open()
                         }
@@ -151,6 +161,7 @@ fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel:
                     .padding(innerPadding)
                     .verticalScroll(scrollState)
                     .padding(bottom = 20.dp)
+                    .padding(top = 20.dp)
             ) {
                 Column(
                     modifier = Modifier
@@ -158,680 +169,52 @@ fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel:
                         .align(Alignment.CenterHorizontally)
 
                 ) {
+                    Spacer(modifier = Modifier.height(10.dp))
                     NombreTextField(
                         nombre = nombre,
                         onNombreChange = { nombre = it },
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                     )
-                }
-            }
-        }
+                    Spacer(modifier = Modifier.height(20.dp))
 
+                    ApodoTextField(
+                        apodo = apodo,
+                        onApodoChange = { apodo = it },
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
 
-        Box(
-            contentAlignment = Alignment.TopStart,
-            modifier = Modifier
-                .size(412.dp, 917.dp)
-                .clip(RoundedCornerShape(32.dp)),
-        ) {
-            // Box-47:1274-Nombre
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(x = 0.dp, y = 131.dp)
-                    .background(Color(0xffffffff))
-                    .size(368.dp, 57.dp),
-            ) {
-                // Empty-I47:1274;30:726-Rectangle 7
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .background(Color(0xfff3f8ff), RoundedCornerShape(8.dp))
-                        .size(368.dp, 57.dp)
-                        .border(1.dp, Color(0xff9e9e9e), RoundedCornerShape(8.dp)),
-                )
-                // Row-I47:1274;30:723-Value
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentHeight()
-                        .offset(x = 0.dp, y = 24.dp)
-                        .width(368.dp)
-                        .padding(horizontal = 16.dp, vertical = 0.dp),
-                ) {
-                    // Text-I47:1274;30:724-Enter here...
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .fillMaxWidth()
-                            .padding(start = 0.dp, end = 31.dp),
-                        text = "Christian Josue Regla Andrade",
-                        color = Color(0xff212121),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Left,
-                        overflow = TextOverflow.Ellipsis,
+                    EmailTextField(
+                        email = email,
+                        onEmailChange = { email = it },
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
                     )
-                }
-                // Column-I47:1274;30:727-Label
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(
-                        space = 10.dp,
-                        alignment = Alignment.Top
-                    ),
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentSize()
-                        .offset(x = 12.dp, y = 2.dp),
-                ) {
-                    // Row-I47:1274;30:729-Frame 89
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    NumeroTextField(
+                        numero = numero,
+                        onNumeroChange = { numero = it },
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 10.dp,
-                            alignment = Alignment.Start
-                        ),
-                        verticalAlignment = Alignment.Top,
                         modifier = Modifier
-                            .align(Alignment.Start)
-                            .wrapContentSize()
-                            .padding(start = 4.dp, top = 6.dp, end = 4.dp, bottom = 1.dp),
+                            .fillMaxWidth(),
                     ) {
-                        // Text-I47:1274;30:730-Label
-                        Text(
-                            modifier = Modifier.wrapContentSize(),
-                            text = "Nombre Completo",
-                            color = Color(0xff757575),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Left,
-                            overflow = TextOverflow.Ellipsis,
+                        CiudadDropdown(
+                            ciudadSeleccionada = ciudadSeleccionada,
+                            onCiudadSeleccionada = { ciudadSeleccionada = it },
+                            modifier = Modifier.width(200.dp) // Ancho ajustado
+                        )
+
+                        GeneroDropdown(
+                            generoSeleccionado = generoSeleccionado,
+                            onGeneroSeleccionado = { generoSeleccionado = it },
+                            modifier = Modifier.width(200.dp) // Ancho ajustado
                         )
                     }
+
                 }
-            }
-            // Box-47:1275-Apodo
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(x = 0.dp, y = 222.dp)
-                    .size(368.dp, 57.dp),
-            ) {
-                // Empty-I47:1275;30:726-Rectangle 7
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .background(Color(0xfff3f8ff), RoundedCornerShape(8.dp))
-                        .size(368.dp, 57.dp)
-                        .border(1.dp, Color(0xff9e9e9e), RoundedCornerShape(8.dp)),
-                )
-                // Row-I47:1275;30:723-Value
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentHeight()
-                        .offset(x = 0.dp, y = 24.dp)
-                        .width(368.dp)
-                        .padding(horizontal = 16.dp, vertical = 0.dp),
-                ) {
-                    // Text-I47:1275;30:724-Enter here...
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .fillMaxWidth()
-                            .padding(start = 0.dp, end = 31.dp),
-                        text = "Slappy",
-                        color = Color(0xff212121),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Left,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-                // Column-I47:1275;30:727-Label
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(
-                        space = 10.dp,
-                        alignment = Alignment.Top
-                    ),
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentSize()
-                        .offset(x = 12.dp, y = 2.dp),
-                ) {
-                    // Row-I47:1275;30:729-Frame 89
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 10.dp,
-                            alignment = Alignment.Start
-                        ),
-                        verticalAlignment = Alignment.Top,
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .wrapContentSize()
-                            .padding(start = 4.dp, top = 6.dp, end = 4.dp, bottom = 1.dp),
-                    ) {
-                        // Text-I47:1275;30:730-Label
-                        Text(
-                            modifier = Modifier.wrapContentSize(),
-                            text = "Apodo",
-                            color = Color(0xff757575),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Left,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                }
-            }
-            // Box-47:1276-Correo
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(x = 0.dp, y = 316.dp)
-                    .size(368.dp, 57.dp),
-            ) {
-                // Empty-I47:1276;30:726-Rectangle 7
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .background(Color(0xfff3f8ff), RoundedCornerShape(8.dp))
-                        .size(368.dp, 57.dp)
-                        .border(1.dp, Color(0xff9e9e9e), RoundedCornerShape(8.dp)),
-                )
-                // Row-I47:1276;30:723-Value
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentHeight()
-                        .offset(x = 0.dp, y = 24.dp)
-                        .width(368.dp)
-                        .padding(horizontal = 16.dp, vertical = 0.dp),
-                ) {
-                    // Text-I47:1276;30:724-Enter here...
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .fillMaxWidth()
-                            .padding(start = 0.dp, end = 31.dp),
-                        text = "debajodelmar@domain.com",
-                        color = Color(0xff212121),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Left,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-                // Column-I47:1276;30:727-Label
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(
-                        space = 10.dp,
-                        alignment = Alignment.Top
-                    ),
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentSize()
-                        .offset(x = 12.dp, y = 2.dp),
-                ) {
-                    // Row-I47:1276;30:729-Frame 89
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 10.dp,
-                            alignment = Alignment.Start
-                        ),
-                        verticalAlignment = Alignment.Top,
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .wrapContentSize()
-                            .padding(start = 4.dp, top = 6.dp, end = 4.dp, bottom = 1.dp),
-                    ) {
-                        // Text-I47:1276;30:730-Correo
-                        Text(
-                            modifier = Modifier.wrapContentSize(),
-                            text = "Correo",
-                            color = Color(0xff757575),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Left,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                }
-            }
-            // Box-47:1277-Ciudad
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 22.dp, y = 526.dp)
-                    .size(163.dp, 50.dp),
-            ) {
-                // Empty-I47:1277;89:14777-Rectangle 7
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .background(Color(0xfff3f8ff), RoundedCornerShape(8.dp))
-                        .size(163.dp, 50.dp)
-                        .border(1.dp, Color(0xff9e9e9e), RoundedCornerShape(8.dp)),
-                )
-                // Row-I47:1277;89:14778-Value
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentHeight()
-                        .offset(x = 0.dp, y = 24.dp)
-                        .width(163.dp)
-                        .padding(horizontal = 16.dp, vertical = 0.dp),
-                ) {
-                    // Text-I47:1277;89:14779-Enter here...
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .fillMaxWidth()
-                            .padding(start = 0.dp, end = 31.dp),
-                        text = "México",
-                        color = Color(0xff212121),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Left,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-                // Column-I47:1277;89:14781-Label
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(
-                        space = 10.dp,
-                        alignment = Alignment.Top
-                    ),
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentSize()
-                        .offset(x = 12.dp, y = 2.dp),
-                ) {
-                    // Row-I47:1277;89:14783-Frame 89
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 10.dp,
-                            alignment = Alignment.Start
-                        ),
-                        verticalAlignment = Alignment.Top,
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .wrapContentSize()
-                            .padding(start = 4.dp, top = 6.dp, end = 4.dp, bottom = 1.dp),
-                    ) {
-                        // Text-I47:1277;89:14784-Label
-                        Text(
-                            modifier = Modifier.wrapContentSize(),
-                            text = "Ciudad",
-                            color = Color(0xff757575),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Left,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                }
-                // Image-I47:1277;89:14819-arrow_drop_down
-                Image(
-                    painter = painterResource(id = R.drawable.flecha_abajo),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .offset(x = -8.dp, y = 0.dp)
-                        .size(24.dp, 24.dp)
-                        .clipToBounds(),
-                )
-            }
-            // Box-47:1278-Genero
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 229.dp, y = 526.dp)
-                    .size(163.dp, 50.dp),
-            ) {
-                // Empty-I47:1278;30:726-Rectangle 7
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .background(Color(0xfff3f8ff), RoundedCornerShape(8.dp))
-                        .size(163.dp, 50.dp)
-                        .border(1.dp, Color(0xff9e9e9e), RoundedCornerShape(8.dp)),
-                )
-                // Row-I47:1278;30:723-Value
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentHeight()
-                        .offset(x = 0.dp, y = 24.dp)
-                        .width(163.dp)
-                        .padding(horizontal = 16.dp, vertical = 0.dp),
-                ) {
-                    // Text-I47:1278;30:724-Enter here...
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .fillMaxWidth()
-                            .padding(start = 0.dp, end = 31.dp),
-                        text = "Femenino",
-                        color = Color(0xff212121),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Left,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-                // Column-I47:1278;30:727-Label
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(
-                        space = 10.dp,
-                        alignment = Alignment.Top
-                    ),
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentSize()
-                        .offset(x = 12.dp, y = 2.dp),
-                ) {
-                    // Row-I47:1278;30:729-Frame 89
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 10.dp,
-                            alignment = Alignment.Start
-                        ),
-                        verticalAlignment = Alignment.Top,
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .wrapContentSize()
-                            .padding(start = 4.dp, top = 6.dp, end = 4.dp, bottom = 1.dp),
-                    ) {
-                        // Text-I47:1278;30:730-Label
-                        Text(
-                            modifier = Modifier.wrapContentSize(),
-                            text = "Genero",
-                            color = Color(0xff757575),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Left,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                }
-            }
-            // Box-47:1279-Domicilio
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(x = 0.dp, y = 619.dp)
-                    .size(368.dp, 57.dp),
-            ) {
-                // Empty-I47:1279;30:726-Rectangle 7
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .background(Color(0xfff3f8ff), RoundedCornerShape(8.dp))
-                        .size(368.dp, 57.dp)
-                        .border(1.dp, Color(0xff9e9e9e), RoundedCornerShape(8.dp)),
-                )
-                // Row-I47:1279;30:723-Value
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentHeight()
-                        .offset(x = 0.dp, y = 24.dp)
-                        .width(368.dp)
-                        .padding(horizontal = 16.dp, vertical = 0.dp),
-                ) {
-                    // Text-I47:1279;30:724-Enter here...
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .fillMaxWidth()
-                            .padding(start = 0.dp, end = 31.dp),
-                        text = "45 New Avenue, New York",
-                        color = Color(0xff212121),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Left,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-                // Column-I47:1279;30:727-Label
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(
-                        space = 10.dp,
-                        alignment = Alignment.Top
-                    ),
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentSize()
-                        .offset(x = 12.dp, y = 2.dp),
-                ) {
-                    // Row-I47:1279;30:729-Frame 89
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 10.dp,
-                            alignment = Alignment.Start
-                        ),
-                        verticalAlignment = Alignment.Top,
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .wrapContentSize()
-                            .padding(start = 4.dp, top = 6.dp, end = 4.dp, bottom = 1.dp),
-                    ) {
-                        // Text-I47:1279;30:730-Label
-                        Text(
-                            modifier = Modifier.wrapContentSize(),
-                            text = "Domicilio",
-                            color = Color(0xff757575),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Left,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                }
-            }
-            // Row-47:1280-Boton_Actualizar
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 10.dp,
-                    alignment = Alignment.CenterHorizontally
-                ),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(x = 0.dp, y = 719.dp)
-                    .background(Color(0xff214f70), RoundedCornerShape(8.dp))
-                    .size(266.dp, 51.dp)
-                    .padding(horizontal = 16.dp, vertical = 12.5.dp),
-            ) {
-                // Text-I47:1280;33:1174-BUTTON
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .wrapContentSize(),
-                    text = "Actualizar",
-                    color = Color(0xffffffff),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-            // Box-47:1281-Numero_Telefonico
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(x = 0.dp, y = 420.dp)
-                    .size(368.dp, 57.dp),
-            ) {
-                // Box-47:1282-Numero
-                Box(
-                    contentAlignment = Alignment.TopStart,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .size(368.dp, 57.dp),
-                ) {
-                    // Empty-I47:1282;30:726-Rectangle 7
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .background(Color(0xfff3f8ff), RoundedCornerShape(8.dp))
-                            .size(368.dp, 57.dp)
-                            .border(1.dp, Color(0xff9e9e9e), RoundedCornerShape(8.dp)),
-                    )
-                    // Row-I47:1282;30:723-Value
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 8.dp,
-                            alignment = Alignment.CenterHorizontally
-                        ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .wrapContentHeight()
-                            .offset(x = 0.dp, y = 24.dp)
-                            .width(368.dp)
-                            .padding(horizontal = 16.dp, vertical = 0.dp),
-                    ) {
-                        // Text-I47:1282;30:724-Enter here...
-                        Text(
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .fillMaxWidth()
-                                .padding(start = 0.dp, end = 31.dp),
-                            text = "              123-456-7890",
-                            color = Color(0xff212121),
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Left,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                    // Column-I47:1282;30:727-Label
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(
-                            space = 10.dp,
-                            alignment = Alignment.Top
-                        ),
-                        horizontalAlignment = Alignment.Start,
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .wrapContentSize()
-                            .offset(x = 12.dp, y = 2.dp),
-                    ) {
-                        // Row-I47:1282;30:729-Frame 89
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(
-                                space = 10.dp,
-                                alignment = Alignment.Start
-                            ),
-                            verticalAlignment = Alignment.Top,
-                            modifier = Modifier
-                                .align(Alignment.Start)
-                                .wrapContentSize()
-                                .padding(start = 4.dp, top = 6.dp, end = 4.dp, bottom = 1.dp),
-                        ) {
-                            // Text-I47:1282;30:730-Label
-                            Text(
-                                modifier = Modifier.wrapContentSize(),
-                                text = "                    Numero Telefonico",
-                                color = Color(0xff757575),
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight.Normal,
-                                textAlign = TextAlign.Left,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        }
-                    }
-                }
-                // Image-47:1283-Bandera
-                Image(
-                    painter = painterResource(id = R.drawable.bandera),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .offset(x = 10.dp, y = 13.dp)
-                        .size(41.dp, 34.dp)
-                        .clipToBounds(),
-                )
-            }
-            // Box-47:1284-Menú
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .background(Color(0xff295e84))
-                    .size(412.dp, 65.dp)
-                    .border(1.dp, Color(0x00ffffff))
-                    .clipToBounds(),
-            ) {
-                // Text-47:1285-Informacion de Perfil
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .offset(x = 0.dp, y = 16.dp)
-                        .size(318.dp, 37.dp),
-                    text = "Informacion de Perfil",
-                    color = Color(0xffffffff),
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Normal,
-                    textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                // Image-47:1286-Header
-                Image(
-                    painter = painterResource(id = R.drawable.atras),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .offset(x = 22.dp, y = 19.dp)
-                        .size(33.dp, 30.dp),
-                )
             }
         }
     }
