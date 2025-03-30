@@ -20,6 +20,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx. compose. ui. res. painterResource
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx. compose. material. icons. filled. ArrowDropDown
+
 
 @Composable
 fun ApodoTextField(
@@ -103,3 +112,218 @@ fun PasswordTextField(
         }
     )
 }
+@Composable
+fun NombreTextField(
+    nombre: String,
+    onNombreChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = nombre,
+        onValueChange = onNombreChange,
+        label = { Text(text = stringResource(id = R.string.nombre)) },
+        shape = RoundedCornerShape(15.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = Color(0xFFEEEEEE),
+            focusedBorderColor = Color.Black,
+            unfocusedBorderColor = Color.Gray,
+            textColor = Color.Black,
+            focusedLabelColor = Color.Black,
+            unfocusedLabelColor = Color.Gray
+        ),
+        modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
+        singleLine = true
+    )
+}
+@Composable
+fun Apodo2TextField(
+    apodo2: String,
+    onApodo2Change: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = apodo2,
+        onValueChange = onApodo2Change,
+        label = { Text(text = stringResource(id = R.string.apodo)) },
+        shape = RoundedCornerShape(15.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = Color(0xFFEEEEEE),
+            focusedBorderColor = Color.Black,
+            unfocusedBorderColor = Color.Gray,
+            textColor = Color.Black,
+            focusedLabelColor = Color.Black,
+            unfocusedLabelColor = Color.Gray
+        ),
+        modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
+        singleLine = true
+    )
+}
+@Composable
+fun NumeroTextField(
+    numero: String,
+    onNumeroChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = numero,
+        onValueChange = { newValue ->
+            // Solo permite números enteros
+            if (newValue.all { it.isDigit() }) {
+                onNumeroChange(newValue)
+            }
+        },
+        label = { Text(text = stringResource(id = R.string.Numero_Telefonico)) },
+        shape = RoundedCornerShape(15.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = Color(0xFFEEEEEE),
+            focusedBorderColor = Color.Black,
+            unfocusedBorderColor = Color.Gray,
+            textColor = Color.Black,
+            focusedLabelColor = Color.Black,
+            unfocusedLabelColor = Color.Gray
+        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 32.dp, end = 32.dp),
+        singleLine = true,
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.bandera),
+                contentDescription = "Icono de bandera",
+                tint = Color.Unspecified
+            )
+        },
+
+    )
+}
+@Composable
+fun CiudadDropdown(
+    ciudadSeleccionada: String,
+    onCiudadSeleccionada: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val ciudades = listOf("Ciudad de México", "Guadalajara", "Monterrey", "Puebla", "Mérida")
+    var expanded by remember { mutableStateOf(false) }
+
+    Box(modifier = modifier.padding(horizontal = 25.dp)) { // Reducir padding horizontal
+        OutlinedTextField(
+            value = ciudadSeleccionada,
+            onValueChange = {},
+            label = { Text(text = "Ciudad") },
+            shape = RoundedCornerShape(15.dp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                backgroundColor = Color(0xFFEEEEEE),
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.Gray,
+                textColor = Color.Black,
+                focusedLabelColor = Color.Black,
+                unfocusedLabelColor = Color.Gray
+            ),
+            modifier = Modifier
+                .fillMaxWidth(1f) // Ancho ajustado para ser más compacto
+                .clickable { expanded = true },
+            readOnly = true,
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = "Desplegar",
+                    modifier = Modifier.clickable { expanded = true }
+                )
+            }
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .fillMaxWidth(0.75f) // Menú ajustado
+        ) {
+            ciudades.forEach { ciudad ->
+                DropdownMenuItem(onClick = {
+                    onCiudadSeleccionada(ciudad)
+                    expanded = false
+                }) {
+                    Text(text = ciudad)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun GeneroDropdown(
+    generoSeleccionado: String,
+    onGeneroSeleccionado: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val generos = listOf("Masculino", "Femenino", "Prefiero no decirlo")
+    var expanded by remember { mutableStateOf(false) }
+
+    Box(modifier = modifier.padding(horizontal = 25.dp)) { // Reducir padding horizontal
+        OutlinedTextField(
+            value = generoSeleccionado,
+            onValueChange = {},
+            label = { Text(text = "Género") },
+            shape = RoundedCornerShape(15.dp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                backgroundColor = Color(0xFFEEEEEE),
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.Gray,
+                textColor = Color.Black,
+                focusedLabelColor = Color.Black,
+                unfocusedLabelColor = Color.Gray
+            ),
+            modifier = Modifier
+                .fillMaxWidth(1f) // Ancho ajustado
+                .clickable { expanded = true },
+            readOnly = true,
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = "Desplegar",
+                    modifier = Modifier.clickable { expanded = true }
+                )
+            }
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .fillMaxWidth(0.75f)
+        ) {
+            generos.forEach { genero ->
+                DropdownMenuItem(onClick = {
+                    onGeneroSeleccionado(genero)
+                    expanded = false
+                }) {
+                    Text(text = genero)
+                }
+            }
+        }
+    }
+}
+@Composable
+fun DomicilioTextField(
+    domicilio: String,
+    onDomicilioChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = domicilio,
+        onValueChange = onDomicilioChange,
+        label = { Text(text = stringResource(id =R.string.domicilio)) },
+        shape = RoundedCornerShape(15.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = Color(0xFFEEEEEE),
+            focusedBorderColor = Color.Black,
+            unfocusedBorderColor = Color.Gray,
+            textColor = Color.Black,
+            focusedLabelColor = Color.Black,
+            unfocusedLabelColor = Color.Gray
+        ),
+        modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
+        singleLine = true
+    )
+}
+

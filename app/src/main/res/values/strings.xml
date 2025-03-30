@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Estos son más que nada para el login y registro -->
     <string name="app_name">Harmony</string>
     <string name="email">Correo</string>
@@ -68,11 +68,17 @@
     <string name="usuario_no_autenticado">Usuario no autenticado</string>
     <string name="titulo_header_inicio">Inicio</string>
     <string name="seleccionaUnIdioma">Selecciona un idioma</string>
+    <string name="nombre" translatable="false">Nombre</string>
+    <string name="domicilio" translatable="false">Domicilio</string>
+    <string name="Numero_Telefonico" translatable="false">Numero Telefonico</string>
+    <string name="actualizar" translatable="false">Actualizar</string>
+    <string name="apodo" translatable="false">Apodo</string>
     <string name="o">O</string>
 
     <!-- Nombres superiores para las ventanas -->
     <string name="header_menu_principal">Inicio</string>
     <string name="header_perfil">Perfil</string>
+    <string name="header_Editarperfil" translatable="false">Informacion del Perfil</string>
     <string name="relajacion">Relajación</string>
     <string name="error_contraseña_debil">La contraseña es demasiado débil. Intenta con una más segura.</string>
     <string name="error_usuario_invalido">Este usuario ha sido deshabilitado. Contacta al soporte.</string>

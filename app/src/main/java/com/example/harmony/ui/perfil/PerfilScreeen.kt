@@ -284,6 +284,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                         .fillMaxSize()
                         .padding(innerPadding)
                         .verticalScroll(scrollState)
+                        .padding(bottom = 20.dp)
                 ) {
                     Column(
                         modifier = Modifier
@@ -298,6 +299,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .size(120.dp, 120.dp)
+                                .align(Alignment.CenterHorizontally)
 
                         )
                         Spacer(modifier = Modifier.height(14.dp))
@@ -402,7 +404,8 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                                     .border(1.dp, Color.Transparent, RoundedCornerShape(8.dp))
                             ) {
                                 Column(
-                                    modifier = Modifier.wrapContentWidth(),
+                                    modifier = Modifier
+                                        .wrapContentWidth(),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     ProfileMenuItem(
@@ -419,6 +422,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                                         )
                                     )
                                 }
+                                Spacer(modifier = Modifier.height(14.dp))
                             }
                         }
                     }
