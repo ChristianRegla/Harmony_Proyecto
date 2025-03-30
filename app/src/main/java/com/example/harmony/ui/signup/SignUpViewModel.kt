@@ -10,9 +10,12 @@ import com.example.harmony.CustomToast
 import com.example.harmony.MainActivity
 import com.example.harmony.R
 import com.example.harmony.utils.ResultState
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -47,14 +50,12 @@ class SignUpViewModel : ViewModel() {
 
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
                 val mensaje = context.getString(R.string.cuenta_creada_exitosamente)
                 CustomToast.showInfoWithIcon(context, mensaje, R.drawable.ic_info, Toast.LENGTH_SHORT)
 
                 val user = auth.currentUser
                 user?.let {
                     // Guardamos el apodo en Cloud Firestore para consultarlo luego
-                    val db = FirebaseFirestore.getInstance()
                     val userDocRef = db.collection("usuarios").document(it.uid)
                     val userData = hashMapOf("apodo" to username)
 
@@ -79,31 +80,28 @@ class SignUpViewModel : ViewModel() {
                 }
             } else {
                 val exception = task.exception
-                if (exception is FirebaseAuthInvalidCredentialsException) {
-                    val mensaje = context.getString(R.string.error_correo_invalido)
-                    CustomToast.showAlertWithIcon(
-                        context,
-                        mensaje,
-                        R.drawable.ic_warning,
-                        Toast.LENGTH_SHORT
-                    )
-                } else if (exception is FirebaseAuthUserCollisionException) {
-                    val mensaje = context.getString(R.string.correo_en_uso)
-                    CustomToast.showAlertWithIcon(
-                        context,
-                        mensaje,
-                        R.drawable.ic_warning,
-                        Toast.LENGTH_SHORT
-                    )
-                } else {
-                    val mensaje = context.getString(R.string.error_al_crear_cuenta)
-                    CustomToast.showAlertWithIcon(
-                        context,
-                        "$mensaje ${task.exception?.message}",
-                        R.drawable.ic_warning,
-                        Toast.LENGTH_SHORT
-                    )
+                val mensaje = when (exception) {
+                    is FirebaseAuthInvalidCredentialsException -> {
+                        // Validamos si la contraseña es débil
+                        if (exception.message?.contains("WEAK_PASSWORD") == true) {
+                            context.getString(R.string.error_contraseña_debil)
+                        } else {
+                            // Validamos si el correo es inválido
+                            context.getString(R.string.error_correo_invalido)
+                        }
+                    }
+                    // Validamos si el correo ya está en uso
+                    is FirebaseAuthUserCollisionException -> context.getString(R.string.correo_en_uso)
+                    // Validamos si el usuario fue deshabilitado
+                    is FirebaseAuthInvalidUserException -> context.getString(R.string.error_usuario_invalido)
+                    // Validamos si el error de conexión es de red
+                    is FirebaseNetworkException -> context.getString(R.string.error_sin_conexion)
+                    // Validamos si hubo un error al crear la cuenta
+                    else -> "${context.getString(R.string.error_al_crear_cuenta)} ${exception?.message}"
                 }
+
+                // Mostramos el mensaje de error correspondiente
+                CustomToast.showAlertWithIcon(context, mensaje, R.drawable.ic_warning, Toast.LENGTH_SHORT)
             }
         }
     }
