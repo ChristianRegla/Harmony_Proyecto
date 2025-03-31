@@ -16,8 +16,8 @@ object CustomToast {
         val text = layout.findViewById<TextView>(R.id.toast_text)
         text.text = message
 
-        val icon = layout.findViewById<ImageView>(R.id.toast_icon) // Asegúrate de que esto sea un ImageView
-        icon.setImageResource(iconResId) // Establece el recurso de la imagen
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        icon.setImageResource(iconResId)
 
         val toast = Toast(context)
         toast.duration = duration
@@ -33,8 +33,8 @@ object CustomToast {
         val text = layout.findViewById<TextView>(R.id.toast_info_text)
         text.text = message
 
-        val icon = layout.findViewById<ImageView>(R.id.toast_info_icon) // Asegúrate de que esto sea un ImageView
-        icon.setImageResource(iconResId) // Establece el recurso de la imagen
+        val icon = layout.findViewById<ImageView>(R.id.toast_info_icon)
+        icon.setImageResource(iconResId)
 
         val toast = Toast(context)
         toast.duration = duration
@@ -50,8 +50,8 @@ object CustomToast {
         val text = layout.findViewById<TextView>(R.id.toast_welcome_text)
         text.text = message
 
-        val icon = layout.findViewById<ImageView>(R.id.toast_welcome_icon) // Asegúrate de que esto sea un ImageView
-        icon.setImageResource(iconResId) // Establece el recurso de la imagen
+        val icon = layout.findViewById<ImageView>(R.id.toast_welcome_icon)
+        icon.setImageResource(iconResId)
 
         val toast = Toast(context)
         toast.duration = duration
