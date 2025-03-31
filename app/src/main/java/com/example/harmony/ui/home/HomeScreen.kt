@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -25,15 +27,23 @@ import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material.icons.outlined.MonetizationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.withSaveLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,6 +64,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
     // Para los textos y que estén traducidos:
     val headerTitle = context.getString(R.string.header_menu_principal)
     val relajacion = context.getString(R.string.relajacion)
+
 
     // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -127,6 +138,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                 contentColor = Color.White
             ) { padding ->
                 ScreenContent(modifier = Modifier.padding(padding))
+                // ChatbotSection()
             }
         }
     }
@@ -146,6 +158,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
 @Composable
 fun DrawerContent(navController: NavHostController, homeViewModel: HomeViewModel) {
     val context = LocalContext.current
+    val apodo = homeViewModel.apodo.collectAsState().value
 
     Spacer(modifier = Modifier.height(32.dp))
 
@@ -154,14 +167,14 @@ fun DrawerContent(navController: NavHostController, homeViewModel: HomeViewModel
         contentAlignment = Alignment.Center // Centra el contenido dentro del Box
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo_harmony),
+            painter = painterResource(id = R.drawable.foto_avatar),
             contentDescription = null,
             modifier = Modifier.size(100.dp)
         )
     }
 
     Text(
-        text = "Slappy",
+        text = apodo,
         fontSize = 24.sp,
         textAlign = TextAlign.Center,
         color = Color.White,
@@ -172,149 +185,201 @@ fun DrawerContent(navController: NavHostController, homeViewModel: HomeViewModel
 
     HorizontalDivider()
 
-    Spacer(modifier = Modifier.height(4.dp))
+    Column(
+        modifier = Modifier
+            .background(color = Color(0xFFFAFAFA))
+            .fillMaxHeight()
+    ) {
+        Spacer(modifier = Modifier.height(32.dp))
 
-    // Ícono de Editar Perfil
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Filled.PersonOutline,
-                contentDescription = "Account",
-                tint = Color.White,
+        // Ícono de Editar Perfil
+        Box(
+            modifier = Modifier
+                .padding(start = 10.dp, end = 10.dp)
+                .clip(RoundedCornerShape(26.dp))
+                .wrapContentHeight()
+                .shadow(
+                    elevation = 4.dp,
+                    shape = RoundedCornerShape(26.dp),
+                    ambientColor = Color.Black.copy(alpha = 0.3f),
+                    spotColor = Color.Black.copy(alpha = 0.3f)
+                )
+        ) {
+            NavigationDrawerItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Filled.PersonOutline,
+                        contentDescription = "Account",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .size(27.dp)
+                    ) },
+                label = {
+                    Text(
+                        text = context.getString(R.string.editar_perfil),
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                },
+                selected = false,
+                onClick = { navController.navigate("perfil") },
                 modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.editar_perfil),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
+                    .background(color = Color(0xFFE3E3E3))
+                    .wrapContentHeight()
             )
-        },
-        selected = false,
-        onClick = { navController.navigate("perfil") }
-    )
+        }
 
-    Spacer(modifier = Modifier.height(4.dp))
 
-    // Ícono de Notificaciones
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Filled.NotificationsNone,
-                contentDescription = "Account",
-                tint = Color.White,
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // Ícono de Notificaciones
+        Box(
+            modifier = Modifier
+                .padding(start = 10.dp, end = 10.dp)
+                .clip(RoundedCornerShape(26.dp))
+                .wrapContentHeight()
+        ) {
+            NavigationDrawerItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Filled.NotificationsNone,
+                        contentDescription = "Account",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .size(27.dp)
+                    ) },
+                label = {
+                    Text(
+                        text = context.getString(R.string.notificaciones),
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                },
+                selected = false,
+                onClick = {},
                 modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.notificaciones),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
+                    .background(color = Color(0xFFE3E3E3))
+                    .wrapContentHeight()
             )
-        },
-        selected = false,
-        onClick = {}
-    )
+        }
 
-    Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
-    // Ícono de Donaciones
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.MonetizationOn,
-                contentDescription = "Account",
-                tint = Color.White,
+        // Ícono de Donaciones
+        Box(
+            modifier = Modifier
+                .padding(start = 10.dp, end = 10.dp)
+                .clip(RoundedCornerShape(26.dp))
+                .wrapContentHeight()
+        ) {
+            NavigationDrawerItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.MonetizationOn,
+                        contentDescription = "Account",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .size(27.dp)
+                    ) },
+                label = {
+                    Text(
+                        text = context.getString(R.string.donaciones),
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                },
+                selected = false,
+                onClick = {},
                 modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.donaciones),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
+                    .background(color = Color(0xFFE3E3E3))
+                    .wrapContentHeight()
             )
-        },
-        selected = false,
-        onClick = {}
-    )
+        }
 
-    Spacer(modifier = Modifier.height(4.dp))
 
-    // Ícono de Centro de Ayuda
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.HelpOutline,
-                contentDescription = "Account",
-                tint = Color.White,
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // Ícono de Centro de Ayuda
+        Box(
+            modifier = Modifier
+                .padding(start = 10.dp, end = 10.dp)
+                .clip(RoundedCornerShape(26.dp))
+                .wrapContentHeight()
+        ) {
+            NavigationDrawerItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.HelpOutline,
+                        contentDescription = "Account",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .size(27.dp)
+                    ) },
+                label = {
+                    Text(
+                        text = context.getString(R.string.centro_de_ayuda),
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        modifier = Modifier
+                            .padding(16.dp)
+                    )
+                },
+                selected = false,
+                onClick = {},
                 modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.centro_de_ayuda),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
+                    .background(color = Color(0xFFE3E3E3))
+                    .wrapContentHeight()
             )
-        },
-        selected = false,
-        onClick = {}
-    )
+        }
 
-    Spacer(modifier = Modifier.height(4.dp))
 
-    // Ícono de Cerrar Sesión
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.Logout,
-                contentDescription = "Account",
-                tint = Color.White,
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // Ícono de Cerrar Sesión
+        Box(
+            modifier = Modifier
+                .padding(start = 10.dp, end = 10.dp)
+                .clip(RoundedCornerShape(26.dp))
+                .wrapContentHeight()
+        ) {
+            NavigationDrawerItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Logout,
+                        contentDescription = "Account",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .size(27.dp)
+                    ) },
+                label = {
+                    Text(
+                        text = context.getString(R.string.cerrar_sesi_n),
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                },
+                selected = false,
+                onClick = { homeViewModel.cerrarSesion(navController) },
                 modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.cerrar_sesi_n),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
+                    .background(color = Color(0xFFE3E3E3))
+                    .wrapContentHeight()
             )
-        },
-        selected = false,
-        onClick = { homeViewModel.cerrarSesion(navController) }
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomePreview() {
-    val navController = rememberNavController()
-    HomeScreen(navController = navController, homeViewModel = HomeViewModel())
+        }
+    }
 }
 
 @Composable
 fun ChatbotSection(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .padding(horizontal = 15.dp)
+            .background(color = Color.White)
+            .padding(16.dp)
             .clip(RoundedCornerShape(12.dp))
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.container_chatbot_background),
-            contentDescription = null,
-            modifier = Modifier.matchParentSize(),
-            contentScale = ContentScale.FillBounds
-        )
         Image(
             painter = painterResource(id = R.drawable.logo_harmony),
             contentDescription = null,
@@ -344,4 +409,12 @@ fun ChatbotSection(modifier: Modifier = Modifier) {
             Text(text = "Estoy para lo que necesites", fontSize = 14.sp, color = Color(0xFF1D1B20))
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomePreview() {
+    val navController = rememberNavController()
+    val context = LocalContext.current
+    HomeScreen(navController = navController, homeViewModel = HomeViewModel(HomeModel(context), context))
 }

@@ -13,8 +13,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.chat.ChatScreen
 import com.example.harmony.ui.chat.ChatViewModel
+import com.example.harmony.ui.home.HomeModel
 import com.example.harmony.ui.home.HomeScreen
 import com.example.harmony.ui.home.HomeViewModel
+import com.example.harmony.ui.home.HomeViewModelFactory
 import com.example.harmony.ui.perfil.Editar_PerfilScreen
 import com.example.harmony.ui.perfil.Editar_PerfilViewModel
 import com.example.harmony.ui.perfil.PerfilScreen
@@ -29,7 +31,9 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 class LoginActivity : ComponentActivity() {
 
     private val loginViewModel: LoginViewModel by viewModels()
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels {
+        HomeViewModelFactory(HomeModel(this), this)
+    }
     private val relaxViewModel: RelaxViewModel by viewModels()
     private val ChatViewModel: ChatViewModel by viewModels()
     private val perfilViewModel: PerfilViewModel by viewModels()

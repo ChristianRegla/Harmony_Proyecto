@@ -4,14 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Chat
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.West
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -39,11 +33,10 @@ fun TopBarEditar(
         navigationIcon = {
             IconButton(onClick = onOpenDrawer2) {
                 Icon(
-                    imageVector = Icons.Default.West,
+                    imageVector = Icons.Filled.ArrowBackIosNew,
                     contentDescription = "Atras",
                     tint = Color.White,
                     modifier = Modifier
-                        .padding(start = 16.dp, end = 8.dp)
                         .size(25.dp)
                 )
             }
