@@ -157,8 +157,12 @@ fun ProfileMenuItem(item: MenuItem) {
 @Composable
 fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewModel) {
     val context = LocalContext.current
+    // Para los textos y que estén traducidos:
     val usuario = context.getString(R.string.user_name)
     val header = context.getString(R.string.header_perfil)
+    val inicio = context.getString(R.string.inicio)
+    val relajacion = context.getString(R.string.relajacion)
+
     val scrollState = rememberScrollState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -225,6 +229,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                         },
                         // Este es el título que va en medio de la barra superior
                         title = header,
+                        navController = navController,
                         modifier = Modifier.size(20.dp)
                     )
                 },
@@ -238,10 +243,16 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                                     Icon(
                                         imageVector = Icons.Filled.Home,
                                         contentDescription = "Home",
-                                        tint = Color.White
+                                        tint = Color.White,
+                                        modifier = Modifier.alpha(0.5f)
                                     )
                                 },
-                                label = { Text("Home", color = Color.White) },
+                                label = {
+                                    Text(
+                                    inicio,
+                                    color = Color.White,
+                                    modifier = Modifier.alpha(0.5f)
+                                ) },
                                 selected = false,
                                 onClick = { navController.navigate("main") },
                             )
@@ -256,13 +267,13 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                                 },
                                 label = {
                                     Text(
-                                        "Profile",
+                                        relajacion,
                                         color = Color.White,
                                         modifier = Modifier.alpha(0.5f)
                                     )
                                 },
-                                selected = true,
-                                onClick = { navController.navigate("perfil") }
+                                selected = false,
+                                onClick = { navController.navigate("relax") }
                             )
                         }
                     }
@@ -561,7 +572,7 @@ fun DrawerContent(navController: NavHostController, perfilViewModel: PerfilViewM
             ) },
         label = {
             Text(
-                text = context.getString(R.string.notificaciones),
+                text = context.getString(R.string.centro_de_ayuda),
                 fontSize = 16.sp,
                 color = Color.White,
                 modifier = Modifier.padding(16.dp)

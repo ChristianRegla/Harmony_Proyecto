@@ -19,7 +19,7 @@ class Editar_PerfilActivity  : ComponentActivity(){
             val navController = rememberNavController()
             HarmonyTheme {
                 Surface(color = MaterialTheme.colorScheme.background){
-                    Editar_PerfilScreen(navController = navController, editarperfilViewModel = Editar_PerfilViewModel)
+                    Editar_PerfilScreen(navController = navController, Editar_PerfilViewModel = Editar_PerfilViewModel)
                 }
             }
         }

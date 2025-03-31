@@ -23,11 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx. compose. ui. res. painterResource
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx. compose. material. icons. filled. ArrowDropDown
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 
 
 @Composable
@@ -74,7 +77,11 @@ fun EmailTextField(
             unfocusedLabelColor = Color.Gray
         ),
         modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
-        singleLine = true
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next
+        )
     )
 }
 
@@ -132,7 +139,8 @@ fun NombreTextField(
             unfocusedLabelColor = Color.Gray
         ),
         modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
-        singleLine = true
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
     )
 }
 @Composable
@@ -155,7 +163,8 @@ fun Apodo2TextField(
             unfocusedLabelColor = Color.Gray
         ),
         modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
-        singleLine = true
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
     )
 }
 @Composable
@@ -188,12 +197,16 @@ fun NumeroTextField(
         singleLine = true,
         leadingIcon = {
             Icon(
-                painter = painterResource(id = R.drawable.bandera),
+                painter = painterResource(id = R.drawable.mexico_flag),
                 contentDescription = "Icono de bandera",
-                tint = Color.Unspecified
+                tint = Color.Unspecified,
+                modifier = Modifier.size(24.dp)
             )
         },
-
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next
+        )
     )
 }
 @Composable
@@ -323,7 +336,8 @@ fun DomicilioTextField(
             unfocusedLabelColor = Color.Gray
         ),
         modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
-        singleLine = true
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
     )
 }
 

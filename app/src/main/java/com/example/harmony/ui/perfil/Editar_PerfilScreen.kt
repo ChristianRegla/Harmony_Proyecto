@@ -53,7 +53,7 @@ import com.example.harmony.DomicilioTextField
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel: Editar_PerfilViewModel) {
+fun Editar_PerfilScreen(navController: NavHostController, Editar_PerfilViewModel: Editar_PerfilViewModel) {
     val context = LocalContext.current
     val usuario = context.getString(R.string.user_name)
     val header = context.getString(R.string.header_Editarperfil)
@@ -100,9 +100,8 @@ fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel:
                     modifier = Modifier.size(20.dp)
                 )
             },
-
-            containerColor = Color.Transparent, // haz el scaffold transparente
-            contentColor = Color.White, // Ajusta el color del contenido si es necesario
+            containerColor = Color.Transparent,
+            contentColor = Color.White,
             modifier = Modifier
                 .fillMaxSize()
                 .constrainAs(scaffold) {
@@ -201,5 +200,5 @@ fun Editar_PerfilScreen(navController: NavHostController, editarperfilViewModel:
 @Composable
 fun Editar_PerfilPreview() {
     val navController = rememberNavController()
-    Editar_PerfilScreen(navController = navController, editarperfilViewModel = Editar_PerfilViewModel())
+    Editar_PerfilScreen(navController = navController, Editar_PerfilViewModel = Editar_PerfilViewModel())
 }

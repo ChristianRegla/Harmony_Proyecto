@@ -1,11 +1,7 @@
-package com.example.harmony.ui.home
+package com.example.harmony.ui.relax
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,24 +9,32 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material.icons.filled.PersonOutline
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material.icons.outlined.MonetizationOn
-import androidx.compose.material3.*
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -42,49 +46,49 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
-import com.example.harmony.ui.theme.BlueDark
+import com.example.harmony.ui.home.ScreenContent
+import com.example.harmony.ui.theme.DarkerPurpleColor
+import com.example.harmony.ui.theme.PurpleColor
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
+fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel) {
     val context = LocalContext.current
-    val currentRoute = navController.currentBackStackEntry?.destination?.route
 
     // Para los textos y que estén traducidos:
-    val headerTitle = context.getString(R.string.header_menu_principal)
+    val headerTitle = context.getString(R.string.relajacion)
+    val inicio = context.getString(R.string.inicio)
     val relajacion = context.getString(R.string.relajacion)
 
     // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    // Contenedor del Drawer (menú lateral, lo vuelvo a especificar por si acaso)
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet (
-                drawerContainerColor = BlueDark,
+                drawerContainerColor = PurpleColor,
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContent(navController = navController, homeViewModel = homeViewModel)
+                RelaxDrawerContent(navController = navController, relaxViewModel = relaxViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(Modifier.fillMaxSize()){
             Image(
-                painter = painterResource(id = R.drawable.background_inicio),
+                painter = painterResource(id = R.drawable.background_relajacion),
                 contentDescription = "Background Image",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
 
             Scaffold(
-                // Barra de arriba
                 topBar = {
-                    TopBar(
+                    RelaxTopBar(
                         onOpenDrawer = {
                             scope.launch {
                                 if(drawerState.isClosed) drawerState.open()
@@ -98,12 +102,12 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                 },
                 // Barra de abajo
                 bottomBar = {
-                    NavigationBar(containerColor = BlueDark) {
+                    NavigationBar(containerColor = DarkerPurpleColor) {
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White) },
-                            label = { Text(headerTitle, color = Color.White) },
-                            selected = true,
-                            onClick = {},
+                            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
+                            label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
+                            selected = false,
+                            onClick = { navController.navigate("main") },
                             colors = NavigationBarItemDefaults.colors(
                                 indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
                                 selectedIconColor = Color.Transparent,
@@ -111,10 +115,10 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                             )
                         )
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "Relaxing", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
-                            label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                            selected = false,
-                            onClick = { navController.navigate("relax") },
+                            icon = { Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "Relaxing", tint = Color.White) },
+                            label = { Text(relajacion, color = Color.White) },
+                            selected = true,
+                            onClick = {  },
                             colors = NavigationBarItemDefaults.colors(
                                 indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
                                 selectedIconColor = Color.Transparent,
@@ -125,26 +129,16 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                 },
                 containerColor = Color.Transparent,
                 contentColor = Color.White
+
             ) { padding ->
                 ScreenContent(modifier = Modifier.padding(padding))
-            }
-        }
-    }
-}
+            } // Scaffold
+        } // Box
+    } // ModalNavigationDrawer
+} // fun
 
 @Composable
-fun ScreenContent(modifier: Modifier = Modifier) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(30.dp)
-            .background(Color.Transparent)
-    )
-
-}
-
-@Composable
-fun DrawerContent(navController: NavHostController, homeViewModel: HomeViewModel) {
+fun RelaxDrawerContent(navController: NavHostController, relaxViewModel: RelaxViewModel) {
     val context = LocalContext.current
 
     Spacer(modifier = Modifier.height(32.dp))
@@ -289,59 +283,13 @@ fun DrawerContent(navController: NavHostController, homeViewModel: HomeViewModel
             )
         },
         selected = false,
-        onClick = { homeViewModel.cerrarSesion(navController) }
+        onClick = { relaxViewModel.cerrarSesion(navController) }
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun HomePreview() {
+fun RelaxPreview() {
     val navController = rememberNavController()
-    HomeScreen(navController = navController, homeViewModel = HomeViewModel())
-}
-
-@Composable
-fun ChatbotSection(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .padding(horizontal = 15.dp)
-            .clip(RoundedCornerShape(12.dp))
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.container_chatbot_background),
-            contentDescription = null,
-            modifier = Modifier.matchParentSize(),
-            contentScale = ContentScale.FillBounds
-        )
-        Image(
-            painter = painterResource(id = R.drawable.logo_harmony),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-        Image(
-            painter = painterResource(id = R.drawable.image_arrow_right),
-            contentDescription = null,
-            modifier = Modifier.align(Alignment.CenterEnd)
-        )
-    }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_harmony),
-            contentDescription = null,
-            modifier = Modifier.size(40.dp)
-        )
-        Column(modifier = Modifier.padding(start = 16.dp)) {
-            Text(text = "¿Te gustaría contar algo?", fontSize = 16.sp, color = Color.Black)
-            Text(text = "Estoy para lo que necesites", fontSize = 14.sp, color = Color(0xFF1D1B20))
-        }
-    }
+    RelaxScreen(navController = navController, relaxViewModel = RelaxViewModel())
 }

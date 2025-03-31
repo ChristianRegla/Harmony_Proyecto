@@ -38,7 +38,12 @@ fun BottomNavBar(
                     "Inicio",
                     color = if(currentDestination == "home") Color.Magenta else Color.Gray
                 )
-            }
+            },
+            colors = NavigationBarItemDefaults.colors(
+                indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                selectedIconColor = Color.Transparent,
+                unselectedIconColor = Color.Transparent
+            )
         )
         NavigationBarItem(
             selected = currentDestination == "perfil",
@@ -50,37 +55,18 @@ fun BottomNavBar(
                 Icon(
                     Icons.Default.Person,
                     contentDescription = "Perfil",
-                    tint = if(currentDestination == "perfil") Color.Magenta else Color.Gray
                 )
                    },
             label = {
                 Text(
                     "Perfil",
-                    color = if(currentDestination == "perfil") Color.Magenta else Color.Gray
-
-                )
-            }
-        )
-        NavigationBarItem(
-            selected = currentDestination == "editar_perfil",
-            onClick = {
-                navController.navigate("editar_perfil")
-                onTitleChange("Perfil Information")
-            },
-            icon = {
-                Icon(
-                    Icons.Default.Person,
-                    contentDescription = "Perfil Information",
-                    tint = if(currentDestination == "editar_perfil") Color.Magenta else Color.Gray
                 )
             },
-            label = {
-                Text(
-                    "Perfil Information",
-                    color = if(currentDestination == "editar_perfil") Color.Magenta else Color.Gray
-
-                )
-            }
+            colors = NavigationBarItemDefaults.colors(
+                indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                selectedIconColor = Color.Transparent,
+                unselectedIconColor = Color.Transparent
+            )
         )
     }
 }
