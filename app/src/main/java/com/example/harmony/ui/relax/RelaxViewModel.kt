@@ -1,4 +1,4 @@
-package com.example.harmony.ui.home
+package com.example.harmony.ui.relax
 
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
@@ -6,9 +6,8 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class HomeViewModel : ViewModel() {
-
-    private val _currentTitle = MutableStateFlow("Inicio")
+class RelaxViewModel : ViewModel() {
+    private val _currentTitle = MutableStateFlow("Relax")
     val currentTitle: StateFlow<String> = _currentTitle
 
     fun updateTitle(newTitle: String) {

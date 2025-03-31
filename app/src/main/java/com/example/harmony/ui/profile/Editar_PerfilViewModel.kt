@@ -1,4 +1,4 @@
-package com.example.harmony.ui.home
+package com.example.harmony.ui.perfil
 
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
@@ -6,18 +6,15 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class HomeViewModel : ViewModel() {
+class Editar_PerfilViewModel : ViewModel() {
+    private val _Title = MutableStateFlow("Editar Perfil")
+    val curTitle: StateFlow<String> = _Title
 
-    private val _currentTitle = MutableStateFlow("Inicio")
-    val currentTitle: StateFlow<String> = _currentTitle
-
-    fun updateTitle(newTitle: String) {
-        _currentTitle.value = newTitle
+    fun tituloActualizado(newTitle: String) {
+        _Title.value = newTitle
     }
-
     fun cerrarSesion(navController: NavHostController) {
         FirebaseAuth.getInstance().signOut()
-
         navController.navigate("login") {
             popUpTo(0) { inclusive = true }
         }
