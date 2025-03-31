@@ -1,4 +1,4 @@
-package com.example.harmony.ui.home
+package com.example.harmony.ui.helpline
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -15,13 +15,25 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.*
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -31,12 +43,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
+import com.example.harmony.ui.home.HomeScreen
+import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.theme.BlueDark
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
+fun HelplineScreen (navController: NavHostController, helplineViewModel: HelplineViewModel){
     val context = LocalContext.current
     // Controlador del Drawer
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -111,6 +125,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
             }
         }
     }
+
 }
 
 @Composable
@@ -149,11 +164,13 @@ fun DrawerContent(navController: NavHostController) {
             )
         }
     }
+
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     val navController = rememberNavController()
-    HomeScreen(navController = navController, homeViewModel = HomeViewModel())
+    HelplineScreen(navController = navController, helplineViewModel = HelplineViewModel())
 }

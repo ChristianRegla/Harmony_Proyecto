@@ -1,4 +1,4 @@
-package com.example.harmony.ui.perfil
+package com.example.harmony.ui.profile
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,9 +11,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.theme.HarmonyTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
-class PerfilActivity : ComponentActivity() {
+class ProfileActivity : ComponentActivity() {
 
-    private val perfilViewModel: PerfilViewModel by viewModels()
+    private val profileViewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class PerfilActivity : ComponentActivity() {
             val navController = rememberNavController()
             HarmonyTheme {
                 Surface(color = MaterialTheme.colorScheme.background){
-                    PerfilScreen(navController = navController, perfilViewModel = perfilViewModel)
+                    PerfilScreen(navController = navController, profileViewModel = profileViewModel)
                 }
             }
         }
