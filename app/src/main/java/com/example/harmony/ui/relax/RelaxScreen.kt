@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
+import com.example.harmony.ui.components.DrawerContentComponent
 import com.example.harmony.ui.home.ScreenContent
 import com.example.harmony.ui.theme.DarkerPurpleColor
 import com.example.harmony.ui.theme.PurpleColor
@@ -73,7 +74,7 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                 modifier = Modifier
                     .width(250.dp)
             ){
-                RelaxDrawerContent(navController = navController, relaxViewModel = relaxViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = relaxViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -131,165 +132,17 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                 contentColor = Color.White
 
             ) { padding ->
-                ScreenContent(modifier = Modifier.padding(padding))
+                ScreenContent(
+                    navController = navController,modifier = Modifier.padding(padding))
             } // Scaffold
         } // Box
     } // ModalNavigationDrawer
 } // fun
 
-@Composable
-fun RelaxDrawerContent(navController: NavHostController, relaxViewModel: RelaxViewModel) {
-    val context = LocalContext.current
-
-    Spacer(modifier = Modifier.height(32.dp))
-
-    Box(
-        modifier = Modifier.fillMaxWidth(), // Asegura que el Box ocupe todo el ancho disponible
-        contentAlignment = Alignment.Center // Centra el contenido dentro del Box
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_harmony),
-            contentDescription = null,
-            modifier = Modifier.size(100.dp)
-        )
-    }
-
-    Text(
-        text = "Slappy",
-        fontSize = 24.sp,
-        textAlign = TextAlign.Center,
-        color = Color.White,
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-    )
-
-    HorizontalDivider()
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Editar Perfil
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Filled.PersonOutline,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.editar_perfil),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = { navController.navigate("perfil") }
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Notificaciones
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Filled.NotificationsNone,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.notificaciones),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = {}
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Donaciones
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.MonetizationOn,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.donaciones),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = {}
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Centro de Ayuda
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.HelpOutline,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.centro_de_ayuda),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = {}
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Cerrar Sesión
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.Logout,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.cerrar_sesi_n),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = { relaxViewModel.cerrarSesion(navController) }
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun RelaxPreview() {
     val navController = rememberNavController()
-    RelaxScreen(navController = navController, relaxViewModel = RelaxViewModel())
+    val context = LocalContext.current
+    RelaxScreen(navController = navController, relaxViewModel = RelaxViewModel(RelaxModel(context), context))
 }

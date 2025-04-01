@@ -21,8 +21,12 @@ import com.example.harmony.ui.perfil.Editar_PerfilScreen
 import com.example.harmony.ui.perfil.Editar_PerfilViewModel
 import com.example.harmony.ui.perfil.PerfilScreen
 import com.example.harmony.ui.perfil.PerfilViewModel
+import com.example.harmony.ui.perfil.ProfileModel
+import com.example.harmony.ui.perfil.ProfileViewModelFactory
+import com.example.harmony.ui.relax.RelaxModel
 import com.example.harmony.ui.relax.RelaxScreen
 import com.example.harmony.ui.relax.RelaxViewModel
+import com.example.harmony.ui.relax.RelaxViewModelFactory
 import com.example.harmony.ui.signup.SignUpScreen
 import com.example.harmony.ui.theme.BlueDark
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -34,9 +38,13 @@ class LoginActivity : ComponentActivity() {
     private val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(HomeModel(this), this)
     }
-    private val relaxViewModel: RelaxViewModel by viewModels()
+    private val relaxViewModel: RelaxViewModel by viewModels() {
+        RelaxViewModelFactory(RelaxModel(this), this)
+    }
     private val ChatViewModel: ChatViewModel by viewModels()
-    private val perfilViewModel: PerfilViewModel by viewModels()
+    private val perfilViewModel: PerfilViewModel by viewModels() {
+        ProfileViewModelFactory(ProfileModel(this), this)
+    }
     private val Editar_PerfilViewModel: Editar_PerfilViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

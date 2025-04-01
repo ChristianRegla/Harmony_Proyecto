@@ -1,4 +1,4 @@
-package com.example.harmony.ui.relax
+package com.example.harmony.ui.perfil
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
@@ -12,7 +12,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class RelaxModel(private val context: Context) {
+class ProfileModel(private val context: Context) {
+
     suspend fun cargarApodoEnDrawerContent(): String = withContext(Dispatchers.IO) {
         var apodo = ""
 

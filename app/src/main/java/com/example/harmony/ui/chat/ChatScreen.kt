@@ -46,7 +46,8 @@ fun ChatScreen(navController: NavHostController, ChatViewModel: ChatViewModel) {
             containerColor = Color.Transparent,
             contentColor = Color.White
         ) { padding ->
-            ScreenContent(modifier = Modifier.padding(padding))
+            ScreenContent(
+                navController = navController,modifier = Modifier.padding(padding))
         }
     }
 }

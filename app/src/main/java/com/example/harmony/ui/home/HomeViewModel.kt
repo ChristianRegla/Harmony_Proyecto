@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.example.harmony.ui.common.DrawerActions
 import com.google.firebase.auth.FirebaseAuth
 import dataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val homeModel: HomeModel, private val context: Context) : ViewModel() {
+class HomeViewModel(private val homeModel: HomeModel, private val context: Context) : ViewModel(), DrawerActions {
 
     private val _currentTitle = MutableStateFlow("Inicio")
     val currentTitle: StateFlow<String> = _currentTitle
@@ -26,16 +27,16 @@ class HomeViewModel(private val homeModel: HomeModel, private val context: Conte
     val apodo: StateFlow<String> = _apodo
 
     init {
-        cargarApodo()
+        cargarApodoEnDrawerContent()
     }
 
-    private fun cargarApodo() {
+    override fun cargarApodoEnDrawerContent() {
         viewModelScope.launch {
             _apodo.value = homeModel.cargarApodoEnDrawerContent()
         }
     }
 
-    fun cerrarSesion(navController: NavController) {
+    override fun cerrarSesion(navController: NavHostController) {
         viewModelScope.launch {
             // Eliminar el apodo del caché
             context.dataStore.edit { preferences ->

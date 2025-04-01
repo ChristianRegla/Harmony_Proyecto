@@ -72,13 +72,12 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.TextButton
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import com.example.harmony.ui.home.DrawerContent
+import com.example.harmony.ui.components.DrawerContentComponent
 import androidx. compose. ui. text. font. Font
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.TopBar
-
 
 data class MenuItem(
     val iconId: Int,
@@ -86,75 +85,6 @@ data class MenuItem(
     val trailingText: String? = null,
     val onClick: () -> Unit = {}
 )
-
-@Composable
-fun ProfileMenuItem(item: MenuItem, onClick: () -> Unit = {}, modifier: Modifier = Modifier) {
-    Box(
-        contentAlignment = Alignment.TopStart,
-        modifier = Modifier
-            //.fillMaxWidth()
-            //.wrapContentHeight()
-            .size(342.dp, 40.dp)
-            .clickable(onClick = onClick),
-    ) {
-        //(Reutilizado para todos los items)
-        Box(
-            modifier = Modifier
-                .advancedShadow(
-                    color = Color(0xFF000000),
-                    alpha = 0.25f,
-                    cornersRadius = 8.dp,
-                    shadowBlurRadius = 4.dp,
-                    offsetX = 0.dp,
-                    offsetY = 1.dp
-                )
-                .background(Color(0xff295e84))
-                .fillMaxWidth()
-                .height(40.dp),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = item.iconId),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Spacer(modifier = Modifier.width(13.dp))
-                    Text(
-                        text = item.text,
-                        color = Color(0xffffffff),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Left,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.wrapContentWidth()
-                    )
-                }
-                item.trailingText?.let {
-                    Text(
-                        text = it,
-                        color = Color(0xffffffff),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Right,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.wrapContentWidth()
-                    )
-                }
-            }
-        }
-    }
-}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -188,7 +118,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContent(navController = navController, perfilViewModel = perfilViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = perfilViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -196,9 +126,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
         ConstraintLayout(
             modifier = Modifier.fillMaxSize()
         ) {
-            val (scaffold, containerInfoUsuario, fotoPerfil, nombreUsuario, correoUsuario, containerScrollView,
-                containerOpciones, grupo1, grupo2, grupo3, topBar, bottomNavbar, fondoImg, fondoAzul
-            ) = createRefs()
+            val (scaffold, fondoImg, fondoAzul) = createRefs()
 
             // Fondo de pantalla
             Box(
@@ -473,155 +401,76 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
         }
     }
 }
+
 @Composable
-fun DrawerContent(navController: NavHostController, perfilViewModel: PerfilViewModel) {
-    val context = LocalContext.current
-
-    Spacer(modifier = Modifier.height(32.dp))
-
+fun ProfileMenuItem(item: MenuItem, onClick: () -> Unit = {}, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier.fillMaxWidth(), // Asegura que el Box ocupe todo el ancho disponible
-        contentAlignment = Alignment.Center // Centra el contenido dentro del Box
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_harmony),
-            contentDescription = null,
-            modifier = Modifier.size(100.dp)
-        )
-    }
-
-    Text(
-        text = "Slappy",
-        fontSize = 24.sp,
-        textAlign = TextAlign.Center,
-        color = Color.White,
+        contentAlignment = Alignment.TopStart,
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-    )
-
-    HorizontalDivider()
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Editar Perfil
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Filled.PersonOutline,
-                contentDescription = "Account",
-                tint = Color.White,
+            //.fillMaxWidth()
+            //.wrapContentHeight()
+            .size(342.dp, 40.dp)
+            .clickable(onClick = onClick),
+    ) {
+        //(Reutilizado para todos los items)
+        Box(
+            modifier = Modifier
+                .advancedShadow(
+                    color = Color(0xFF000000),
+                    alpha = 0.25f,
+                    cornersRadius = 8.dp,
+                    shadowBlurRadius = 4.dp,
+                    offsetX = 0.dp,
+                    offsetY = 1.dp
+                )
+                .background(Color(0xff295e84))
+                .fillMaxWidth()
+                .height(40.dp),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Row(
                 modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.editar_perfil),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = {}
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Notificaciones
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Filled.NotificationsNone,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.notificaciones),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = {}
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Donaciones
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.MonetizationOn,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.donaciones),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = {}
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Centro de Ayuda
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.HelpOutline,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.centro_de_ayuda),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = {}
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Cerrar Sesión
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.Logout,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.cerrar_sesi_n),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = { perfilViewModel.cerrarSesion(navController) }
-    )
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = item.iconId),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(13.dp))
+                    Text(
+                        text = item.text,
+                        color = Color(0xffffffff),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal,
+                        textAlign = TextAlign.Left,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.wrapContentWidth()
+                    )
+                }
+                item.trailingText?.let {
+                    Text(
+                        text = it,
+                        color = Color(0xffffffff),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal,
+                        textAlign = TextAlign.Right,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.wrapContentWidth()
+                    )
+                }
+            }
+        }
+    }
 }
+
 fun Modifier.advancedShadow(
     color: Color,
     alpha: Float,
@@ -637,9 +486,11 @@ fun Modifier.advancedShadow(
         )
     }
 )
+
 @Preview(showBackground = true)
 @Composable
 fun PerfilPreview() {
     val navController = rememberNavController()
-    PerfilScreen(navController = navController, perfilViewModel = PerfilViewModel())
+    val context = LocalContext.current
+    PerfilScreen(navController = navController, perfilViewModel = PerfilViewModel(ProfileModel(context), context))
 }

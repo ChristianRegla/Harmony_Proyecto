@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class HomeModel(private val context: Context) { // Agregamos el contexto como parámetro
+class HomeModel(private val context: Context) {
 
     suspend fun cargarApodoEnDrawerContent(): String = withContext(Dispatchers.IO) {
         var apodo = ""
