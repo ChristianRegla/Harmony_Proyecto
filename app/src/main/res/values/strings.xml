@@ -75,6 +75,14 @@
     <string name="apodo">Apodo</string>
     <string name="o">O</string>
 
+    <!-- texto del "privacy notice" -->
+    <string name="header_privacidad"> "En Harmony, tu privacidad y seguridad son nuestra prioridad."</string>
+    <string name="texto_privacidad"> "Entendemos lo importante que es sentirte seguro al compartir tus pensamientos y emociones. Por eso, todas tus conversaciones con nuestro chatbot están protegidas con tecnología de encriptación avanzada, garantizando que tus datos personales y tu información de salud mental sean confidenciales y seguros.
+En Harmony, no almacenamos tus conversaciones de manera identificable, y tus datos nunca serán compartidos con terceros sin tu consentimiento explícito. Nuestro objetivo es brindarte un espacio seguro donde puedas expresarte libremente y recibir el apoyo que necesitas.
+Tu bienestar emocional es importante para nosotros, y eso incluye proteger tu privacidad en todo momento. 🌟
+Si tienes alguna pregunta sobre cómo manejamos tus datos, no dudes en contactarnos. Estamos aquí para ayudarte.
+— El equipo de Harmony 💙"</string>
+
     <!-- Nombres superiores para las ventanas -->
     <string name="header_menu_principal">Inicio</string>
     <string name="title_activity_privacy_notice_screen">PrivacyNoticeScreen</string>
