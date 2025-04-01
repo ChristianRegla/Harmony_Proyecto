@@ -44,7 +44,7 @@
     <string name="recuerda_no_estas_solo">Recuerda, no estás solo.\nTu llamada es 100% anónima y segura</string>
     <string name="_800_911_2000" translatable="false">800–911–2000</string>
     <string name="cobertura_nacional_disponible_24_7">Cobertura nacional. Disponible 24/7</string>
-    <string name="telefono_de_la_linea_de_ayuda">Telefono de la linea de ayuda</string>
+    <string name="telefono_de_la_linea_de_ayuda">Teléfono de la linea de ayuda</string>
     <string name="cobertura_en_jalisco_disponible_24_7">Cobertura en Jalisco. Disponible 24/7</string>
     <string name="_911" translatable="false">911</string>
 
@@ -52,6 +52,19 @@
     <string name="nombre_de_usuario">Nombre de usuario</string>
     <string name="tucorreo_example_com">tuCorreo@example.com</string>
     <string name="editar_informacion_de_perfil">Editar información de perfil</string>
+    <string name="seguridad">Seguridad</string>
+    <string name="tema">Tema</string>
+    <string name="modo_oscuro">Modo oscuro</string>
+    <string name="ayuda_soporte">Ayuda y soporte</string>
+    <string name="contactanos">Contáctanos</string>
+    <string name="politica_privacidad">Política de privacidad</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="genero">Género</string>
+    <string name="masculino">Masculino</string>
+    <string name="femenino">Femenino</string>
+    <string name="prefiero_no_decirlo">Prefiero no decirlo</string>
+
+    <!-- Para la línea de ayuda -->
     <string name="disponible_24_7">Disponible 24/7</string>
     <string name="inicio">Inicio</string>
     <string name="linea_de_la_vida">Línea de la Vida</string>
@@ -84,4 +97,6 @@
     <string name="error_usuario_invalido">Este usuario ha sido deshabilitado. Contacta al soporte.</string>
     <string name="error_sin_conexion">Error de red. Revisa tu conexión e intenta nuevamente.</string>
     <string name="chatbot" translatable="false">Chatbot</string>
+
+
 </resources>

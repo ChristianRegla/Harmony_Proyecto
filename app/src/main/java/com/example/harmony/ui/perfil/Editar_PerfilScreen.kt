@@ -39,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -82,19 +83,16 @@ fun Editar_PerfilScreen(navController: NavHostController, Editar_PerfilViewModel
                 }
         ) {
             Image(
-                painter = painterResource(id = R.drawable.fondo_perfil), // Cambiarlo al original
+                painter = painterResource(id = R.drawable.background_editar_perfil_info), // Cambiarlo al original
                 contentDescription = "Fondo de pantalla",
-                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
             )
         }
         Scaffold(
             topBar = {
                 TopBarEditar(
-                    onOpenDrawer2 = {
-                        scope.launch {
-                            if (drawerState.isClosed) drawerState.open()
-                        }
-                    },
+                    onBackClick = { navController.popBackStack() },
                     // Este es el título que va en medio de la barra superior
                     title = header,
                     modifier = Modifier.size(20.dp)
@@ -166,7 +164,7 @@ fun Editar_PerfilScreen(navController: NavHostController, Editar_PerfilViewModel
                         GeneroDropdown(
                             generoSeleccionado = generoSeleccionado,
                             onGeneroSeleccionado = { generoSeleccionado = it },
-                            modifier = Modifier.width(200.dp) // Ancho ajustado
+                            modifier = Modifier.width(250.dp) // Ancho ajustado
                         )
                     }
                     Spacer(modifier = Modifier.height(20.dp))

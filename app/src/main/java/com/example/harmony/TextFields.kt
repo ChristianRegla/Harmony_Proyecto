@@ -222,7 +222,7 @@ fun CiudadDropdown(
         OutlinedTextField(
             value = ciudadSeleccionada,
             onValueChange = {},
-            label = { Text(text = "Ciudad") },
+            label = { Text(text = stringResource(id = R.string.ciudad)) },
             shape = RoundedCornerShape(15.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 backgroundColor = Color(0xFFEEEEEE),
@@ -269,14 +269,17 @@ fun GeneroDropdown(
     onGeneroSeleccionado: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val generos = listOf("Masculino", "Femenino", "Prefiero no decirlo")
+    val masculino = stringResource(id = R.string.masculino)
+    val femenino = stringResource(id = R.string.femenino)
+    val prefieroNoDecirlo = stringResource(id = R.string.prefiero_no_decirlo)
+    val generos = listOf(masculino, femenino, prefieroNoDecirlo)
     var expanded by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.padding(horizontal = 25.dp)) { // Reducir padding horizontal
         OutlinedTextField(
             value = generoSeleccionado,
             onValueChange = {},
-            label = { Text(text = "Género") },
+            label = { Text(text = stringResource(id = R.string.genero)) },
             shape = RoundedCornerShape(15.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 backgroundColor = Color(0xFFEEEEEE),
@@ -316,6 +319,7 @@ fun GeneroDropdown(
         }
     }
 }
+
 @Composable
 fun DomicilioTextField(
     domicilio: String,

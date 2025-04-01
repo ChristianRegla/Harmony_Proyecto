@@ -27,6 +27,9 @@
     <string name="telefono_de_la_linea_de_ayuda">Helpline phone number</string>
     <string name="cobertura_en_jalisco_disponible_24_7">Coverage in Jalisco. Available 24/7</string>
     <string name="nombre_de_usuario">Username</string>
+    <string name="politica_privacidad">Privacy policy</string>
+    <string name="genero">Gender</string>
+    <string name="prefiero_no_decirlo">Not specified</string>
     <string name="disponible_24_7">Available 24/7</string>
     <string name="inicio">Home</string>
     <string name="header_Editarperfil">Profile Information</string>
@@ -62,4 +65,12 @@
     <string name="error_usuario_invalido">This account has been disabled. Please contact support for assistance.</string>
     <string name="error_sin_conexion">Network error detected. Please check your connection and try again.</string>
     <string name="actualizar">Update</string>
+    <string name="seguridad">Security</string>
+    <string name="tema">Theme</string>
+    <string name="modo_oscuro">Dark mode</string>
+    <string name="ayuda_soporte">Help and Support</string>
+    <string name="contactanos">Contact us</string>
+    <string name="ciudad">City</string>
+    <string name="masculino">Male</string>
+    <string name="femenino">Female</string>
 </resources>

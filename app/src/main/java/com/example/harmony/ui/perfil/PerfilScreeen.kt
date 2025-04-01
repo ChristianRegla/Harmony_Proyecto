@@ -57,6 +57,7 @@ import androidx.navigation.NavHostController
 import com.example.harmony.ui.theme.BlueDark
 import kotlinx.coroutines.launch
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.filled.NotificationsNone
@@ -87,11 +88,14 @@ data class MenuItem(
 )
 
 @Composable
-fun ProfileMenuItem(item: MenuItem) {
+fun ProfileMenuItem(item: MenuItem, onClick: () -> Unit = {}, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.TopStart,
         modifier = Modifier
-            .size(342.dp, 40.dp) // Altura estimada, se ajustará por el contenido
+            //.fillMaxWidth()
+            //.wrapContentHeight()
+            .size(342.dp, 40.dp)
+            .clickable(onClick = onClick),
     ) {
         //(Reutilizado para todos los items)
         Box(
@@ -106,7 +110,7 @@ fun ProfileMenuItem(item: MenuItem) {
                 )
                 .background(Color(0xff295e84))
                 .fillMaxWidth()
-                .height(40.dp), // Altura fija para cada item
+                .height(40.dp),
             contentAlignment = Alignment.CenterStart
         ) {
             Row(
@@ -133,7 +137,7 @@ fun ProfileMenuItem(item: MenuItem) {
                         fontWeight = FontWeight.Normal,
                         textAlign = TextAlign.Left,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.width(200.dp) // Ajustar ancho si es necesario
+                        modifier = Modifier.wrapContentWidth()
                     )
                 }
                 item.trailingText?.let {
@@ -144,7 +148,7 @@ fun ProfileMenuItem(item: MenuItem) {
                         fontWeight = FontWeight.Normal,
                         textAlign = TextAlign.Right,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.width(60.dp) // Ajustar ancho si es necesario
+                        modifier = Modifier.wrapContentWidth()
                     )
                 }
             }
@@ -162,6 +166,16 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
     val header = context.getString(R.string.header_perfil)
     val inicio = context.getString(R.string.inicio)
     val relajacion = context.getString(R.string.relajacion)
+
+    // Para el menu
+    val editarPerfil = context.getString(R.string.editar_informacion_de_perfil)
+    val notificaciones = context.getString(R.string.notificaciones)
+    val seguridad = context.getString(R.string.seguridad)
+    val idioma = context.getString(R.string.idioma)
+    val tema = context.getString(R.string.tema)
+    val ayudaSoporte = context.getString(R.string.ayuda_soporte)
+    val contactanos = context.getString(R.string.contactanos)
+    val politica_privacidad = context.getString(R.string.politica_privacidad)
 
     val scrollState = rememberScrollState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -360,7 +374,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                                     .clip(RoundedCornerShape(8.dp)) // Bordes redondeados
                                     .border(1.dp, Color.Transparent, RoundedCornerShape(8.dp))
                             ) {
-                                Column (
+                                Column(
                                     modifier = Modifier
                                         .wrapContentWidth(),
                                     horizontalAlignment = Alignment.CenterHorizontally
@@ -369,20 +383,21 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                                     ProfileMenuItem(
                                         item = MenuItem(
                                             R.drawable.ico_editar_perfil,
-                                            "Editar informacion de perfil"
-                                        )
+                                            editarPerfil,
+                                        ),
+                                        onClick = { navController.navigate("editar_perfil") }
                                     )
                                     ProfileMenuItem(
                                         item = MenuItem(
                                             R.drawable.icononotificaciones,
-                                            "Notificaciones",
+                                            notificaciones,
                                             "Si"
                                         )
                                     )
                                     ProfileMenuItem(
                                         item = MenuItem(
                                             R.drawable.icono_idioma,
-                                            "Idioma",
+                                            idioma,
                                             "Español"
                                         )
                                     )
@@ -402,8 +417,19 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                                         .wrapContentWidth(),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    ProfileMenuItem(item = MenuItem(R.drawable.ico_seguridad, "Seguridad"))
-                                    ProfileMenuItem(item = MenuItem(R.drawable.ico_tema, "Tema", "Modo Claro"))
+                                    ProfileMenuItem(
+                                        item = MenuItem(
+                                            R.drawable.ico_seguridad,
+                                            seguridad
+                                        )
+                                    )
+                                    ProfileMenuItem(
+                                        item = MenuItem(
+                                            R.drawable.ico_tema,
+                                            tema,
+                                            "Modo Claro"
+                                        )
+                                    )
                                 }
                             }
                             Spacer(modifier = Modifier.height(14.dp))
@@ -422,14 +448,19 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                                     ProfileMenuItem(
                                         item = MenuItem(
                                             R.drawable.ico_asistecia,
-                                            "Ayuda y Soporte"
+                                            ayudaSoporte
                                         )
                                     )
-                                    ProfileMenuItem(item = MenuItem(R.drawable.ico_contactanos, "Contactanos"))
+                                    ProfileMenuItem(
+                                        item = MenuItem(
+                                            R.drawable.ico_contactanos,
+                                            contactanos
+                                        )
+                                    )
                                     ProfileMenuItem(
                                         item = MenuItem(
                                             R.drawable.ico_politicas,
-                                            "Politica de Privacidad "
+                                            politica_privacidad
                                         )
                                     )
                                 }
@@ -440,21 +471,6 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 }
             }
         }
-        // Box-47:1228-Perfil
-        Box(modifier = Modifier.fillMaxSize()) {
-// Box-47:1238-perfilInformacion
-            Column(
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 35.dp, y = 404.dp)
-                    .width(342.dp)
-            ) {
-// Grupo de 1
-
-            }
-        }
-
     }
 }
 @Composable

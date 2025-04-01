@@ -23,7 +23,7 @@ import com.example.harmony.ui.theme.BlueDark
 @Composable
 fun TopBarEditar(
     title: String,
-    onOpenDrawer2: () -> Unit,
+    onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -31,7 +31,7 @@ fun TopBarEditar(
             containerColor = BlueDark //.copy(alpha = 0.95f) si queremos un fondo más transparente
         ),
         navigationIcon = {
-            IconButton(onClick = onOpenDrawer2) {
+            IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBackIosNew,
                     contentDescription = "Atras",
