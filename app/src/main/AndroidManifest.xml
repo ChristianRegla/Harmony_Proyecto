@@ -13,12 +13,12 @@
         android:theme="@style/Theme.Harmony"
         tools:targetApi="31">
         <activity
-            android:name=".ui.PrivacyNotice.PrivecyNoticeScreen"
+            android:name=".ui.privacynotice.PrivecyNoticeScreen"
             android:exported="false"
             android:label="@string/title_activity_privecy_notice_screen"
             android:theme="@style/Theme.Harmony" />
         <activity
-            android:name=".ui.PrivacyNotice.PrivacyNoticeScreen"
+            android:name=".ui.privacynotice.PrivacyNoticeScreen"
             android:exported="false"
             android:label="@string/title_activity_privacy_notice_screen"
             android:theme="@style/Theme.Harmony" />

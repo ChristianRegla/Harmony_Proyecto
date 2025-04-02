@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.harmony.R
 
 @Composable
-fun Background_inicio(
+fun Background_Register_Emotions(
     modifier: Modifier = Modifier
 ){
     Box(
@@ -19,7 +19,7 @@ fun Background_inicio(
     ){
         Image(
             //Fondo
-            painter = painterResource(R.drawable.background_inicio),
+            painter = painterResource(R.drawable.background_register_emotions),
             contentDescription = stringResource(R.string.background_image),
             //Pone de manera uniforme height y weight
             contentScale = ContentScale.Crop,
