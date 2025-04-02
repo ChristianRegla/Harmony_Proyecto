@@ -19,10 +19,10 @@ class HelplineActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val NavController = rememberNavController()
+            val navController = rememberNavController()
             HarmonyTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    HomeScreen(navController = navController, helplineViewModel = helplineViewModel)
+                    HelplineScreen(navController = navController, helplineViewModel = HelplineViewModel)
                 }
             }
         }

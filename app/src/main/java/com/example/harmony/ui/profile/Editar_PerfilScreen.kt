@@ -1,4 +1,4 @@
-package com.example.harmony.ui.perfil
+package com.example.harmony.ui.profile
 
 import androidx.compose.foundation.Image
 import com.example.harmony.R
@@ -49,6 +49,7 @@ import com.example.harmony.NumeroTextField
 import com.example.harmony.CiudadDropdown
 import com.example.harmony.GeneroDropdown
 import com.example.harmony.DomicilioTextField
+import com.example.harmony.ui.perfil.TopBarEditar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)

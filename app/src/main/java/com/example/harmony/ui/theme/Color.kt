@@ -14,3 +14,4 @@ val PurpleDark = Color(0xFF54175A)
 // Colores extra
 val PurpleColor = Color(0xFF972FA2)
 val DarkerPurpleColor = Color(0xFF48174A)
+val Bluephone = Color(0xFF388BAC)

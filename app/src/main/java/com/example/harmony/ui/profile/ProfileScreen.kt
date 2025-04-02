@@ -1,4 +1,4 @@
-package com.example.harmony.ui.perfil
+package com.example.harmony.ui.profile
 
 import androidx.compose.foundation.Image
 import com.example.harmony.R
@@ -77,6 +77,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.TopBar
+import com.example.harmony.ui.profile.ProfileViewModel
 
 
 data class MenuItem(
@@ -155,7 +156,7 @@ fun ProfileMenuItem(item: MenuItem) {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewModel) {
+fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileViewModel) {
     val context = LocalContext.current
     // Para los textos y que estén traducidos:
     val usuario = context.getString(R.string.user_name)
@@ -174,7 +175,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContent(navController = navController, perfilViewModel = perfilViewModel)
+                DrawerContent(navController = navController, profileViewModel = profileViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -458,7 +459,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
     }
 }
 @Composable
-fun DrawerContent(navController: NavHostController, perfilViewModel: PerfilViewModel) {
+fun DrawerContent(navController: NavHostController, profileViewModel: ProfileViewModel) {
     val context = LocalContext.current
 
     Spacer(modifier = Modifier.height(32.dp))
@@ -603,7 +604,7 @@ fun DrawerContent(navController: NavHostController, perfilViewModel: PerfilViewM
             )
         },
         selected = false,
-        onClick = { perfilViewModel.cerrarSesion(navController) }
+        onClick = { profileViewModel.cerrarSesion(navController) }
     )
 }
 fun Modifier.advancedShadow(
@@ -623,7 +624,7 @@ fun Modifier.advancedShadow(
 )
 @Preview(showBackground = true)
 @Composable
-fun PerfilPreview() {
+fun ProfilePreview() {
     val navController = rememberNavController()
-    PerfilScreen(navController = navController, perfilViewModel = PerfilViewModel())
+    ProfileScreen(navController = navController, profileViewModel = ProfileViewModel())
 }

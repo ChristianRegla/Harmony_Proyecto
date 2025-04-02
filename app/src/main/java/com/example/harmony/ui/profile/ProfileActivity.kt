@@ -8,6 +8,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.navigation.compose.rememberNavController
+import com.example.harmony.ui.profile.ProfileScreen
 import com.example.harmony.ui.theme.HarmonyTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,7 +22,7 @@ class ProfileActivity : ComponentActivity() {
             val navController = rememberNavController()
             HarmonyTheme {
                 Surface(color = MaterialTheme.colorScheme.background){
-                    PerfilScreen(navController = navController, profileViewModel = profileViewModel)
+                    ProfileScreen(navController = navController, profileViewModel = profileViewModel)
                 }
             }
         }
