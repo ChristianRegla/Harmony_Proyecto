@@ -14,3 +14,9 @@ val PurpleDark = Color(0xFF54175A)
 // Colores extra
 val PurpleColor = Color(0xFF972FA2)
 val DarkerPurpleColor = Color(0xFF48174A)
+
+// Colores para el chatbot
+val ColorUserMessage = Color(0xFFFF8FD7)
+val ColorModelMessage = Color(0xFFFAFAFA)
+val Purple80 = Color(0xFFD0BCFF)
+val Sendbutton = Color(0xFFD74DA5)

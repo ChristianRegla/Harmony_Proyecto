@@ -98,5 +98,10 @@
     <string name="error_sin_conexion">Error de red. Revisa tu conexión e intenta nuevamente.</string>
     <string name="chatbot" translatable="false">Chatbot</string>
 
+    <!-- Para el chatbot -->
+    <string name="hola_soy_harmony">Hola, soy Harmony. ¿En qué puedo ayudarte hoy?</string>
+    <string name="escribe_un_mensaje">Escribe un mensaje</string>
+    <string name="Escribiendo">Escribiendo...</string>
+
 
 </resources>

@@ -48,7 +48,7 @@ class HomeViewModel(private val homeModel: HomeModel, private val context: Conte
 
             // Navegar a la pantalla de inicio de sesión
             navController.navigate("login") {
-                popUpTo("main") { inclusive = true }
+                popUpTo(0) { inclusive = true }
             }
         }
     }
