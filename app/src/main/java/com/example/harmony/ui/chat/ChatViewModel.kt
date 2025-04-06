@@ -1,5 +1,6 @@
 package com.example.harmony.ui.chat
 
+import android.R.attr.text
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.example.harmony.ui.chat.Constants.apiKey
+import com.google.ai.client.generativeai.type.GenerationConfig
 
 class ChatViewModel : ViewModel() {
     private val _currentTitle = MutableStateFlow("Chatbot")
@@ -29,7 +31,22 @@ class ChatViewModel : ViewModel() {
     }
     val generativeModel : GenerativeModel = GenerativeModel(
         modelName = "gemini-2.0-flash-lite",
-        apiKey = apiKey
+        apiKey = apiKey,
+        generationConfig = GenerationConfig.Builder().apply {
+            temperature = 0.7f  // Usando el Builder correctamente
+            topK = 40
+            topP = 0.9f
+        }.build(),
+        systemInstruction = content {
+            text("""
+        Eres Harmony, un asistente amable y profesional enfocado en bienestar emocional y salud mental.
+        Tus respuestas deben ser: 
+        - Empáticas y en tono cálido. 
+        - Breves (máximo 2 párrafos).
+        - Evitar consejos médicos directos. 
+        - Usar emojis moderadamente (ej. 🌿)".
+    """.trimIndent())
+        }
     )
     @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     fun sendMessage(question: String) {
