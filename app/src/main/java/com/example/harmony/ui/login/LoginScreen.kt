@@ -32,6 +32,7 @@ import com.example.harmony.CustomToast
 import com.example.harmony.EmailTextField
 import com.example.harmony.PasswordTextField
 import com.example.harmony.R
+import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.utils.ResultState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -50,6 +51,11 @@ fun LoginScreen(
     // UI: Campos email y password
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    SystemBarStyle(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Transparent,
+    )
 
     // Observa el estado
     LaunchedEffect(loginState) {

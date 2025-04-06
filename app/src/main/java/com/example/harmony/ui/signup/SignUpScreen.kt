@@ -29,6 +29,7 @@ import com.example.harmony.ApodoTextField
 import com.example.harmony.EmailTextField
 import com.example.harmony.PasswordTextField
 import com.example.harmony.R
+import com.example.harmony.ui.components.SystemBarStyle
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -43,6 +44,11 @@ fun SignUpScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val auth = Firebase.auth
+
+    SystemBarStyle(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Transparent,
+    )
 
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()

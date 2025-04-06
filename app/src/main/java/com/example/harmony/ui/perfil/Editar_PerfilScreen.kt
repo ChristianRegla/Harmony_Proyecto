@@ -50,6 +50,7 @@ import com.example.harmony.NumeroTextField
 import com.example.harmony.CiudadDropdown
 import com.example.harmony.GeneroDropdown
 import com.example.harmony.DomicilioTextField
+import com.example.harmony.ui.components.SystemBarStyle
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,6 +69,12 @@ fun Editar_PerfilScreen(navController: NavHostController, Editar_PerfilViewModel
     var ciudadSeleccionada by remember { mutableStateOf("") }
     var generoSeleccionado by remember { mutableStateOf("") }
     var domicilio by remember { mutableStateOf("") }
+
+    SystemBarStyle(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Transparent,
+    )
+
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {

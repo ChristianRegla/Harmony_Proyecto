@@ -40,6 +40,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
 import com.example.harmony.ui.components.DrawerContentComponent
+import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.ui.theme.BlueDark
 import kotlinx.coroutines.launch
 
@@ -57,6 +58,11 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
     // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    SystemBarStyle(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Transparent,
+    )
 
 
     // Contenedor del Drawer (menú lateral, lo vuelvo a especificar por si acaso)

@@ -48,6 +48,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
+import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.ui.theme.ColorModelMessage
 import com.example.harmony.ui.theme.ColorUserMessage
 import com.example.harmony.ui.theme.Sendbutton
@@ -58,6 +59,11 @@ import com.example.harmony.ui.theme.Sendbutton
 fun ChatScreen(navController: NavHostController, ChatViewModel: ChatViewModel) {
     val context = LocalContext.current
     val viewModel: ChatViewModel = viewModel()
+
+    SystemBarStyle(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Transparent,
+    )
 
     Box(modifier = Modifier.fillMaxSize()){
         Image(

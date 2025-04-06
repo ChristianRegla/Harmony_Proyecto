@@ -77,6 +77,7 @@ import android.Manifest
 import androidx.compose.foundation.shape.CircleShape
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
+import com.example.harmony.ui.components.SystemBarStyle
 
 data class MenuItem(
     val iconId: Int,
@@ -89,6 +90,12 @@ data class MenuItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewModel) {
+
+    SystemBarStyle(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Transparent,
+    )
+
     val context = LocalContext.current
     val viewModel = perfilViewModel
     val perfilState = viewModel.perfil.collectAsState()

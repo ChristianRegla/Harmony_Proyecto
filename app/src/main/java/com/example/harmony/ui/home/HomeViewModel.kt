@@ -1,6 +1,8 @@
 package com.example.harmony.ui.home
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
@@ -8,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.harmony.ui.common.DrawerActions
+import com.example.harmony.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import dataStore
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,7 +51,7 @@ class HomeViewModel(private val homeModel: HomeModel, private val context: Conte
 
             // Navegar a la pantalla de inicio de sesión
             navController.navigate("login") {
-                popUpTo(0) { inclusive = true }
+                popUpTo("main") { inclusive = true }
             }
         }
     }

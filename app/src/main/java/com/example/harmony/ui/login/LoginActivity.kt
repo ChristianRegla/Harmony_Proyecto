@@ -1,5 +1,6 @@
 package com.example.harmony.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -30,6 +31,7 @@ import com.example.harmony.ui.relax.RelaxViewModelFactory
 import com.example.harmony.ui.signup.SignUpScreen
 import com.example.harmony.ui.theme.BlueDark
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalAnimationApi::class)
 class LoginActivity : ComponentActivity() {
@@ -48,12 +50,6 @@ class LoginActivity : ComponentActivity() {
     private val Editar_PerfilViewModel: Editar_PerfilViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(
-                BlueDark.hashCode(),
-                android.graphics.Color.TRANSPARENT
-            )
-        )
         super.onCreate(savedInstanceState)
 
         setContent {

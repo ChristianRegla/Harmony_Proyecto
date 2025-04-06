@@ -47,6 +47,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
 import com.example.harmony.ui.components.DrawerContentComponent
+import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.ui.home.ScreenContent
 import com.example.harmony.ui.theme.DarkerPurpleColor
 import com.example.harmony.ui.theme.PurpleColor
@@ -65,6 +66,11 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
     // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    SystemBarStyle(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Transparent,
+    )
 
     ModalNavigationDrawer(
         drawerState = drawerState,
