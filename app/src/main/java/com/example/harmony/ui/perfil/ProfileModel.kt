@@ -54,3 +54,11 @@ class ProfileModel(private val context: Context) {
         apodo
     }
 }
+
+data class PerfilModel(
+    val userID: String = "",
+    val nombre: String = "",
+    val apodo: String = "",
+    val email: String = "",
+    val profileImageUrl: String? = null
+)

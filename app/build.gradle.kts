@@ -56,6 +56,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx:21.0.1")
 
     // Google Play Services
     implementation("androidx.credentials:credentials:1.5.0")
@@ -86,6 +87,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.10.1")
     implementation("androidx.compose.ui:ui-tooling:1.7.8")
     debugImplementation("androidx.compose.ui:ui-tooling-preview:1.7.8")
+    implementation("io.coil-kt.coil3:coil-compose:3.1.0")
 
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
 }

@@ -101,7 +101,7 @@
     <!-- Para el chatbot -->
     <string name="hola_soy_harmony">Hola, soy Harmony. ¿En qué puedo ayudarte hoy?</string>
     <string name="escribe_un_mensaje">Escribe un mensaje</string>
-    <string name="Escribiendo">Escribiendo...</string>
+    <string name="Escribiendo">Escribiendo…</string>
 
 
 </resources>

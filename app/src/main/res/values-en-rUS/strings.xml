@@ -73,4 +73,7 @@
     <string name="ciudad">City</string>
     <string name="masculino">Male</string>
     <string name="femenino">Female</string>
+    <string name="hola_soy_harmony">Hi, I\'m Harmony. What can I help you with?</string>
+    <string name="escribe_un_mensaje">Write a message</string>
+    <string name="Escribiendo">Writing…</string>
 </resources>
