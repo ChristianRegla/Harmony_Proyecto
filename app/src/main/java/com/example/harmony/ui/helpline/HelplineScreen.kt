@@ -350,78 +350,102 @@ fun ChatbotSection(modifier: Modifier = Modifier) {
 
 @Composable
 fun HelpScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 120.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = stringResource(id = R.string.estas_en_crisis),
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            color = colorResource(id=R.color.blue_medium),
-            modifier = Modifier.padding(bottom = 10.dp)
-        )
-        Text(
-            text = stringResource(id = R.string.comun_cate_con_amigos),
-            fontSize = 16.sp,
-            color = Color.White,
-            modifier = Modifier.padding(bottom = 10.dp)
-        )
-        Text(
-            text = stringResource(id = R.string.recuerda_no_estas_solo),
-            fontSize = 16.sp,
-            color = Color.White,
-            modifier = Modifier.padding(bottom = 20.dp)
-        )
+    Box(modifier = Modifier.fillMaxSize()) {
+        // Contenido principal
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 120.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = stringResource(id = R.string.estas_en_crisis),
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = colorResource(id = R.color.blue_medium),
+                modifier = Modifier.padding(bottom = 10.dp)
+            )
+            Text(
+                text = stringResource(id = R.string.comun_cate_con_amigos),
+                fontSize = 16.sp,
+                color = Color.White,
+                modifier = Modifier.padding(bottom = 10.dp)
+            )
+            Text(
+                text = stringResource(id = R.string.recuerda_no_estas_solo),
+                fontSize = 16.sp,
+                color = Color.White,
+                modifier = Modifier.padding(bottom = 20.dp)
+            )
 
-        HelpCard(
-            imageRes = R.drawable.drawable_image_1,
-            title = stringResource(id = R.string.linea_de_la_vida),
-            phone = stringResource(id = R.string._800_911_2000),
-            description = stringResource(id = R.string.cobertura_nacional_disponible_24_7)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        HelpCard(
-            imageRes = R.drawable.drawable_image_1,
-            title = stringResource(id = R.string.linea_de_la_vida),
-            phone = stringResource(id = R.string._075),
-            description = stringResource(id = R.string.cobertura_en_jalisco_disponible_24_7)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        HelpCard(
-            imageRes = R.drawable.drawable_image_3,
-            title = stringResource(id = R.string.emergencias),
-            phone = stringResource(id = R.string._911),
-            description = stringResource(id = R.string.cobertura_nacional_disponible_24_7)
-        )
+            HelpCard(
+                imageRes = R.drawable.drawable_image_1,
+                title = stringResource(id = R.string.linea_de_la_vida),
+                phone = stringResource(id = R.string._800_911_2000),
+                description = stringResource(id = R.string.cobertura_nacional_disponible_24_7),
+                onCallClick = { /* TODO: Implement call functionality for 800-911-2000 */ }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            HelpCard(
+                imageRes = R.drawable.drawable_image_1,
+                title = stringResource(id = R.string.linea_de_la_vida),
+                phone = stringResource(id = R.string._075),
+                description = stringResource(id = R.string.cobertura_en_jalisco_disponible_24_7),
+                onCallClick = { /* TODO: Implement call functionality for 075 */ }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            HelpCard(
+                imageRes = R.drawable.drawable_image_3,
+                title = stringResource(id = R.string.emergencias),
+                phone = stringResource(id = R.string._911),
+                description = stringResource(id = R.string.cobertura_nacional_disponible_24_7),
+                onCallClick = { /* TODO: Implement call functionality for 911 */ }
+            )
+        }
     }
 }
 
 @Composable
-fun HelpCard(imageRes: Int, title: String, phone: String, description: String) {
+fun HelpCard(
+    imageRes: Int,
+    title: String,
+    phone: String,
+    description: String,
+    onCallClick: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.LightGray, shape = RoundedCornerShape(12.dp))
             .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Icon(
-            painter = painterResource(id = imageRes),
-            contentDescription = null,
-            modifier = Modifier.size(45.dp),
-            tint = Color.Unspecified
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Column {
-            Text(text = title, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-            Text(text = phone, fontSize = 20.sp, color = Bluephone)
-            Text(text = description, fontSize = 11.sp, color = Color.Gray)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(id = imageRes),
+                contentDescription = null,
+                modifier = Modifier.size(45.dp),
+                tint = Color.Black
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Text(text = title, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                Text(text = phone, fontSize = 20.sp, color = Bluephone)
+                Text(text = description, fontSize = 11.sp, color = Color.Gray)
+            }
+        }
+        IconButton(onClick = onCallClick) {
+            Icon(
+                painter = painterResource(id = R.drawable.drawable_image_2),
+                contentDescription = stringResource(id = R.string.telefono_de_la_linea_de_ayuda),
+                tint = Bluephone,
+                modifier = Modifier.size(90.dp)
+            )
         }
     }
 }
+
 
 
 @Preview(showBackground = true)
