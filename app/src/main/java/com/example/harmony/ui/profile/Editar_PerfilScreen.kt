@@ -1,4 +1,4 @@
-package com.example.harmony.ui.perfil
+package com.example.harmony.ui.profile
 
 import androidx.compose.foundation.Image
 import com.example.harmony.R

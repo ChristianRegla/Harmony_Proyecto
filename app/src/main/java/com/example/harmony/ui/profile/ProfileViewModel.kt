@@ -1,4 +1,4 @@
-package com.example.harmony.ui.perfil
+package com.example.harmony.ui.profile
 
 import android.content.Context
 import android.net.Uri

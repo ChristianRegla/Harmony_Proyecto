@@ -17,14 +17,10 @@ import com.example.harmony.ui.chat.ChatViewModel
 import com.example.harmony.ui.home.HomeModel
 import com.example.harmony.ui.home.HomeScreen
 import com.example.harmony.ui.home.HomeViewModel
-import com.example.harmony.ui.home.HomeViewModelFactory
-import com.example.harmony.ui.perfil.Editar_PerfilScreen
-import com.example.harmony.ui.perfil.Editar_PerfilViewModel
-import com.example.harmony.ui.perfil.PerfilScreen
-import com.example.harmony.ui.perfil.PerfilViewModel
-import com.example.harmony.ui.perfil.ProfileModel
-import com.example.harmony.ui.perfil.ProfileViewModelFactory
-import com.example.harmony.ui.relax.RelaxModel
+import com.example.harmony.ui.profile.Editar_PerfilViewModel
+import com.example.harmony.ui.profile.Editar_PerfilScreen
+import com.example.harmony.ui.profile.ProfileScreen
+import com.example.harmony.ui.profile.ProfileViewModel
 import com.example.harmony.ui.relax.RelaxScreen
 import com.example.harmony.ui.relax.RelaxViewModel
 import com.example.harmony.ui.relax.RelaxViewModelFactory
@@ -44,9 +40,7 @@ class LoginActivity : ComponentActivity() {
         RelaxViewModelFactory(RelaxModel(this), this)
     }
     private val ChatViewModel: ChatViewModel by viewModels()
-    private val perfilViewModel: PerfilViewModel by viewModels() {
-        ProfileViewModelFactory(ProfileModel(this), this)
-    }
+    private val perfilViewModel: ProfileViewModel by viewModels()
     private val Editar_PerfilViewModel: Editar_PerfilViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +91,7 @@ class LoginActivity : ComponentActivity() {
                 }
 
                 composable("perfil"){
-                    PerfilScreen(navController = navController, perfilViewModel = perfilViewModel)
+                    ProfileScreen(navController = navController, profileViewModel = perfilViewModel)
                 }
 
                 composable("editar_perfil"){

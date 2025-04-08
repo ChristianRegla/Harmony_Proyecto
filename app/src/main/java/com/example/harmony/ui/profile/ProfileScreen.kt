@@ -1,4 +1,4 @@
-package com.example.harmony.ui.perfil
+package com.example.harmony.ui.profile
 
 import androidx.compose.foundation.Image
 import com.example.harmony.R
@@ -78,6 +78,8 @@ import androidx.compose.foundation.shape.CircleShape
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import com.example.harmony.ui.components.SystemBarStyle
+import com.example.harmony.ui.profile.ProfileViewModel
+
 
 data class MenuItem(
     val iconId: Int,
@@ -545,7 +547,6 @@ fun ProfileMenuItem(item: MenuItem, onClick: () -> Unit = {}, modifier: Modifier
         }
     }
 }
-
 fun Modifier.advancedShadow(
     color: Color,
     alpha: Float,
@@ -564,7 +565,7 @@ fun Modifier.advancedShadow(
 
 @Preview(showBackground = true)
 @Composable
-fun PerfilPreview() {
+fun ProfilePreview() {
     val navController = rememberNavController()
     val context = LocalContext.current
     PerfilScreen(navController = navController, perfilViewModel = PerfilViewModel(ProfileModel(context), context))

@@ -1,4 +1,4 @@
-package com.example.harmony.ui.perfil
+package com.example.harmony.ui.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
