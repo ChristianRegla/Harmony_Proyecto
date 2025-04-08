@@ -78,7 +78,6 @@ import androidx.compose.foundation.shape.CircleShape
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import com.example.harmony.ui.components.SystemBarStyle
-import com.example.harmony.ui.profile.ProfileViewModel
 
 
 data class MenuItem(
@@ -91,7 +90,7 @@ data class MenuItem(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewModel) {
+fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileViewModel) {
 
     SystemBarStyle(
         statusBarColor = Color.Transparent,
@@ -99,7 +98,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
     )
 
     val context = LocalContext.current
-    val viewModel = perfilViewModel
+    val viewModel = profileViewModel
     val perfilState = viewModel.perfil.collectAsState()
     val isUploadingState by viewModel.isUploading.collectAsState()
     val uploadErrorState by viewModel.uploadError.collectAsState()
@@ -176,7 +175,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = perfilViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = profileViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -568,5 +567,5 @@ fun Modifier.advancedShadow(
 fun ProfilePreview() {
     val navController = rememberNavController()
     val context = LocalContext.current
-    PerfilScreen(navController = navController, perfilViewModel = PerfilViewModel(ProfileModel(context), context))
+    ProfileScreen(navController = navController, profileViewModel = ProfileViewModel(ProfileModel(context), context))
 }

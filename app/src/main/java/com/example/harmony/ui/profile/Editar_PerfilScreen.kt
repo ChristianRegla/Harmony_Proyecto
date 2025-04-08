@@ -51,6 +51,7 @@ import com.example.harmony.CiudadDropdown
 import com.example.harmony.GeneroDropdown
 import com.example.harmony.DomicilioTextField
 import com.example.harmony.ui.components.SystemBarStyle
+import com.example.harmony.ui.profile.TopBarEditar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)

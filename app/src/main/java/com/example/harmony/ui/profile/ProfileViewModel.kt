@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-class PerfilViewModel(private val profileModel: ProfileModel, private val context: Context) : ViewModel(), DrawerActions {
+class ProfileViewModel(private val profileModel: ProfileModel, private val context: Context) : ViewModel(), DrawerActions {
 
     private val _currentTitle = MutableStateFlow("Perfil")
     val currentTitle: StateFlow<String> = _currentTitle

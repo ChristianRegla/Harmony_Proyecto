@@ -1,4 +1,4 @@
-package com.example.harmony.ui.perfil
+package com.example.harmony.ui.profile
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth

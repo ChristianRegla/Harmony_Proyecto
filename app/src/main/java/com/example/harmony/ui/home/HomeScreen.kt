@@ -179,7 +179,7 @@ fun ScreenContent(navController: NavController, modifier: Modifier = Modifier) {
                 .height(80.dp)
                 .padding(start = 16.dp, end = 16.dp),
             navController = navController,
-            onClick = { navController.navigate("linea_de_ayuda") }
+            onClick = { navController.navigate("helpline") }
         )
     }
 }

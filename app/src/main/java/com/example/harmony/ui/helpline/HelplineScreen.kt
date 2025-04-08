@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
+import com.example.harmony.ui.components.DrawerContentComponent
 import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.TopBar
 import com.example.harmony.ui.theme.BlueDark
@@ -78,7 +79,7 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContent(navController = navController, helplineViewModel = helplineViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = helplineViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -109,7 +110,7 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                         NavigationBarItem(
                             icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White) },
                             label = { Text(inicio, color = Color.White) },
-                            selected = true,
+                            selected = false,
                             onClick = {},
                             colors = NavigationBarItemDefaults.colors(
                                 indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
@@ -149,203 +150,6 @@ fun ScreenContent(modifier: Modifier = Modifier) {
             .background(Color.Transparent)
     )
 
-}
-
-@Composable
-fun DrawerContent(navController: NavHostController, helplineViewModel: HelplineViewModel) {
-    val context = LocalContext.current
-
-    Spacer(modifier = Modifier.height(32.dp))
-
-    Box(
-        modifier = Modifier.fillMaxWidth(), // Asegura que el Box ocupe todo el ancho disponible
-        contentAlignment = Alignment.Center // Centra el contenido dentro del Box
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_harmony),
-            contentDescription = null,
-            modifier = Modifier.size(100.dp)
-        )
-    }
-
-    Text(
-        text = "Slappy",
-        fontSize = 24.sp,
-        textAlign = TextAlign.Center,
-        color = Color.White,
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-    )
-
-    HorizontalDivider()
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Editar Perfil
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Filled.PersonOutline,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.editar_perfil),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = { navController.navigate("perfil") }
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Notificaciones
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Filled.NotificationsNone,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.notificaciones),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = {}
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Donaciones
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.MonetizationOn,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.donaciones),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = {}
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Centro de Ayuda
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.HelpOutline,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.centro_de_ayuda),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = {}
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    // Ícono de Cerrar Sesión
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.Logout,
-                contentDescription = "Account",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(27.dp)
-            ) },
-        label = {
-            Text(
-                text = context.getString(R.string.cerrar_sesi_n),
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
-        },
-        selected = false,
-        onClick = { helplineViewModel.cerrarSesion(navController) }
-    )
-}
-
-
-@Composable
-fun ChatbotSection(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .padding(horizontal = 15.dp)
-            .clip(RoundedCornerShape(12.dp))
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.container_chatbot_background),
-            contentDescription = null,
-            modifier = Modifier.matchParentSize(),
-            contentScale = ContentScale.FillBounds
-        )
-        Image(
-            painter = painterResource(id = R.drawable.logo_harmony),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-        Image(
-            painter = painterResource(id = R.drawable.image_arrow_right),
-            contentDescription = null,
-            modifier = Modifier.align(Alignment.CenterEnd)
-        )
-    }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_harmony),
-            contentDescription = null,
-            modifier = Modifier.size(40.dp)
-        )
-        Column(modifier = Modifier.padding(start = 16.dp)) {
-            Text(text = "¿Te gustaría contar algo?", fontSize = 16.sp, color = Color.Black)
-            Text(text = "Estoy para lo que necesites", fontSize = 14.sp, color = Color(0xFF1D1B20))
-        }
-    }
 }
 
 @Composable
@@ -435,12 +239,15 @@ fun HelpCard(
                 Text(text = description, fontSize = 11.sp, color = Color.Gray)
             }
         }
-        IconButton(onClick = onCallClick) {
+        IconButton(
+            onClick = onCallClick,
+            modifier = Modifier.size(45.dp)
+            ) {
             Icon(
                 painter = painterResource(id = R.drawable.drawable_image_2),
                 contentDescription = stringResource(id = R.string.telefono_de_la_linea_de_ayuda),
                 tint = Bluephone,
-                modifier = Modifier.size(90.dp)
+                modifier = Modifier.size(45.dp)
             )
         }
     }
@@ -452,5 +259,6 @@ fun HelpCard(
 @Composable
 fun HelplinePreview() {
     val navController = rememberNavController()
-    HelplineScreen(navController = navController, helplineViewModel = HelplineViewModel())
+    val context = LocalContext.current
+    HelplineScreen(navController = navController, helplineViewModel = HelplineViewModel(HelplineModel(context), context))
 }

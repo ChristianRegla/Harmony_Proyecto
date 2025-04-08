@@ -1,4 +1,4 @@
-package com.example.harmony.ui.profile
+package com.example.harmony.ui.helpline
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class ProfileModel(private val context: Context) {
+class HelplineModel(private val context: Context) {
 
     suspend fun cargarApodoEnDrawerContent(): String = withContext(Dispatchers.IO) {
         var apodo = ""
@@ -54,11 +54,3 @@ class ProfileModel(private val context: Context) {
         apodo
     }
 }
-
-data class PerfilModel(
-    val userID: String = "",
-    val nombre: String = "",
-    val apodo: String = "",
-    val email: String = "",
-    val profileImageUrl: String? = null
-)
