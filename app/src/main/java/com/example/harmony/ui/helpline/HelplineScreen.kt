@@ -108,10 +108,10 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                 bottomBar = {
                     NavigationBar(containerColor = BlueDark) {
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White) },
-                            label = { Text(inicio, color = Color.White) },
+                            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
+                            label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
-                            onClick = {},
+                            onClick = { navController.navigate("main") },
                             colors = NavigationBarItemDefaults.colors(
                                 indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
                                 selectedIconColor = Color.Transparent,
