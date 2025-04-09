@@ -33,7 +33,7 @@ class ChatViewModel : ViewModel() {
         modelName = "gemini-2.0-flash-lite",
         apiKey = apiKey,
         generationConfig = GenerationConfig.Builder().apply {
-            temperature = 0.7f  // Usando el Builder correctamente
+            temperature = 0.7f
             topK = 40
             topP = 0.9f
         }.build(),

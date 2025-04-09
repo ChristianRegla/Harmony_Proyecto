@@ -1,6 +1,9 @@
 package com.example.harmony.ui.helpline
 
 import android.content.Context
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
@@ -38,5 +41,12 @@ class HelplineViewModel(private val helplineModel: HelplineModel, private val co
         navController.navigate("login") {
             popUpTo(0) { inclusive = true }
         }
+    }
+
+    fun callPhoneNumber(phoneNumber: String) {
+        val intent = Intent(Intent.ACTION_DIAL).apply {
+            data = "tel:$phoneNumber".toUri()
+        }
+        startActivity(context, intent, null)
     }
 }

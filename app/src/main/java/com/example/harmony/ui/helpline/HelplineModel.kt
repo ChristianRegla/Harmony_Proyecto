@@ -1,6 +1,9 @@
 package com.example.harmony.ui.helpline
 
 import android.content.Context
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.harmony.R
@@ -53,4 +56,6 @@ class HelplineModel(private val context: Context) {
 
         apodo
     }
+
+
 }

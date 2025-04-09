@@ -216,12 +216,12 @@ fun ChatbotSection(
                         .size(40.dp)
                         .align(Alignment.CenterVertically) // Alineamos la imagen verticalmente al centro
                 )
-                Spacer(modifier = Modifier.width(16.dp)) // Añadimos un espacio horizontal de 16dp
+                Spacer(modifier = Modifier.width(16.dp))
             }
 
             Column(
                 modifier = Modifier
-                    .align(Alignment.CenterVertically) // Alineamos el texto verticalmente al centro
+                    .align(Alignment.CenterVertically)
             ) {
                 Text(text = titulo, fontSize = 16.sp, color = Color.Black)
                 Text(text = subtitulo, fontSize = 14.sp, color = Color(0xFF1D1B20))
@@ -234,7 +234,7 @@ fun ChatbotSection(
                 contentDescription = null,
                 modifier = Modifier
                     .size(24.dp)
-                    .align(Alignment.CenterVertically) // Alineamos la flecha verticalmente al centro
+                    .align(Alignment.CenterVertically)
             )
         }
     }
