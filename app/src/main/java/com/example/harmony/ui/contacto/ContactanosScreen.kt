@@ -227,7 +227,13 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .offset(y = 20.dp)
                         .size(60.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(Color.Black),
+                        .background(Color.Black)
+                        .clickable {
+                            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                data = Uri.parse("mailto:a22310380@ceti.mx") // Correo Electronico
+                            }
+                            context.startActivity(intent)
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
