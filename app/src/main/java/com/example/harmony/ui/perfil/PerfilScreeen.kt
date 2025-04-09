@@ -458,7 +458,8 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                                         item = MenuItem(
                                             R.drawable.ico_contactanos,
                                             contactanos
-                                        )
+                                        ),
+                                        onClick = { navController.navigate("contactanos") }
                                     )
                                     ProfileMenuItem(
                                         item = MenuItem(

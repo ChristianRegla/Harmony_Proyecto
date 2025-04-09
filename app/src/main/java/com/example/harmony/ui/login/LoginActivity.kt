@@ -14,8 +14,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.chat.ChatScreen
 import com.example.harmony.ui.chat.ChatViewModel
+import com.example.harmony.ui.contacto.ContactanosModel
 import com.example.harmony.ui.home.HomeModel
 import com.example.harmony.ui.home.HomeScreen
+import com.example.harmony.ui.contacto.ContactanosScreen
+import com.example.harmony.ui.contacto.ContactanosViewModel
+import com.example.harmony.ui.contacto.ContactanosViewModelFactory
 import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.HomeViewModelFactory
 import com.example.harmony.ui.perfil.Editar_PerfilScreen
@@ -48,6 +52,9 @@ class LoginActivity : ComponentActivity() {
         ProfileViewModelFactory(ProfileModel(this), this)
     }
     private val Editar_PerfilViewModel: Editar_PerfilViewModel by viewModels()
+    private val ContactanosViewModel: ContactanosViewModel by viewModels(){
+        ContactanosViewModelFactory(ContactanosModel(this), this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +109,9 @@ class LoginActivity : ComponentActivity() {
 
                 composable("editar_perfil"){
                     Editar_PerfilScreen(navController = navController, Editar_PerfilViewModel = Editar_PerfilViewModel)
+                }
+                composable("contactanos"){
+                    ContactanosScreen(navController = navController, contactanosViewModel = ContactanosViewModel)
                 }
             }
         }

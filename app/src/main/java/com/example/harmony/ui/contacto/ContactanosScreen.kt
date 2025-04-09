@@ -71,12 +71,9 @@ import com.example.harmony.ui.home.HomeScreen
 fun ContactanosScreen(navController: NavHostController, contactanosViewModel: ContactanosViewModel) {
     val context = LocalContext.current
     val currentRoute = navController.currentBackStackEntry?.destination?.route
-
     // Para los textos y que estén traducidos:
     val relajacion = context.getString(R.string.relajacion)
     val home = context.getString(R.string.inicio)
-
-
     // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -85,8 +82,6 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
         statusBarColor = Color.Transparent,
         navigationBarColor = Color.Transparent,
     )
-
-
     // Contenedor del Drawer (menú lateral, lo vuelvo a especificar por si acaso)
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -108,7 +103,6 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
-
             Scaffold(
                 // Barra de arriba
                 topBar = {
@@ -174,6 +168,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
     val scrollState = rememberScrollState()
     Column(modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(scrollState)){
 
+        // Contenido de la pantalla de contacto
         Box(
             contentAlignment = Alignment.TopStart,
             modifier = Modifier
@@ -195,7 +190,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                 overflow = TextOverflow.Ellipsis,
             )
             Spacer(modifier = Modifier.height(32.dp))
-            // Box-138:569-Frame 2
+            // Cuadro de Email
             Box(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -204,7 +199,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     .background(Color(0xffffffff), RoundedCornerShape(25.dp))
 
             ) {
-                // Text-138:571-Nuestro equipo esta en linea Lun-Vie • 9-17
+                // Nuestro equipo esta en linea Lun-Vie • 9-17
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -218,7 +213,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     textAlign = TextAlign.Center,
                     overflow = TextOverflow.Ellipsis,
                 )
-                // Image-138:573-Communication / Phone
+                // Icono de Email
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopCenter)
@@ -236,7 +231,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     )
                 }
             }
-            // Text-138:572-Email
+            // Text-Email
             Text(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -257,7 +252,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     .offset(x = 16.dp, y = 326.dp)
                     .size(343.dp, 80.dp),
             ) {
-                // Empty-138:577-Rectangle 3
+                // Cuadro de Instagram
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -265,7 +260,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .size(343.dp, 80.dp)
                         .border(1.dp, Color(0xffa7a7a7), RoundedCornerShape(15.dp)),
                 )
-                // Image-138:578-instagram
+                // Icono de Instagram
                 Image(
                     painter = painterResource(id = R.drawable.instagram),
                     contentDescription = null,
@@ -276,7 +271,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .size(50.dp, 50.dp)
                         .clip(RoundedCornerShape(12.dp)),
                 )
-                // Text-138:580-Instagram
+                // Text-Instagram
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -289,7 +284,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     textAlign = TextAlign.Left,
                     overflow = TextOverflow.Ellipsis,
                 )
-                // Text-138:581-4,6K Seguidores • 118 Pub
+                // Text-Seguidores • 118 Pub
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -302,7 +297,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     textAlign = TextAlign.Left,
                     overflow = TextOverflow.Ellipsis,
                 )
-                // Image-138:582-Interface / External_Link
+                // Icono de viajar
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -328,7 +323,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     .offset(x = 16.dp, y = 416.dp)
                     .size(343.dp, 80.dp),
             ) {
-                // Empty-138:585-Rectangle 3
+                // Cuadro de Telegram
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -336,7 +331,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .size(343.dp, 80.dp)
                         .border(1.dp, Color(0xffa7a7a7), RoundedCornerShape(15.dp)),
                 )
-                // Image-138:586-telegram
+                // Icono de Telegram
                 Image(
                     painter = painterResource(id = R.drawable.telegram),
                     contentDescription = null,
@@ -347,7 +342,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .size(50.dp, 50.dp)
                         .clip(RoundedCornerShape(12.dp)),
                 )
-                // Text-138:588-Telegram
+                // Text-Telegram
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -360,7 +355,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     textAlign = TextAlign.Left,
                     overflow = TextOverflow.Ellipsis,
                 )
-                // Text-138:589-1,3K Seguidores • 85 Pub
+                // Text-1,3K Seguidores • 85 Pub
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -373,7 +368,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     textAlign = TextAlign.Left,
                     overflow = TextOverflow.Ellipsis,
                 )
-                // Image-138:590-Interface / External_Link
+                // Icono de viajar
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -399,7 +394,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     .offset(x = 16.dp, y = 506.dp)
                     .size(343.dp, 80.dp),
             ) {
-                // Empty-138:593-Rectangle 3
+                // Cuadro de Facebook
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -407,7 +402,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .size(343.dp, 80.dp)
                         .border(1.dp, Color(0xffa7a7a7), RoundedCornerShape(15.dp)),
                 )
-                // Image-138:594-facebook
+                // Icono de Facebook
                 Image(
                     painter = painterResource(id = R.drawable.facebook),
                     contentDescription = null,
@@ -418,7 +413,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .size(50.dp, 50.dp)
                         .clip(RoundedCornerShape(12.dp)),
                 )
-                // Text-138:597-Facebook
+                // Text-Facebook
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -431,7 +426,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     textAlign = TextAlign.Left,
                     overflow = TextOverflow.Ellipsis,
                 )
-                // Text-138:598-3,8K Seguidores • 136 Pub
+                // Text-3,8K Seguidores • 136 Pub
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -444,7 +439,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     textAlign = TextAlign.Left,
                     overflow = TextOverflow.Ellipsis,
                 )
-                // Image-138:599-Interface / External_Link
+                // Icono de viajar
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
