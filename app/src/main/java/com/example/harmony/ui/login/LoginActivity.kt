@@ -50,11 +50,13 @@ class LoginActivity : ComponentActivity() {
         ProfileViewModelFactory(ProfileModel(this), this)
     }
     private val Editar_PerfilViewModel: Editar_PerfilViewModel by viewModels()
-    private val ContactanosViewModel: ContactanosViewModel by viewModels(){
+    private val ContactanosViewModel: ContactanosViewModel by viewModels() {
         ContactanosViewModelFactory(ContactanosModel(this), this)
+    }
     private val HelplineViewModel: HelplineViewModel by viewModels() {
         HelplineViewModelFactory(HelplineModel(this), this)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +76,7 @@ class LoginActivity : ComponentActivity() {
                         onNavigateToSignUp = { navController.navigate("signup") },
                         onNavigateToMain = {
                             navController.navigate("main") {
-                                popUpTo("login"){ inclusive = true }
+                                popUpTo("login") { inclusive = true }
                             }
                         }
                     )
@@ -91,32 +93,44 @@ class LoginActivity : ComponentActivity() {
                         onNavigateToMain = { navController.navigate("main") }
                     )
                 }
-                composable("main"){
+                composable("main") {
                     HomeScreen(navController = navController, homeViewModel = homeViewModel)
                 }
 
-                composable("relax"){
+                composable("relax") {
                     RelaxScreen(navController = navController, relaxViewModel = relaxViewModel)
                 }
 
-                composable("chatbot"){
+                composable("chatbot") {
                     ChatScreen(navController = navController, ChatViewModel = ChatViewModel)
                 }
 
-                composable("perfil"){
-                    ProfileScreen(navController = navController, profileViewModel = profileViewModel)
+                composable("perfil") {
+                    ProfileScreen(
+                        navController = navController,
+                        profileViewModel = profileViewModel
+                    )
                 }
 
-                composable("editar_perfil"){
-                    Editar_PerfilScreen(navController = navController, Editar_PerfilViewModel = Editar_PerfilViewModel)
+                composable("editar_perfil") {
+                    Editar_PerfilScreen(
+                        navController = navController,
+                        Editar_PerfilViewModel = Editar_PerfilViewModel
+                    )
                 }
-                composable("contactanos"){
-                    ContactanosScreen(navController = navController, contactanosViewModel = ContactanosViewModel)
-
-                composable("helpline"){
-                    HelplineScreen(navController = navController, helplineViewModel = HelplineViewModel)
+                composable("contactanos") {
+                    ContactanosScreen(
+                        navController = navController,
+                        contactanosViewModel = ContactanosViewModel
+                    )
+                }
+                composable("helpline") {
+                        HelplineScreen(
+                            navController = navController,
+                            helplineViewModel = HelplineViewModel
+                        )
+                    }
                 }
             }
         }
     }
-}

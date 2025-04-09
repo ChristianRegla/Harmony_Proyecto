@@ -127,8 +127,8 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                         NavigationBarItem(
                             icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White) },
                             label = { Text(home, color = Color.White) },
-                            selected = true,
-                            onClick = {},
+                            selected = false,
+                            onClick = {navController.navigate("main")},
                             colors = NavigationBarItemDefaults.colors(
                                 indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
                                 selectedIconColor = Color.Transparent,
