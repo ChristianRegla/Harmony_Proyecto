@@ -1,5 +1,7 @@
 package com.example.harmony.ui.contacto
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -57,6 +59,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.draw.clipToBounds
@@ -218,7 +221,6 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     textAlign = TextAlign.Center,
                     overflow = TextOverflow.Ellipsis,
                 )
-                // Icono de Email
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopCenter)
@@ -309,7 +311,11 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .offset(x = 281.dp, y = 18.dp)
                         .size(44.dp)
                         .clip(RoundedCornerShape(100.dp))
-                        .background(Color(0xFF377BAC)),
+                        .background(Color(0xFF377BAC))
+                        .clickable {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/christian_slappy?igsh=MXhtMm02ejRxYjUxbg==")) // Reemplaza con el perfil real
+                            context.startActivity(intent)
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
@@ -380,7 +386,11 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .offset(x = 281.dp, y = 18.dp)
                         .size(44.dp)
                         .clip(RoundedCornerShape(100.dp))
-                        .background(Color(0xFF377BAC)),
+                        .background(Color(0xFF377BAC))
+                        .clickable {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://info.jalisco.gob.mx/instituciones/hospital-psiquiatrico-de-jalisco-estancia-prolongada")) // Reemplaza con el perfil real
+                            context.startActivity(intent)
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
@@ -451,7 +461,11 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .offset(x = 281.dp, y = 18.dp)
                         .size(44.dp)
                         .clip(RoundedCornerShape(100.dp))
-                        .background(Color(0xFF377BAC)),
+                        .background(Color(0xFF377BAC))
+                        .clickable {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/share/1Mk4xNzHmx/")) // Reemplaza con el perfil real
+                            context.startActivity(intent)
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
