@@ -1,4 +1,4 @@
-package com.example.harmony.ui.perfil
+package com.example.harmony.ui.profile
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -10,9 +10,9 @@ class ProfileViewModelFactory(
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(PerfilViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return PerfilViewModel(profileModel, context) as T
+            return ProfileViewModel(profileModel, context) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

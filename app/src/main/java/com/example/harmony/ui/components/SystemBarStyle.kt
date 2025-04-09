@@ -2,8 +2,6 @@ package com.example.harmony.ui.components
 
 import android.app.Activity
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect

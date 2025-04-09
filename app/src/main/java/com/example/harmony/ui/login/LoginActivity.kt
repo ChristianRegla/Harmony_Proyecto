@@ -1,20 +1,20 @@
 package com.example.harmony.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.currentRecomposeScope
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.chat.ChatScreen
 import com.example.harmony.ui.chat.ChatViewModel
 import com.example.harmony.ui.contacto.ContactanosModel
+import com.example.harmony.ui.helpline.HelplineModel
+import com.example.harmony.ui.helpline.HelplineScreen
+import com.example.harmony.ui.helpline.HelplineViewModel
+import com.example.harmony.ui.helpline.HelplineViewModelFactory
 import com.example.harmony.ui.home.HomeModel
 import com.example.harmony.ui.home.HomeScreen
 import com.example.harmony.ui.contacto.ContactanosScreen
@@ -22,20 +22,18 @@ import com.example.harmony.ui.contacto.ContactanosViewModel
 import com.example.harmony.ui.contacto.ContactanosViewModelFactory
 import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.HomeViewModelFactory
-import com.example.harmony.ui.perfil.Editar_PerfilScreen
-import com.example.harmony.ui.perfil.Editar_PerfilViewModel
-import com.example.harmony.ui.perfil.PerfilScreen
-import com.example.harmony.ui.perfil.PerfilViewModel
-import com.example.harmony.ui.perfil.ProfileModel
-import com.example.harmony.ui.perfil.ProfileViewModelFactory
+import com.example.harmony.ui.profile.Editar_PerfilViewModel
+import com.example.harmony.ui.profile.Editar_PerfilScreen
+import com.example.harmony.ui.profile.ProfileModel
+import com.example.harmony.ui.profile.ProfileScreen
+import com.example.harmony.ui.profile.ProfileViewModel
+import com.example.harmony.ui.profile.ProfileViewModelFactory
 import com.example.harmony.ui.relax.RelaxModel
 import com.example.harmony.ui.relax.RelaxScreen
 import com.example.harmony.ui.relax.RelaxViewModel
 import com.example.harmony.ui.relax.RelaxViewModelFactory
 import com.example.harmony.ui.signup.SignUpScreen
-import com.example.harmony.ui.theme.BlueDark
 import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalAnimationApi::class)
 class LoginActivity : ComponentActivity() {
@@ -48,12 +46,14 @@ class LoginActivity : ComponentActivity() {
         RelaxViewModelFactory(RelaxModel(this), this)
     }
     private val ChatViewModel: ChatViewModel by viewModels()
-    private val perfilViewModel: PerfilViewModel by viewModels() {
+    private val profileViewModel: ProfileViewModel by viewModels() {
         ProfileViewModelFactory(ProfileModel(this), this)
     }
     private val Editar_PerfilViewModel: Editar_PerfilViewModel by viewModels()
     private val ContactanosViewModel: ContactanosViewModel by viewModels(){
         ContactanosViewModelFactory(ContactanosModel(this), this)
+    private val HelplineViewModel: HelplineViewModel by viewModels() {
+        HelplineViewModelFactory(HelplineModel(this), this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,7 +104,7 @@ class LoginActivity : ComponentActivity() {
                 }
 
                 composable("perfil"){
-                    PerfilScreen(navController = navController, perfilViewModel = perfilViewModel)
+                    ProfileScreen(navController = navController, profileViewModel = profileViewModel)
                 }
 
                 composable("editar_perfil"){
@@ -112,6 +112,9 @@ class LoginActivity : ComponentActivity() {
                 }
                 composable("contactanos"){
                     ContactanosScreen(navController = navController, contactanosViewModel = ContactanosViewModel)
+
+                composable("helpline"){
+                    HelplineScreen(navController = navController, helplineViewModel = HelplineViewModel)
                 }
             }
         }

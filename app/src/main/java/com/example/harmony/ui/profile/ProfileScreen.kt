@@ -1,4 +1,4 @@
-package com.example.harmony.ui.perfil
+package com.example.harmony.ui.profile
 
 import androidx.compose.foundation.Image
 import com.example.harmony.R
@@ -79,6 +79,7 @@ import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import com.example.harmony.ui.components.SystemBarStyle
 
+
 data class MenuItem(
     val iconId: Int,
     val text: String,
@@ -89,7 +90,7 @@ data class MenuItem(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewModel) {
+fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileViewModel) {
 
     SystemBarStyle(
         statusBarColor = Color.Transparent,
@@ -97,7 +98,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
     )
 
     val context = LocalContext.current
-    val viewModel = perfilViewModel
+    val viewModel = profileViewModel
     val perfilState = viewModel.perfil.collectAsState()
     val isUploadingState by viewModel.isUploading.collectAsState()
     val uploadErrorState by viewModel.uploadError.collectAsState()
@@ -174,7 +175,7 @@ fun PerfilScreen(navController: NavHostController, perfilViewModel: PerfilViewMo
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = perfilViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = profileViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -546,7 +547,6 @@ fun ProfileMenuItem(item: MenuItem, onClick: () -> Unit = {}, modifier: Modifier
         }
     }
 }
-
 fun Modifier.advancedShadow(
     color: Color,
     alpha: Float,
@@ -565,8 +565,8 @@ fun Modifier.advancedShadow(
 
 @Preview(showBackground = true)
 @Composable
-fun PerfilPreview() {
+fun ProfilePreview() {
     val navController = rememberNavController()
     val context = LocalContext.current
-    PerfilScreen(navController = navController, perfilViewModel = PerfilViewModel(ProfileModel(context), context))
+    ProfileScreen(navController = navController, profileViewModel = ProfileViewModel(ProfileModel(context), context))
 }

@@ -34,6 +34,7 @@
     <string name="cerrar_sesi_n">Cerrar Sesión</string>
 
     <!-- Estos son de la linea de ayuda -->
+    <string name="header_linea_ayuda">Linea de Ayuda</string>
     <string name="te_gustar_a_contar_algo">¿Te gustaría contar algo?</string>
     <string name="estoy_para_lo_que_necesites">Estoy para lo que necesites</string>
     <string name="container_chatbot" translatable="false">Container_chatbot</string>
