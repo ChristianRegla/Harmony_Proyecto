@@ -123,6 +123,7 @@ fun ChatPage(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
 fun MessageList(modifier: Modifier = Modifier, messageList: List<MessageModel>){
     val context = LocalContext.current
     val mensajePredeterminado = context.getString(R.string.hola_soy_harmony)
+
     if(messageList.isEmpty()){
         Column(
             modifier = modifier.fillMaxSize(),
