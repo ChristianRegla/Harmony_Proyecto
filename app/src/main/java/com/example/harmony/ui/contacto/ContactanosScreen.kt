@@ -57,6 +57,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.border
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
@@ -71,8 +73,8 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
     val currentRoute = navController.currentBackStackEntry?.destination?.route
 
     // Para los textos y que estén traducidos:
-    val headerTitle = context.getString(R.string.header_menu_principal)
     val relajacion = context.getString(R.string.relajacion)
+    val home = context.getString(R.string.inicio)
 
 
     // Controlador del Drawer (o sea el menu lateral pues)
@@ -117,7 +119,7 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                             }
                         },
                         // Este es el título que va en medio de la barra superior
-                        title = headerTitle,
+                        title = "",
                         navController = navController,
                         modifier = Modifier.wrapContentHeight()
                     )
@@ -127,7 +129,7 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                     NavigationBar(containerColor = BlueDark) {
                         NavigationBarItem(
                             icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White) },
-                            label = { Text(headerTitle, color = Color.White) },
+                            label = { Text(home, color = Color.White) },
                             selected = true,
                             onClick = {},
                             colors = NavigationBarItemDefaults.colors(
@@ -169,52 +171,47 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
 @Composable
 fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
     val context = LocalContext.current
-    Column(modifier = modifier.fillMaxWidth().fillMaxHeight()){
-        Spacer(modifier = Modifier.height(32.dp))
+    val scrollState = rememberScrollState()
+    Column(modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(scrollState)){
+
         Box(
             contentAlignment = Alignment.TopStart,
             modifier = Modifier
                 .background(Color(0x00ffffff), RoundedCornerShape(12.dp))
                 .size(375.dp, 734.dp)
+                .align(Alignment.CenterHorizontally)
                 .clip(RoundedCornerShape(12.dp)),
         ) {
-            // Text-138:568-Contactanos en redes
             Text(
                 modifier = Modifier
-                    .align(Alignment.TopStart)
+                    .align(Alignment.TopCenter)
                     .wrapContentSize()
-                    .offset(x = 14.dp, y = 298.dp),
-                text = "Contactanos en redes",
-                color = Color(0x00ffffff),
-                fontSize = 12.sp,
+                    .offset(x = 0.dp, y = 45.dp),
+                text = "Contactanos",
+                color = Color(0xffffffff),
+                fontSize = 42.sp,
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center,
                 overflow = TextOverflow.Ellipsis,
             )
+            Spacer(modifier = Modifier.height(32.dp))
             // Box-138:569-Frame 2
             Box(
-                contentAlignment = Alignment.TopStart,
                 modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 194.dp, y = 122.dp)
-                    .size(165.dp, 165.dp),
+                    .align(Alignment.TopCenter)
+                    .size(350.dp, 165.dp)
+                    .offset(x = 0.dp, y = 140.dp)
+                    .background(Color(0xffffffff), RoundedCornerShape(25.dp))
+
             ) {
-                // Empty-138:570-Rectangle 2
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .offset(x = -178.dp, y = 0.dp)
-                        .background(Color(0xffffffff), RoundedCornerShape(25.dp))
-                        .size(343.dp, 165.dp),
-                )
                 // Text-138:571-Nuestro equipo esta en linea Lun-Vie • 9-17
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .wrapContentHeight()
-                        .offset(x = -97.dp, y = 116.dp)
+                        .offset(x = 90.dp, y = 116.dp)
                         .width(194.dp),
-                    text = "Nuestro equipo esta en linea Lun-Vie  •  9-17",
+                    text = "Nuestro equipo esta en linea \n Lun-Vie  •  9-17",
                     color = Color(0xff000000),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
@@ -222,23 +219,29 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     overflow = TextOverflow.Ellipsis,
                 )
                 // Image-138:573-Communication / Phone
-                Image(
-                    painter = painterResource(id = R.drawable.mail),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
+                Box(
                     modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .offset(x = -31.dp, y = 20.dp)
-                        .size(50.dp, 50.dp)
-                        .clip(RoundedCornerShape(12.dp)),
-                )
+                        .align(Alignment.TopCenter)
+                        .offset(y = 20.dp)
+                        .size(60.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color.Black),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.mail),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(30.dp) // tamaño interno del ícono
+                    )
+                }
             }
             // Text-138:572-Email
             Text(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .wrapContentSize()
-                    .offset(x = 1.5.dp, y = 205.dp),
+                    .offset(x = 1.5.dp, y = 225.dp),
                 text = "Email",
                 color = Color(0xff000000),
                 fontSize = 18.sp,
@@ -246,7 +249,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                 textAlign = TextAlign.Left,
                 overflow = TextOverflow.Ellipsis,
             )
-            // Box-138:576-Frame 4
+            // Instagram
             Box(
                 contentAlignment = Alignment.TopStart,
                 modifier = Modifier
@@ -300,18 +303,24 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     overflow = TextOverflow.Ellipsis,
                 )
                 // Image-138:582-Interface / External_Link
-                Image(
-                    painter = painterResource(id = R.drawable.ingresar),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
+                Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 281.dp, y = 18.dp)
-                        .size(44.dp, 44.dp)
-                        .clip(RoundedCornerShape(100.dp)),
-                )
+                        .size(44.dp)
+                        .clip(RoundedCornerShape(100.dp))
+                        .background(Color(0xFF377BAC)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ingresar),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(24.dp) // tamaño interno del ícono
+                    )
+                }
             }
-            // Box-138:584-Frame 5
+            // Telegram
             Box(
                 contentAlignment = Alignment.TopStart,
                 modifier = Modifier
@@ -365,18 +374,24 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     overflow = TextOverflow.Ellipsis,
                 )
                 // Image-138:590-Interface / External_Link
-                Image(
-                    painter = painterResource(id = R.drawable.ingresar),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
+                Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 281.dp, y = 18.dp)
-                        .size(44.dp, 44.dp)
-                        .clip(RoundedCornerShape(100.dp)),
-                )
+                        .size(44.dp)
+                        .clip(RoundedCornerShape(100.dp))
+                        .background(Color(0xFF377BAC)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ingresar),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(24.dp) // tamaño interno del ícono
+                    )
+                }
             }
-            // Box-138:592-Frame 6
+            // Facebook
             Box(
                 contentAlignment = Alignment.TopStart,
                 modifier = Modifier
@@ -430,38 +445,22 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     overflow = TextOverflow.Ellipsis,
                 )
                 // Image-138:599-Interface / External_Link
-                Image(
-                    painter = painterResource(id = R.drawable.ingresar),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
+                Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 281.dp, y = 18.dp)
-                        .size(44.dp, 44.dp)
-                        .clip(RoundedCornerShape(100.dp)),
-                )
-            }
-            // Box-138:609-donacionesframe
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .size(373.dp, 77.dp)
-                    .clipToBounds(),
-            ) {
-                // Text-138:610-Contactanos
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .wrapContentSize()
-                        .offset(x = 51.dp, y = 45.dp),
-                    text = "Contactanos",
-                    color = Color(0xffffffff),
-                    fontSize = 42.sp,
-                    fontWeight = FontWeight.Normal,
-                    textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                        .size(44.dp)
+                        .clip(RoundedCornerShape(100.dp))
+                        .background(Color(0xFF377BAC)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ingresar),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(24.dp) // tamaño interno del ícono
+                    )
+                }
             }
         }
     }
