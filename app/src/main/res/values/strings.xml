@@ -103,5 +103,10 @@
     <string name="escribe_un_mensaje">Escribe un mensaje</string>
     <string name="Escribiendo">Escribiendo…</string>
 
+    <!-- Para Contactarnos -->
+    <string name="Nuestro_equipo" translatable="false">Nuestro equipo esta en linea \n Lun-Vie  •  9-17</string>
+    <string name="Seguidores1" translatable="false">4,6K Seguidores   •   118 Pub</string>
+    <string name="Seguidores2" translatable="false">1,3K Seguidores   •   85 Pub</string>
+    <string name="Seguidores3" translatable="false">3,8K Seguidores   •   136 Pub</string>
 
 </resources>

@@ -166,6 +166,11 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
 fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+    val Titulo = context.getString(R.string.contactanos)
+    val Email_mensaje = context.getString(R.string.Nuestro_equipo)
+    val Seguidores1 = context.getString(R.string.Seguidores1)
+    val Seguidores2 = context.getString(R.string.Seguidores2)
+    val Seguidores3 = context.getString(R.string.Seguidores3)
     Column(modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(scrollState)){
 
         // Contenido de la pantalla de contacto
@@ -182,7 +187,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     .align(Alignment.TopCenter)
                     .wrapContentSize()
                     .offset(x = 0.dp, y = 45.dp),
-                text = "Contactanos",
+                text = Titulo,
                 color = Color(0xffffffff),
                 fontSize = 42.sp,
                 fontWeight = FontWeight.Normal,
@@ -206,7 +211,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .wrapContentHeight()
                         .offset(x = 90.dp, y = 116.dp)
                         .width(194.dp),
-                    text = "Nuestro equipo esta en linea \n Lun-Vie  •  9-17",
+                    text = Email_mensaje,
                     color = Color(0xff000000),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
@@ -290,7 +295,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .align(Alignment.TopStart)
                         .wrapContentSize()
                         .offset(x = 81.dp, y = 42.dp),
-                    text = "4,6K Seguidores   •   118 Pub",
+                    text = Seguidores1,
                     color = Color(0xff717171),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
@@ -361,7 +366,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .align(Alignment.TopStart)
                         .wrapContentSize()
                         .offset(x = 81.dp, y = 42.dp),
-                    text = "1,3K Seguidores   •   85 Pub",
+                    text = Seguidores2,
                     color = Color(0xff717171),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
@@ -432,7 +437,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .align(Alignment.TopStart)
                         .wrapContentSize()
                         .offset(x = 81.dp, y = 42.dp),
-                    text = "3,8K Seguidores   •   136 Pub",
+                    text = Seguidores3,
                     color = Color(0xff717171),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
