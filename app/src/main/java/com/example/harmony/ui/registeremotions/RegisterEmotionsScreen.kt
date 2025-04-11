@@ -1,3 +1,4 @@
+import android.R
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.compose.foundation.background
@@ -24,15 +25,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FamilyRestroom
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.HealthAndSafety
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.School
@@ -48,13 +54,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.harmony.ui.components.Background_Register_Emotions
 import java.util.Calendar
+import androidx.compose.ui.text.TextStyle
 
 // DATA CLASE PARA ACTIVIDADES
 data class Activity(val icon: ImageVector, val label: String)
@@ -63,13 +73,22 @@ data class Activity(val icon: ImageVector, val label: String)
 @Composable
 fun MoodAndActivityScreen() {
     val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    val screenHeight = configuration.screenHeightDp.dp
 
     // Estados para los diálogos de fecha y hora
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     val calendar = Calendar.getInstance()
-    var dateState by remember { mutableStateOf("11 de marzo") }
-    var timeState by remember { mutableStateOf("16:41") }
+    var dateState by remember {
+        mutableStateOf(
+            "Hoy, ${calendar.get(Calendar.DAY_OF_MONTH)} de ${getMonthName(calendar.get(Calendar.MONTH))}"
+        )
+    }
+    var timeState by remember { mutableStateOf(
+        "${calendar.get(Calendar.HOUR_OF_DAY)}:${calendar.get(Calendar.MINUTE)}"
+    ) }
 
     // Lista de cinco emojis (como cadenas) y el estado del seleccionado
     val emojis = listOf("😍", "😊", "😐", "😔", "😡")
@@ -107,28 +126,75 @@ fun MoodAndActivityScreen() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp)
+                        .padding(
+                            horizontal = screenWidth * 0.07f,
+                            vertical = screenHeight * 0.03f
+                        )
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(color = Color.White),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        OutlinedButton(
-                            onClick = { showDatePicker = true },
-                            shape = RoundedCornerShape(10)
-                        ) {
-                            Text(text = dateState)
-                        }
-                        OutlinedButton(
-                            onClick = { showTimePicker = true },
-                            shape = RoundedCornerShape(10)
-                        ) {
-                            Text(text = timeState)
-                        }
-                    }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(color = Color.Transparent),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                OutlinedButton(
+                                    onClick = { showDatePicker = true },
+                                    shape = RoundedCornerShape(25),
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = Color.White,
+                                        contentColor = Color.Black
+                                    )
+                                ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            modifier = Modifier.padding(horizontal = (-screenWidth * 0f))
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Filled.CalendarMonth,
+                                                contentDescription = ""
+                                            )
+                                            Text(
+                                                text = dateState,
+                                                style = TextStyle(
+                                                    textDecoration = TextDecoration.Underline
+                                                )
+                                            )
+                                            Icon(
+                                                imageVector = Icons.Filled.ArrowDropDown,
+                                                contentDescription = "Abrir selector de fecha"
+                                            )
+                                        }
+
+                                }
+
+                                OutlinedButton(
+                                    onClick = { showTimePicker = true },
+                                    shape = RoundedCornerShape(25),
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = Color.White,
+                                        contentColor = Color.Black,
+                                    )
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            imageVector = Icons.Filled.AccessTime,
+                                            contentDescription = ""
+                                        )
+                                        Text(
+                                            text = timeState,
+                                            style = TextStyle(
+                                                textDecoration = TextDecoration.Underline
+                                            )
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Filled.ArrowDropDown,
+                                            contentDescription = "Abrir selector de hora",
+                                            modifier = Modifier.padding(start = 4.dp)
+                                        )
+                                    }
+                                }
+                            }
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // CONTENEDOR BLANCO PARA LOS BOTONES DE EMOJIS
@@ -158,7 +224,9 @@ fun MoodAndActivityScreen() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color(0xFF0070A8), shape = RoundedCornerShape(16.dp))
-                            .padding(16.dp)
+                            .padding(
+                                horizontal = screenWidth * 0.08f
+                            )
                     ) {
                         FlowRow(
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -186,7 +254,9 @@ fun MoodAndActivityScreen() {
                         ),
                         shape = RoundedCornerShape(50),
                         modifier = Modifier
-                            .height(50.dp)
+                            .padding(
+                                horizontal = screenWidth * 0.1f
+                            )
                             .fillMaxWidth(0.5f)
                     ) {
                         Text("OK")
