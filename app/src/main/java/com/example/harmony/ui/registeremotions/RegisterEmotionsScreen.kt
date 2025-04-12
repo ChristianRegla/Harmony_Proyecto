@@ -1,6 +1,7 @@
-import android.R
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,12 +12,14 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -35,17 +38,9 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.FamilyRestroom
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.HealthAndSafety
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material.icons.filled.People
-import androidx.compose.material.icons.filled.School
-import androidx.compose.material.icons.filled.Work
-import androidx.compose.material.icons.filled.SportsEsports
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -53,21 +48,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.harmony.ui.components.Background_Register_Emotions
 import java.util.Calendar
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import com.example.harmony.R
 
 // DATA CLASE PARA ACTIVIDADES
-data class Activity(val icon: ImageVector, val label: String)
+data class Activity(
+    @DrawableRes val imageResId: Int,
+    val label: String
+)
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -76,6 +75,11 @@ fun MoodAndActivityScreen() {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
+
+    val literataFamily = FontFamily(
+        Font(R.font.literata_regular),
+        Font(R.font.literata_bold)
+    )
 
     // Estados para los diálogos de fecha y hora
     var showDatePicker by remember { mutableStateOf(false) }
@@ -91,26 +95,38 @@ fun MoodAndActivityScreen() {
     ) }
 
     // Lista de cinco emojis (como cadenas) y el estado del seleccionado
-    val emojis = listOf("😍", "😊", "😐", "😔", "😡")
-    var selectedEmoji by remember { mutableStateOf(emojis[0]) }
+    val emotionIcons = listOf<Int>(
+        R.drawable.ic_emotion_happy,
+        R.drawable.ic_emotion_sad,
+        R.drawable.ic_emotion_angry,
+        R.drawable.ic_emotion_love,
+        R.drawable.ic_emotion_idkbutnothappy
+    )
+
+    //Cambiar por strings
+    val emotionDescriptions = listOf(
+        "Feliz", "Triste", "Enojado", "Amor", "Sorprendido"
+    )
+
+    var selectedEmotionIndex by remember { mutableIntStateOf(-1) }
 
     // Lista de actividades con ícono y nombre
     val activities = listOf(
-        Activity(Icons.Filled.Work, "Trabajo"),
-        Activity(Icons.Filled.People, "Amigos"),
-        Activity(Icons.Filled.FamilyRestroom, "Familia"),
-        Activity(Icons.Filled.School, "Escuela"),
-        Activity(Icons.Filled.Favorite, "Pareja"),
-        Activity(Icons.Filled.SportsEsports, "Hobbie"),
-        Activity(Icons.Filled.HealthAndSafety, "Salud"),
-        Activity(Icons.Filled.MoreHoriz, "Otro")
+        Activity(R.drawable.ic_work, "Trabajo"),
+        Activity(R.drawable.ic_friends, "Amigos"),
+        Activity(R.drawable.ic_family, "Familia"),
+        Activity(R.drawable.ic_school, "Escuela"),
+        Activity(R.drawable.ic_love, "Pareja"),
+        Activity(R.drawable.ic_hobby, "Hobbies"),
+        Activity(R.drawable.ic_health, "Salud"),
+        Activity(R.drawable.ic_other, "Otro")
     )
     var selectedActivity by remember { mutableStateOf<Activity?>(null) }
 
     Scaffold(
         topBar = {
             TopBarClose(
-                title = "¿Cómo te sientes?",
+                title = "",
                 onClose = { /* Acción para cerrar o retroceder */ }
             )
         },
@@ -131,6 +147,24 @@ fun MoodAndActivityScreen() {
                             vertical = screenHeight * 0.03f
                         )
                 ) {
+                        Box (
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    bottom = screenHeight*0.03f
+                                ),
+                            contentAlignment = Alignment.Center
+                        ){
+                            Text(
+                                text = "¿Cómo te sientes?",
+                                style = MaterialTheme.typography.bodyLarge.copy(
+                                    color = Color.White,
+                                    fontFamily = literataFamily,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                        }
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -205,32 +239,67 @@ fun MoodAndActivityScreen() {
                             .padding(vertical = 16.dp)
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            verticalAlignment = Alignment.CenterVertically
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                            emojis.forEach { emoji ->
-                                EmojiTextButton(
-                                    emoji = emoji,
-                                    isSelected = (emoji == selectedEmoji)
-                                ) { selectedEmoji = emoji }
+                            emotionIcons.forEachIndexed { index, iconResId ->
+                                IconButton(
+                                    onClick = {
+                                        selectedEmotionIndex = index
+                                    },
+                                    modifier = Modifier
+                                        .size(60.dp)
+                                        .clip(CircleShape)
+                                        .background(
+                                            if (selectedEmotionIndex == index) Color(0xFF388BAC) else Color.Transparent
+                                        )
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = iconResId),
+                                        contentDescription = emotionDescriptions[index],
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                                }
                             }
                         }
                     }
                     Spacer(modifier = Modifier.height(24.dp))
 
+                    Box (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                bottom = screenHeight*0.03f
+                            ),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Text(
+                            text = "Selecciona una actividad",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color.White,
+                                fontFamily = literataFamily,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                    }
+
                     // CONTENEDOR AZUL PARA LOS BOTONES DE ACTIVIDADES
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color(0xFF0070A8), shape = RoundedCornerShape(16.dp))
+                            .background(Color(0xFF0070A8), shape = RoundedCornerShape(10.dp))
                             .padding(
-                                horizontal = screenWidth * 0.08f
+                                horizontal = screenWidth * 0.04f,
+                                vertical = screenHeight * 0.02f
                             )
                     ) {
                         FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalArrangement = Arrangement.spacedBy(screenHeight*0.02f),
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             activities.forEach { activity ->
@@ -244,22 +313,29 @@ fun MoodAndActivityScreen() {
                     Spacer(modifier = Modifier.weight(1f))
 
                     // BOTÓN INFERIOR (ROSA) PARA GUARDAR/CONTINUAR
-                    Button(
-                        onClick = {
-                            // Aquí procesas dateState, timeState, selectedEmoji y selectedActivity
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFFF0080),
-                            contentColor = Color.White
-                        ),
-                        shape = RoundedCornerShape(50),
+                    Row (
                         modifier = Modifier
-                            .padding(
-                                horizontal = screenWidth * 0.1f
-                            )
-                            .fillMaxWidth(0.5f)
-                    ) {
-                        Text("OK")
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    )
+                    {
+                        Button(
+                            onClick = {
+                                // Aquí procesas dateState, timeState, selectedEmoji y selectedActivity
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFFFF0080),
+                                contentColor = Color.White
+                            ),
+                            shape = RoundedCornerShape(50),
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = screenWidth * 0.1f
+                                )
+                                .fillMaxWidth(0.5f)
+                        ) {
+                            Text("OK")
+                        }
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -272,7 +348,6 @@ fun MoodAndActivityScreen() {
                             calendar.set(year, month, dayOfMonth)
                             dateState = "$dayOfMonth de ${getMonthName(month)}"
                             showDatePicker = false
-                            showTimePicker = true
                         },
                         calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH),
@@ -298,51 +373,45 @@ fun MoodAndActivityScreen() {
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun EmojiTextButton(emoji: String, isSelected: Boolean, onClick: () -> Unit) {
-    // Botón para el emoji usando medidas fijas relativas (50dp)
-    val backgroundColor = if (isSelected) Color(0xFFffd54f) else Color.Transparent
-    Box(
-        modifier = Modifier
-            .size(50.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(backgroundColor)
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
+fun ActivityButton(
+    activity: Activity,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    val borderColor = Color(0xFF388BAC)
+    val backgroundColor = if (isSelected) borderColor else Color.White
+    val iconTint = if (isSelected) Color.White else Color.Black
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.clickable { onClick() }
     ) {
-        Text(text = emoji, fontSize = 24.sp)
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .clip(CircleShape)
+                .border(6.dp, borderColor, CircleShape)
+                .background(backgroundColor),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(id = activity.imageResId),
+                contentDescription = activity.label,
+                modifier = Modifier.size(40.dp),
+                colorFilter = ColorFilter.tint(iconTint)
+            )
+        }
+        Text(
+            text = activity.label,
+            color = Color.White,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
-@Composable
-fun ActivityButton(activity: Activity, isSelected: Boolean, onClick: () -> Unit) {
-    // Botón de actividad con ícono y texto en un recuadro
-    val borderColor = if (isSelected) Color.White else Color.LightGray
-    val backgroundColor = if (isSelected) Color(0xFFB3E5FC) else Color.Transparent
-    Column(
-        modifier = Modifier
-            .width(80.dp)
-            .clickable(onClick = onClick)
-            .background(backgroundColor, shape = RoundedCornerShape(8.dp))
-            .border(1.dp, borderColor, shape = RoundedCornerShape(8.dp))
-            .padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Icon(
-            imageVector = activity.icon,
-            contentDescription = activity.label,
-            tint = Color.White,
-            modifier = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = activity.label,
-            style = MaterialTheme.typography.bodySmall,
-            color = Color.White,
-            textAlign = TextAlign.Center
-        )
-    }
-}
 
 fun getMonthName(month: Int): String {
     return when (month) {
@@ -380,7 +449,7 @@ fun TopBarClose(title: String, onClose: () -> Unit) {
     )
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun MoodAndActivityScreenPreview() {
     MoodAndActivityScreen()
