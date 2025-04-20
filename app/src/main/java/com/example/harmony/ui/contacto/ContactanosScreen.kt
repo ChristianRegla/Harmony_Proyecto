@@ -125,8 +125,13 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                 bottomBar = {
                     NavigationBar(containerColor = BlueDark) {
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White) },
-                            label = { Text(home, color = Color.White) },
+                            icon = { Icon(
+                                imageVector = Icons.Filled.Home,
+                                contentDescription = "Home",
+                                tint = Color.White,
+                                modifier = Modifier.alpha(0.5f)
+                            ) },
+                            label = { Text(home, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
                             onClick = {navController.navigate("main")},
                             colors = NavigationBarItemDefaults.colors(
