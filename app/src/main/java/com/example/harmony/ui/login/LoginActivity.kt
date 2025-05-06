@@ -20,6 +20,10 @@ import com.example.harmony.ui.home.HomeScreen
 import com.example.harmony.ui.contacto.ContactanosScreen
 import com.example.harmony.ui.contacto.ContactanosViewModel
 import com.example.harmony.ui.contacto.ContactanosViewModelFactory
+import com.example.harmony.ui.donation.DonationModel
+import com.example.harmony.ui.donation.DonationScreen
+import com.example.harmony.ui.donation.DonationViewModel
+import com.example.harmony.ui.donation.DonationViewModelFactory
 import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.HomeViewModelFactory
 import com.example.harmony.ui.profile.Editar_PerfilViewModel
@@ -56,7 +60,9 @@ class LoginActivity : ComponentActivity() {
     private val HelplineViewModel: HelplineViewModel by viewModels() {
         HelplineViewModelFactory(HelplineModel(this), this)
     }
-
+    private val donationViewModel: DonationViewModel by viewModels() {
+        DonationViewModelFactory(DonationModel(this), this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,7 +136,13 @@ class LoginActivity : ComponentActivity() {
                             helplineViewModel = HelplineViewModel
                         )
                     }
+                composable("donation") {
+                    DonationScreen(
+                        navController = navController,
+                        donationViewModel = donationViewModel
+                    )
                 }
             }
         }
     }
+}

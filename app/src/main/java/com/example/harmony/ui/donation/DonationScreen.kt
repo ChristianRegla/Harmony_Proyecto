@@ -239,7 +239,10 @@ fun ScreenContent(modifier: Modifier = Modifier) {
                 onClick = { /* TODO: Implementar acción de donar */ },
                 modifier = Modifier.fillMaxWidth(0.7f),
                 shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1976D2), contentColor = Color.White)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF1976D2),
+                    contentColor = Color.White
+                )
             ) {
                 Text(text = stringResource(R.string.donar), fontSize = 18.sp, fontWeight = FontWeight.Bold)
             }
@@ -252,7 +255,10 @@ fun DonationButton(amount: String) {
     Button(
         onClick = { /* TODO: Implementar selección de cantidad */ },
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF4CAF50), contentColor = Color.White),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF4CAF50),
+            contentColor = Color.White
+        ),
         modifier = Modifier.size(100.dp, 60.dp)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -267,7 +273,9 @@ fun PaymentButton(text: String) {
     Button(
         onClick = { /* TODO: Implementar selección de método de pago */ },
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF03A9F4), contentColor = Color.White),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF03A9F4),
+            contentColor = Color.White),
         modifier = Modifier.padding(8.dp)
     ) {
         Text(text = text)
