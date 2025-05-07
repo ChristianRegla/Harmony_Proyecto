@@ -78,4 +78,5 @@
     <string name="escribe_un_mensaje">Write a message</string>
     <string name="Escribiendo">Writing…</string>
     <string name="header_privacidad">At Harmony, we consider your privacy and security our highest priority.</string>
+    <string name="iniciar">START</string>
 </resources>

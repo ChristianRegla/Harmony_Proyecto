@@ -1,7 +1,11 @@
 package com.example.harmony.ui.relax
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
@@ -46,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
+import com.example.harmony.ui.components.Container_Ejercicio
 import com.example.harmony.ui.components.DrawerContentComponent
 import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.ui.home.ScreenContent
@@ -137,13 +143,88 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                 containerColor = Color.Transparent,
                 contentColor = Color.White
 
-            ) { padding ->
-                ScreenContent(
-                    navController = navController,modifier = Modifier.padding(padding))
+            ) { innerPadding ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    RelaxScreenContent(navController = navController)
+                }
+
             } // Scaffold
         } // Box
     } // ModalNavigationDrawer
 } // fun
+
+@Composable
+fun RelaxScreenContent(navController: NavHostController) {
+    Spacer(Modifier.height(16.dp))
+    LazyRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 5.dp, vertical = 10.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(horizontal = 8.dp) // Opcional: padding alrededor del contenido
+    ) {
+        item {
+            Container_Ejercicio(
+                Titulo = "Respiración",
+                Subtitulo = "4-7-8",
+                Duracion = "1-2 MIN",
+                Imagen = R.drawable.relajacion_imagen1,
+                OnClick = { }
+            )
+        }
+        item {
+            Container_Ejercicio(
+                Titulo = "Relajación",
+                Subtitulo = "Muscular",
+                Duracion = "5-10 MIN",
+                Imagen = R.drawable.relajacion_imagen2,
+                OnClick = { }
+            )
+        }
+        item {
+            Container_Ejercicio(
+                Titulo = "Técnica de",
+                Subtitulo = "la caja",
+                Duracion = "2-3 MIN",
+                Imagen = R.drawable.relajacion_imagen3,
+                OnClick = { }
+            )
+        }
+        item {
+            Container_Ejercicio(
+                Titulo = "Mindfulness",
+                Subtitulo = "Aquí y ahora",
+                Duracion = "3-5 MIN",
+                Imagen = R.drawable.relajacion_imagen4,
+                OnClick = { }
+            )
+        }
+        item {
+            Container_Ejercicio(
+                Titulo = "Técnica",
+                Subtitulo = "5-4-3-2-1",
+                Duracion = "2-4 MIN",
+                Imagen = R.drawable.relajacion_imagen5,
+                OnClick = { }
+            )
+        }
+        item {
+            Container_Ejercicio(
+                Titulo = "Escaneo",
+                Subtitulo = "Corporal",
+                Duracion = "5-7 MIN",
+                Imagen = R.drawable.relajacion_imagen6,
+                OnClick = { }
+            )
+        }
+    }
+
+}
 
 @Preview(showBackground = true)
 @Composable

@@ -119,10 +119,12 @@
     <!-- Para las Donaciones -->
     <string name="donacion">Donaciones</string>
     <string name="gracias_apoyo">Gracias por apoyar al pescadito &lt;3</string>
-    <string name="seleccione_cantidad">Seleccione cantidad a donar:</string>
-    <string name="seleccione_metodo_pago">Seleccione metodo de pago:</string>
-    <string name="tarjeta_credito">Tarjeta de Credito</string>
+    <string name="seleccione_cantidad">Seleccione la cantidad a donar:</string>
+    <string name="seleccione_metodo_pago">Seleccione un método de pago:</string>
+    <string name="tarjeta_credito">Tarjeta de Crédito</string>
     <string name="paypal">Paypal</string>
     <string name="donar">DONAR</string>
 
+    <!-- Para relajación -->
+    <string name="iniciar">INICIAR</string>
 </resources>
