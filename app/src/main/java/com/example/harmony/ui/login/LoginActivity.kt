@@ -26,6 +26,10 @@ import com.example.harmony.ui.donation.DonationViewModel
 import com.example.harmony.ui.donation.DonationViewModelFactory
 import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.HomeViewModelFactory
+import com.example.harmony.ui.privacynotice.PrivacyNoticeModel
+import com.example.harmony.ui.privacynotice.PrivacyNoticeScreen
+import com.example.harmony.ui.privacynotice.PrivacyNoticeViewModel
+import com.example.harmony.ui.privacynotice.PrivacyNoticeViewModelFactory
 import com.example.harmony.ui.profile.Editar_PerfilViewModel
 import com.example.harmony.ui.profile.Editar_PerfilScreen
 import com.example.harmony.ui.profile.ProfileModel
@@ -62,6 +66,9 @@ class LoginActivity : ComponentActivity() {
     }
     private val donationViewModel: DonationViewModel by viewModels() {
         DonationViewModelFactory(DonationModel(this), this)
+    }
+    private val privacyNoticeViewModel: PrivacyNoticeViewModel by viewModels(){
+        PrivacyNoticeViewModelFactory(PrivacyNoticeModel(this), this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,6 +147,12 @@ class LoginActivity : ComponentActivity() {
                     DonationScreen(
                         navController = navController,
                         donationViewModel = donationViewModel
+                    )
+                }
+                composable("privacyNotice") {
+                    PrivacyNoticeScreen(
+                        navController = navController,
+                        privacyNoticeViewModel = privacyNoticeViewModel
                     )
                 }
             }

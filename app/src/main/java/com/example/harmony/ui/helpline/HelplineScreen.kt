@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material.icons.filled.PersonOutline
@@ -122,7 +123,7 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                             )
                         )
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "Relaxing", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
+                            icon = { Icon(imageVector = Icons.Filled.EmojiPeople, contentDescription = "Relaxing", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
                             label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
                             onClick = { navController.navigate("relax") },

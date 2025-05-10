@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material.icons.filled.PersonOutline
 import androidx.compose.material.icons.outlined.HelpOutline
@@ -215,7 +216,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     )
                 },
                 selected = false,
-                onClick = {},
+                onClick = { navController.navigate("privacyNotice") },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()

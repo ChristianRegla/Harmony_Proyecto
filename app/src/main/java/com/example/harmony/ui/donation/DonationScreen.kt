@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material.icons.filled.Person
@@ -66,7 +67,7 @@ fun DonationScreen(navController: NavHostController, donationViewModel: Donation
     val currentRoute = navController.currentBackStackEntry?.destination?.route
 
     // Para los textos y que estén traducidos:
-    val headerTitle = context.getString(R.string.header_linea_ayuda)
+    val headerTitle = context.getString(R.string.donacion)
     val relajacion = context.getString(R.string.relajacion)
 
     // Controlador del Drawer (o sea el menu lateral pues)
@@ -135,7 +136,7 @@ fun DonationScreen(navController: NavHostController, donationViewModel: Donation
                         NavigationBarItem(
                             icon = {
                                 Icon(
-                                    imageVector = Icons.Filled.AccountCircle,
+                                    imageVector = Icons.Filled.EmojiPeople,
                                     contentDescription = "Relaxing",
                                     tint = Color.White,
                                     modifier = Modifier.alpha(0.5f)
@@ -240,7 +241,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(0.7f),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF1976D2),
+                    containerColor = Color(0xFF123B55),
                     contentColor = Color.White
                 )
             ) {
@@ -254,16 +255,16 @@ fun ScreenContent(modifier: Modifier = Modifier) {
 fun DonationButton(amount: String) {
     Button(
         onClick = { /* TODO: Implementar selección de cantidad */ },
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF4CAF50),
+            containerColor = Color(0xFF388BAC),
             contentColor = Color.White
         ),
-        modifier = Modifier.size(100.dp, 60.dp)
+        modifier = Modifier.size(100.dp, 80.dp).padding(end = 5.dp)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "$", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text(text = amount, fontSize = 16.sp)
+            Text(text = "$", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+            Text(text = amount, fontSize = 12.sp)
         }
     }
 }
@@ -274,9 +275,9 @@ fun PaymentButton(text: String) {
         onClick = { /* TODO: Implementar selección de método de pago */ },
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF03A9F4),
+            containerColor = Color(0xFF388BAC),
             contentColor = Color.White),
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(8.dp).width(120.dp).height(35.dp)
     ) {
         Text(text = text)
     }

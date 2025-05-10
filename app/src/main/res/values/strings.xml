@@ -122,9 +122,15 @@
     <string name="seleccione_cantidad">Seleccione la cantidad a donar:</string>
     <string name="seleccione_metodo_pago">Seleccione un método de pago:</string>
     <string name="tarjeta_credito">Tarjeta de Crédito</string>
-    <string name="paypal">Paypal</string>
+    <string name="paypal" translatable="false">Paypal</string>
     <string name="donar">DONAR</string>
 
     <!-- Para relajación -->
     <string name="iniciar">INICIAR</string>
+    <string name="Respiracion">Respiración</string>
+    
+    <string name="como_estuvo_el_dia">¿Cómo estuvo tu día?</string>
+    <string name="lleva_un_registro">Lleva un registro de cómo te sientes</string>
+
+
 </resources>

@@ -75,6 +75,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.core.content.ContextCompat
 import android.Manifest
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.filled.EmojiPeople
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import com.example.harmony.ui.components.SystemBarStyle
@@ -258,7 +259,7 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                             NavigationBarItem(
                                 icon = {
                                     Icon(
-                                        imageVector = Icons.Filled.AccountCircle,
+                                        imageVector = Icons.Filled.EmojiPeople,
                                         contentDescription = "Profile",
                                         tint = Color.White,
                                         modifier = Modifier.alpha(0.5f)

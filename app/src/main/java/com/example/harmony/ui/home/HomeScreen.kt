@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -118,7 +119,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                         )
                         NavigationBarItem(
                             icon = { Icon(
-                                imageVector = Icons.Filled.AccountCircle,
+                                imageVector = Icons.Filled.EmojiPeople,
                                 contentDescription = "Relaxing",
                                 tint = Color.White,
                                 modifier = Modifier.alpha(0.5f)
@@ -168,6 +169,22 @@ fun ScreenContent(navController: NavController, modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        val tituloEmociones = context.getString(R.string.como_estuvo_el_dia)
+        val subtituloEmociones = context.getString(R.string.lleva_un_registro)
+        ChatbotSection(
+            titulo = tituloEmociones,
+            subtitulo = subtituloEmociones,
+            imageResId = R.drawable.guarda_tu_emocion,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp)
+                .padding(start = 16.dp, end = 16.dp),
+            navController = navController,
+            onClick = {  }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         val tituloLineaDeAyuda = context.getString(R.string.linea_de_ayuda)
         val subtituloLineaDeAyuda = context.getString(R.string.disponible_24_7)
         ChatbotSection(
@@ -181,6 +198,8 @@ fun ScreenContent(navController: NavController, modifier: Modifier = Modifier) {
             navController = navController,
             onClick = { navController.navigate("helpline") }
         )
+
+
     }
 }
 
@@ -203,10 +222,10 @@ fun ChatbotSection(
             .fillMaxWidth()
             .clickable(onClick = onClick)
     ) {
-        Row( // Usamos Row para colocar imagen y texto horizontalmente
+        Row(
             modifier = Modifier
-                .fillMaxHeight() // Aseguramos que Row ocupe toda la altura del Box
-                .padding(start = 16.dp, end = 16.dp) // Añadimos padding horizontal
+                .fillMaxHeight()
+                .padding(start = 16.dp, end = 16.dp)
         ) {
             if (imageResId != 0) {
                 Image(
@@ -214,7 +233,7 @@ fun ChatbotSection(
                     contentDescription = null,
                     modifier = Modifier
                         .size(40.dp)
-                        .align(Alignment.CenterVertically) // Alineamos la imagen verticalmente al centro
+                        .align(Alignment.CenterVertically)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
             }

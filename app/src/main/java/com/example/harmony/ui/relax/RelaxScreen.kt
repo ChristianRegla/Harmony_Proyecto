@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material.icons.filled.PersonOutline
@@ -128,7 +129,7 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                             )
                         )
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "Relaxing", tint = Color.White) },
+                            icon = { Icon(imageVector = Icons.Filled.EmojiPeople, contentDescription = "Relaxing", tint = Color.White) },
                             label = { Text(relajacion, color = Color.White) },
                             selected = true,
                             onClick = {  },

@@ -78,5 +78,12 @@
     <string name="escribe_un_mensaje">Write a message</string>
     <string name="Escribiendo">Writing…</string>
     <string name="header_privacidad">At Harmony, we consider your privacy and security our highest priority.</string>
+    <string name="donar">DONATE</string>
     <string name="iniciar">START</string>
+    <string name="donacion">Donations</string>
+    <string name="seleccione_cantidad">Select the donation amount:</string>
+    <string name="seleccione_metodo_pago">Payment method:</string>
+    <string name="tarjeta_credito">Credit Card</string>
+    <string name="como_estuvo_el_dia">How was your day?</string>
+    <string name="lleva_un_registro">Keep track of how you\'re feeling</string>
 </resources>

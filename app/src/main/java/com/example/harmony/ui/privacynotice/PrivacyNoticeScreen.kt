@@ -1,5 +1,6 @@
 package com.example.harmony.ui.privacynotice
 
+import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,53 +9,130 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.EmojiPeople
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
 import com.example.harmony.ui.components.Background_inicio
+import com.example.harmony.ui.components.DrawerContentComponent
+import com.example.harmony.ui.components.SystemBarStyle
+import com.example.harmony.ui.home.TopBar
+import com.example.harmony.ui.theme.BlueDark
 import com.example.harmony.ui.theme.HarmonyTheme
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PrivacyNoticeScreen() {
+fun PrivacyNoticeScreen(navController: NavHostController, privacyNoticeViewModel: PrivacyNoticeViewModel) {
+
+    SystemBarStyle(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Transparent,
+    )
+
+    val context = LocalContext.current
+    val headerTitle = ""
+    val relajacion = context.getString(R.string.relajacion)
+    val inicio = context.getString(R.string.inicio)
+
+
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = Color.Transparent,
-        topBar = {
-            //Como su nombre lo dice, es un ejemplo xd
-            CenterAlignedTopAppBar(
-            title = {
-                Text(
-                    "Navigation example",
-                )
-            }
-            )
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
-        },
-        bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentPadding = PaddingValues(16.dp)
-            ) {
-                Text("Eslaputo gogogogo", color = MaterialTheme.colorScheme.onPrimary)
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet (
+                drawerContainerColor = BlueDark,
+                modifier = Modifier
+                    .width(250.dp)
+            ){
+                DrawerContentComponent(navController = navController, drawerActions = privacyNoticeViewModel)
             }
         },
-        content = { scaffoldPadding ->
+        gesturesEnabled = drawerState.isOpen
+    ) {
+        Scaffold(
+            // Barra de arriba
+            topBar = {
+                TopBar(
+                    onOpenDrawer = {
+                        scope.launch {
+                            if(drawerState.isClosed) drawerState.open()
+                        }
+                    },
+                    // Este es el título que va en medio de la barra superior
+                    title = headerTitle,
+                    navController = navController,
+                    modifier = Modifier.wrapContentHeight()
+                )
+            },
+            // Barra de abajo
+            bottomBar = {
+                NavigationBar(containerColor = BlueDark) {
+                    NavigationBarItem(
+                        icon = { Icon(imageVector = Icons.Filled.Home,
+                            contentDescription = "Home",
+                            tint = Color.White,
+                            modifier = Modifier.alpha(0.5f)
+                        ) },
+                        label = { Text(inicio, color = Color.White) },
+                        selected = true,
+                        onClick = { navController.navigate("main") },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = Color.Transparent,
+                            selectedIconColor = Color.Transparent,
+                            unselectedIconColor = Color.Transparent
+                        )
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(
+                            imageVector = Icons.Filled.EmojiPeople,
+                            contentDescription = "Relaxing",
+                            tint = Color.White,
+                            modifier = Modifier.alpha(0.5f)
+                        ) },
+                        label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
+                        selected = false,
+                        onClick = { navController.navigate("relax") },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = Color.Transparent,
+                            selectedIconColor = Color.Transparent,
+                            unselectedIconColor = Color.Transparent
+                        )
+                    )
+                }
+            },
+            containerColor = Color.Transparent,
+            contentColor = Color.White
+
+        ) { scaffoldPadding ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -82,6 +160,7 @@ fun PrivacyNoticeScreen() {
                             text = stringResource(R.string.header_privacidad),
                             style = MaterialTheme.typography.headlineLarge,
                             textAlign = TextAlign.Justify,
+                            color = Color.Black,
                             modifier = Modifier.padding(
                                 horizontal = screenWidth *0.02f,
                                 vertical = screenHeight * 0.01f
@@ -94,6 +173,7 @@ fun PrivacyNoticeScreen() {
                                 lineHeight = 26.sp
                             ),
                             textAlign = TextAlign.Justify,
+                            color = Color.Black,
                             modifier = Modifier.padding(
                                 horizontal = screenWidth * 0.02f,
                                 vertical = screenHeight * 0.02f
@@ -103,13 +183,16 @@ fun PrivacyNoticeScreen() {
                 }
             }
         }
-    )
+
+    }
 }
 
 @Preview (showBackground = true)
 @Composable
 fun PrivacyNoticeScreenPreview () {
     HarmonyTheme {
-        PrivacyNoticeScreen ()
+        val navController = rememberNavController()
+        val context = LocalContext.current
+        PrivacyNoticeScreen (navController = navController, privacyNoticeViewModel = PrivacyNoticeViewModel(PrivacyNoticeModel(context), context))
     }
 }
