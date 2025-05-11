@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -38,14 +40,25 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.EmojiPeople
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -60,7 +73,16 @@ import com.example.harmony.ui.components.Background_Register_Emotions
 import java.util.Calendar
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
+import com.example.harmony.ui.components.DrawerContentComponent
+import com.example.harmony.ui.components.SystemBarStyle
+import com.example.harmony.ui.home.TopBar
+import com.example.harmony.ui.registeremotions.RegisterEmotionsModel
+import com.example.harmony.ui.registeremotions.RegisterEmotionsViewModel
+import com.example.harmony.ui.theme.BlueDark
+import kotlinx.coroutines.launch
 
 // DATA CLASE PARA ACTIVIDADES
 data class Activity(
@@ -70,11 +92,21 @@ data class Activity(
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun MoodAndActivityScreen() {
+fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsViewModel: RegisterEmotionsViewModel) {
+
+    SystemBarStyle(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Transparent,
+    )
+
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
+
+    val headerTitle = ""
+    val relajacion = context.getString(R.string.relajacion)
+    val inicio = context.getString(R.string.inicio)
 
     val literataFamily = FontFamily(
         Font(R.font.literata_regular),
@@ -123,15 +155,77 @@ fun MoodAndActivityScreen() {
     )
     var selectedActivity by remember { mutableStateOf<Activity?>(null) }
 
-    Scaffold(
-        topBar = {
-            TopBarClose(
-                title = "",
-                onClose = { /* Acción para cerrar o retroceder */ }
-            )
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet (
+                drawerContainerColor = BlueDark,
+                modifier = Modifier
+                    .width(250.dp)
+            ){
+                DrawerContentComponent(navController = navController, drawerActions = registerEmotionsViewModel)
+            }
         },
-        containerColor = MaterialTheme.colorScheme.background,
-        content = { innerPadding ->
+        gesturesEnabled = drawerState.isOpen
+    ) {
+        Scaffold(
+            // Barra de arriba
+            topBar = {
+                TopBar(
+                    onOpenDrawer = {
+                        scope.launch {
+                            if(drawerState.isClosed) drawerState.open()
+                        }
+                    },
+                    // Este es el título que va en medio de la barra superior
+                    title = headerTitle,
+                    navController = navController,
+                    modifier = Modifier.wrapContentHeight()
+                )
+            },
+            // Barra de abajo
+            bottomBar = {
+                NavigationBar(containerColor = BlueDark) {
+                    NavigationBarItem(
+                        icon = { Icon(imageVector = Icons.Filled.Home,
+                            contentDescription = "Home",
+                            tint = Color.White,
+                            modifier = Modifier.alpha(0.5f)
+                        ) },
+                        label = { Text(inicio, color = Color.White) },
+                        selected = true,
+                        onClick = { navController.navigate("main") },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = Color.Transparent,
+                            selectedIconColor = Color.Transparent,
+                            unselectedIconColor = Color.Transparent
+                        )
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(
+                            imageVector = Icons.Filled.EmojiPeople,
+                            contentDescription = "Relaxing",
+                            tint = Color.White,
+                            modifier = Modifier.alpha(0.5f)
+                        ) },
+                        label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
+                        selected = false,
+                        onClick = { navController.navigate("relax") },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = Color.Transparent,
+                            selectedIconColor = Color.Transparent,
+                            unselectedIconColor = Color.Transparent
+                        )
+                    )
+                }
+            },
+            containerColor = Color.Transparent,
+            contentColor = Color.White
+
+        ) { innerPadding ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -147,88 +241,88 @@ fun MoodAndActivityScreen() {
                             vertical = screenHeight * 0.03f
                         )
                 ) {
-                        Box (
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    bottom = screenHeight*0.03f
-                                ),
-                            contentAlignment = Alignment.Center
-                        ){
-                            Text(
-                                text = "¿Cómo te sientes?",
-                                style = MaterialTheme.typography.bodyLarge.copy(
-                                    color = Color.White,
-                                    fontFamily = literataFamily,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
+                    Box (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                bottom = screenHeight*0.03f
+                            ),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Text(
+                            text = "¿Cómo te sientes?",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color.White,
+                                fontFamily = literataFamily,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
                             )
-                        }
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = Color.Transparent),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        OutlinedButton(
+                            onClick = { showDatePicker = true },
+                            shape = RoundedCornerShape(25),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = Color.White,
+                                contentColor = Color.Black
+                            )
+                        ) {
                             Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(color = Color.Transparent),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.padding(horizontal = (-screenWidth * 0f))
                             ) {
-                                OutlinedButton(
-                                    onClick = { showDatePicker = true },
-                                    shape = RoundedCornerShape(25),
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        containerColor = Color.White,
-                                        contentColor = Color.Black
+                                Icon(
+                                    imageVector = Icons.Filled.CalendarMonth,
+                                    contentDescription = ""
+                                )
+                                Text(
+                                    text = dateState,
+                                    style = TextStyle(
+                                        textDecoration = TextDecoration.Underline
                                     )
-                                ) {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            modifier = Modifier.padding(horizontal = (-screenWidth * 0f))
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Filled.CalendarMonth,
-                                                contentDescription = ""
-                                            )
-                                            Text(
-                                                text = dateState,
-                                                style = TextStyle(
-                                                    textDecoration = TextDecoration.Underline
-                                                )
-                                            )
-                                            Icon(
-                                                imageVector = Icons.Filled.ArrowDropDown,
-                                                contentDescription = "Abrir selector de fecha"
-                                            )
-                                        }
-
-                                }
-
-                                OutlinedButton(
-                                    onClick = { showTimePicker = true },
-                                    shape = RoundedCornerShape(25),
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        containerColor = Color.White,
-                                        contentColor = Color.Black,
-                                    )
-                                ) {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Icon(
-                                            imageVector = Icons.Filled.AccessTime,
-                                            contentDescription = ""
-                                        )
-                                        Text(
-                                            text = timeState,
-                                            style = TextStyle(
-                                                textDecoration = TextDecoration.Underline
-                                            )
-                                        )
-                                        Icon(
-                                            imageVector = Icons.Filled.ArrowDropDown,
-                                            contentDescription = "Abrir selector de hora",
-                                            modifier = Modifier.padding(start = 4.dp)
-                                        )
-                                    }
-                                }
+                                )
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowDropDown,
+                                    contentDescription = "Abrir selector de fecha"
+                                )
                             }
+
+                        }
+
+                        OutlinedButton(
+                            onClick = { showTimePicker = true },
+                            shape = RoundedCornerShape(25),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = Color.White,
+                                contentColor = Color.Black,
+                            )
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(
+                                    imageVector = Icons.Filled.AccessTime,
+                                    contentDescription = ""
+                                )
+                                Text(
+                                    text = timeState,
+                                    style = TextStyle(
+                                        textDecoration = TextDecoration.Underline
+                                    )
+                                )
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowDropDown,
+                                    contentDescription = "Abrir selector de hora",
+                                    modifier = Modifier.padding(start = 4.dp)
+                                )
+                            }
+                        }
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // CONTENEDOR BLANCO PARA LOS BOTONES DE EMOJIS
@@ -370,7 +464,7 @@ fun MoodAndActivityScreen() {
                 }
             }
         }
-    )
+    }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -452,5 +546,13 @@ fun TopBarClose(title: String, onClose: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun MoodAndActivityScreenPreview() {
-    MoodAndActivityScreen()
+    val navController = rememberNavController()
+    val context = LocalContext.current
+    RegisterEmotionsScreen(
+        navController = navController,
+        registerEmotionsViewModel = RegisterEmotionsViewModel(
+            RegisterEmotionsModel(context),
+            context
+        )
+    )
 }

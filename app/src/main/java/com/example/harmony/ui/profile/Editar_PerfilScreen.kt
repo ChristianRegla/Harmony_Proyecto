@@ -29,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.launch
 import android.annotation.SuppressLint
 import androidx.compose.foundation.rememberScrollState
 import androidx.navigation.compose.rememberNavController
@@ -51,7 +50,7 @@ import com.example.harmony.CiudadDropdown
 import com.example.harmony.GeneroDropdown
 import com.example.harmony.DomicilioTextField
 import com.example.harmony.ui.components.SystemBarStyle
-import com.example.harmony.ui.profile.TopBarEditar
+import com.example.harmony.ui.components.TopBarEditar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)

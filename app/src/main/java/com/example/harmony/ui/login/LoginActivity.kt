@@ -1,5 +1,6 @@
 package com.example.harmony.ui.login
 
+import RegisterEmotionsScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,6 +37,9 @@ import com.example.harmony.ui.profile.ProfileModel
 import com.example.harmony.ui.profile.ProfileScreen
 import com.example.harmony.ui.profile.ProfileViewModel
 import com.example.harmony.ui.profile.ProfileViewModelFactory
+import com.example.harmony.ui.registeremotions.RegisterEmotionsModel
+import com.example.harmony.ui.registeremotions.RegisterEmotionsViewModel
+import com.example.harmony.ui.registeremotions.RegisterEmotionsViewModelFactory
 import com.example.harmony.ui.relax.RelaxModel
 import com.example.harmony.ui.relax.RelaxScreen
 import com.example.harmony.ui.relax.RelaxViewModel
@@ -69,6 +73,9 @@ class LoginActivity : ComponentActivity() {
     }
     private val privacyNoticeViewModel: PrivacyNoticeViewModel by viewModels(){
         PrivacyNoticeViewModelFactory(PrivacyNoticeModel(this), this)
+    }
+    private val registerEmotionsViewModel: RegisterEmotionsViewModel by viewModels(){
+        RegisterEmotionsViewModelFactory(RegisterEmotionsModel(this), this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -153,6 +160,12 @@ class LoginActivity : ComponentActivity() {
                     PrivacyNoticeScreen(
                         navController = navController,
                         privacyNoticeViewModel = privacyNoticeViewModel
+                    )
+                }
+                composable("registerEmotions") {
+                    RegisterEmotionsScreen(
+                        navController = navController,
+                        registerEmotionsViewModel = registerEmotionsViewModel
                     )
                 }
             }

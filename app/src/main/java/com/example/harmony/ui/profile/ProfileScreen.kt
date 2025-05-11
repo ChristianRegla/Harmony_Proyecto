@@ -467,7 +467,8 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                                         item = MenuItem(
                                             R.drawable.ico_politicas,
                                             politica_privacidad
-                                        )
+                                        ),
+                                        onClick = { navController.navigate("privacyNotice") }
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(14.dp))

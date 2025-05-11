@@ -193,6 +193,12 @@ fun PrivacyNoticeScreenPreview () {
     HarmonyTheme {
         val navController = rememberNavController()
         val context = LocalContext.current
-        PrivacyNoticeScreen (navController = navController, privacyNoticeViewModel = PrivacyNoticeViewModel(PrivacyNoticeModel(context), context))
+        PrivacyNoticeScreen (
+            navController = navController,
+            privacyNoticeViewModel = PrivacyNoticeViewModel(
+                PrivacyNoticeModel(context),
+                context
+            )
+        )
     }
 }

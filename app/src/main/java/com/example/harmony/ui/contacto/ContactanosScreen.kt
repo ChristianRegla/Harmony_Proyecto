@@ -62,6 +62,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
@@ -142,7 +143,7 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                         )
                         NavigationBarItem(
                             icon = { Icon(
-                                imageVector = Icons.Filled.AccountCircle,
+                                imageVector = Icons.Filled.EmojiPeople,
                                 contentDescription = "Relaxing",
                                 tint = Color.White,
                                 modifier = Modifier.alpha(0.5f)

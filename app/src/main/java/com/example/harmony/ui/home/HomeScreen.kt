@@ -180,7 +180,7 @@ fun ScreenContent(navController: NavController, modifier: Modifier = Modifier) {
                 .height(80.dp)
                 .padding(start = 16.dp, end = 16.dp),
             navController = navController,
-            onClick = {  }
+            onClick = { navController.navigate("registerEmotions") }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
