@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.harmony.databinding.ActivityMainBinding
+import com.example.harmony.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -18,7 +19,8 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupHeader("Inicio")
+        val tituloHeader = getString(R.string.titulo_header_inicio)
+        setupHeader(tituloHeader)
 
         // Manejo del container del chatbot
         binding.containerChatbotBackground.setOnClickListener {

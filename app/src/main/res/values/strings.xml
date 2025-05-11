@@ -1,6 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Estos son más que nada para el login y registro -->
-    <string name="app_name" translatable="false">Harmony</string>
+    <string name="app_name">Harmony</string>
     <string name="email">Correo</string>
     <string name="user_name">Usuario</string>
     <string name="password">Contraseña</string>
@@ -34,6 +34,7 @@
     <string name="cerrar_sesi_n">Cerrar Sesión</string>
 
     <!-- Estos son de la linea de ayuda -->
+    <string name="header_linea_ayuda">Linea de Ayuda</string>
     <string name="te_gustar_a_contar_algo">¿Te gustaría contar algo?</string>
     <string name="estoy_para_lo_que_necesites">Estoy para lo que necesites</string>
     <string name="container_chatbot" translatable="false">Container_chatbot</string>
@@ -44,7 +45,7 @@
     <string name="recuerda_no_estas_solo">Recuerda, no estás solo.\nTu llamada es 100% anónima y segura</string>
     <string name="_800_911_2000" translatable="false">800–911–2000</string>
     <string name="cobertura_nacional_disponible_24_7">Cobertura nacional. Disponible 24/7</string>
-    <string name="telefono_de_la_linea_de_ayuda">Telefono de la linea de ayuda</string>
+    <string name="telefono_de_la_linea_de_ayuda">Teléfono de la linea de ayuda</string>
     <string name="cobertura_en_jalisco_disponible_24_7">Cobertura en Jalisco. Disponible 24/7</string>
     <string name="_911" translatable="false">911</string>
 
@@ -52,12 +53,84 @@
     <string name="nombre_de_usuario">Nombre de usuario</string>
     <string name="tucorreo_example_com">tuCorreo@example.com</string>
     <string name="editar_informacion_de_perfil">Editar información de perfil</string>
+    <string name="seguridad">Seguridad</string>
+    <string name="tema">Tema</string>
+    <string name="modo_oscuro">Modo oscuro</string>
+    <string name="ayuda_soporte">Ayuda y soporte</string>
+    <string name="contactanos">Contáctanos</string>
+    <string name="politica_privacidad">Política de privacidad</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="genero">Género</string>
+    <string name="masculino">Masculino</string>
+    <string name="femenino">Femenino</string>
+    <string name="prefiero_no_decirlo">Prefiero no decirlo</string>
+
+    <!-- Para la línea de ayuda -->
     <string name="disponible_24_7">Disponible 24/7</string>
     <string name="inicio">Inicio</string>
-    <string name="relajacion">Relajación</string>
     <string name="linea_de_la_vida">Línea de la Vida</string>
     <string name="_075" translatable="false">075</string>
     <string name="emergencias">Emergencias</string>
     <string name="espa_ol">Español</string>
+    <string name="ingles">Inglés</string>
     <string name="idioma">Idioma</string>
+    <string name="idioma_actual">Español</string>
+
+    <string name="apodo_desconocido">Apodo desconocido</string>
+    <string name="correo_desconocido">Correo desconocido</string>
+    <string name="apodo_no_encontrado">Apodo no encontrado</string>
+    <string name="usuario_no_autenticado">Usuario no autenticado</string>
+    <string name="titulo_header_inicio">Inicio</string>
+    <string name="seleccionaUnIdioma">Selecciona un idioma</string>
+    <string name="nombre">Nombre</string>
+    <string name="domicilio">Domicilio</string>
+    <string name="Numero_Telefonico">Numero Telefonico</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="apodo">Apodo</string>
+    <string name="o">O</string>
+
+    <!-- texto del "privacy notice" -->
+    <string name="header_privacidad"> "En Harmony, tu privacidad y seguridad son nuestra prioridad."</string>
+    <string name="texto_privacidad">" Entendemos lo importante que es sentirte seguro al compartir tus pensamientos y emociones. Por eso, todas tus conversaciones con nuestro chatbot están protegidas con tecnología de encriptación avanzada, garantizando que tus datos personales y tu información de salud mental sean confidenciales y seguros. En Harmony, no almacenamos tus conversaciones de manera identificable, y tus datos nunca serán compartidos con terceros sin tu consentimiento explícito. Nuestro objetivo es brindarte un espacio seguro donde puedas expresarte libremente y recibir el apoyo que necesitas. Tu bienestar emocional es importante para nosotros, y eso incluye proteger tu privacidad en todo momento. 🌟 Si tienes alguna pregunta sobre cómo manejamos tus datos, no dudes en contactarnos. Estamos aquí para ayudarte. — El equipo de Harmony 💙"</string>
+
+    <!-- Nombres superiores para las ventanas -->
+    <string name="header_menu_principal">Inicio</string>
+    <string name="title_activity_privacy_notice_screen" translatable="false">PrivacyNoticeScreen</string>
+    <string name="title_activity_privecy_notice_screen" translatable="false">PrivecyNoticeScreen</string>
+    <string name="header_perfil">Perfil</string>
+    <string name="header_Editarperfil">Informacion del Perfil</string>
+    <string name="relajacion">Relajación</string>
+    <string name="error_contraseña_debil">La contraseña es demasiado débil. Intenta con una más segura.</string>
+    <string name="error_usuario_invalido">Este usuario ha sido deshabilitado. Contacta al soporte.</string>
+    <string name="error_sin_conexion">Error de red. Revisa tu conexión e intenta nuevamente.</string>
+    <string name="chatbot" translatable="false">Chatbot</string>
+
+    <!-- Para el chatbot -->
+    <string name="hola_soy_harmony">Hola, soy Harmony. ¿En qué puedo ayudarte hoy?</string>
+    <string name="escribe_un_mensaje">Escribe un mensaje</string>
+    <string name="Escribiendo">Escribiendo…</string>
+
+    <!-- Para Contactarnos -->
+    <string name="Nuestro_equipo" translatable="false">Nuestro equipo esta en linea \n Lun-Vie  •  9-17</string>
+    <string name="Seguidores1" translatable="false">4,6K Seguidores   •   118 Pub</string>
+    <string name="Seguidores2" translatable="false">1,3K Seguidores   •   85 Pub</string>
+    <string name="Seguidores3" translatable="false">3,8K Seguidores   •   136 Pub</string>
+
+    <!-- Para las Donaciones -->
+    <string name="donacion">Donaciones</string>
+    <string name="gracias_apoyo">Gracias por apoyar al pescadito &lt;3</string>
+    <string name="seleccione_cantidad">Seleccione la cantidad a donar:</string>
+    <string name="seleccione_metodo_pago">Seleccione un método de pago:</string>
+    <string name="tarjeta_credito">Tarjeta de Crédito</string>
+    <string name="paypal" translatable="false">Paypal</string>
+    <string name="donar">DONAR</string>
+
+    <!-- Para relajación -->
+    <string name="iniciar">INICIAR</string>
+    <string name="Respiracion">Respiración</string>
+    
+    <string name="como_estuvo_el_dia">¿Cómo estuvo tu día?</string>
+    <string name="lleva_un_registro">Lleva un registro de cómo te sientes</string>
+
+
 </resources>
