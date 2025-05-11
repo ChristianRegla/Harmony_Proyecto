@@ -102,7 +102,11 @@ fun PrivacyNoticeScreen(navController: NavHostController, privacyNoticeViewModel
                             tint = Color.White,
                             modifier = Modifier.alpha(0.5f)
                         ) },
-                        label = { Text(inicio, color = Color.White) },
+                        label = { Text(
+                            inicio,
+                            color = Color.White,
+                            modifier = Modifier.alpha(0.5f)
+                        ) },
                         selected = true,
                         onClick = { navController.navigate("main") },
                         colors = NavigationBarItemDefaults.colors(
