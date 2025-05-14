@@ -235,7 +235,7 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                 },
                 bottomBar = {
                     NavigationBar(
-                        modifier = Modifier.height(60.dp),
+                        modifier = Modifier.height(80.dp),
                         containerColor = BlueDark
                     ) {
                         NavigationBar(containerColor = BlueDark) {

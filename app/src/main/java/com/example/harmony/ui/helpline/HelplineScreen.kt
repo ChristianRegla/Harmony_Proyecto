@@ -111,7 +111,7 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                 // Barra de abajo
                 bottomBar = {
                     NavigationBar(
-                        modifier = Modifier.height(60.dp),
+                        modifier = Modifier.height(80.dp),
                         containerColor = BlueDark
                     ) {
                         NavigationBarItem(
