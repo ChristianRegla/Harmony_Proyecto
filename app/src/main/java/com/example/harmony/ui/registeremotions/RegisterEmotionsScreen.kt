@@ -188,14 +188,16 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
             },
             // Barra de abajo
             bottomBar = {
-                NavigationBar(containerColor = BlueDark) {
+                NavigationBar(
+                    modifier = Modifier.height(60.dp),
+                    containerColor = BlueDark
+                ) {
                     NavigationBarItem(
-                        icon = { Icon(imageVector = Icons.Filled.Home,
+                        icon = { Icon(painterResource(id = R.drawable.home_unselected),
                             contentDescription = "Home",
-                            tint = Color.White,
-                            modifier = Modifier.alpha(0.5f)
+                            tint = Color.White
                         ) },
-                        label = { Text(inicio, color = Color.White) },
+                        label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                         selected = true,
                         onClick = { navController.navigate("main") },
                         colors = NavigationBarItemDefaults.colors(
@@ -206,10 +208,9 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     )
                     NavigationBarItem(
                         icon = { Icon(
-                            imageVector = Icons.Filled.EmojiPeople,
+                            painter = painterResource(id = R.drawable.relax_unselected),
                             contentDescription = "Relaxing",
-                            tint = Color.White,
-                            modifier = Modifier.alpha(0.5f)
+                            tint = Color.White
                         ) },
                         label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                         selected = false,

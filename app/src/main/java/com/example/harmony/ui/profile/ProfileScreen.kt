@@ -235,16 +235,16 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                 },
                 bottomBar = {
                     NavigationBar(
-                        containerColor = BlueDark,
+                        modifier = Modifier.height(60.dp),
+                        containerColor = BlueDark
                     ) {
                         NavigationBar(containerColor = BlueDark) {
                             NavigationBarItem(
                                 icon = {
                                     Icon(
-                                        imageVector = Icons.Filled.Home,
+                                        painterResource(id = R.drawable.home_unselected),
                                         contentDescription = "Home",
-                                        tint = Color.White,
-                                        modifier = Modifier.alpha(0.5f)
+                                        tint = Color.White
                                     )
                                 },
                                 label = {
@@ -259,10 +259,9 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                             NavigationBarItem(
                                 icon = {
                                     Icon(
-                                        imageVector = Icons.Filled.EmojiPeople,
+                                        painterResource(id = R.drawable.relax_unselected),
                                         contentDescription = "Profile",
-                                        tint = Color.White,
-                                        modifier = Modifier.alpha(0.5f)
+                                        tint = Color.White
                                     )
                                 },
                                 label = {

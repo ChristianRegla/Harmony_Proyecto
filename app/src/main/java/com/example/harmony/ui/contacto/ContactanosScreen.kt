@@ -124,13 +124,15 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                 },
                 // Barra de abajo
                 bottomBar = {
-                    NavigationBar(containerColor = BlueDark) {
+                    NavigationBar(
+                        modifier = Modifier.height(60.dp),
+                        containerColor = BlueDark
+                    ) {
                         NavigationBarItem(
                             icon = { Icon(
-                                imageVector = Icons.Filled.Home,
+                                painterResource(id = R.drawable.home_unselected),
                                 contentDescription = "Home",
-                                tint = Color.White,
-                                modifier = Modifier.alpha(0.5f)
+                                tint = Color.White
                             ) },
                             label = { Text(home, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
@@ -143,10 +145,9 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                         )
                         NavigationBarItem(
                             icon = { Icon(
-                                imageVector = Icons.Filled.EmojiPeople,
+                                painterResource(id = R.drawable.relax_unselected),
                                 contentDescription = "Relaxing",
-                                tint = Color.White,
-                                modifier = Modifier.alpha(0.5f)
+                                tint = Color.White
                             ) },
                             label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,

@@ -97,7 +97,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
             NavigationDrawerItem(
                 icon = {
                     Icon(
-                        imageVector = Icons.Filled.PersonOutline,
+                        painterResource(id = R.drawable.icono_editar_perfil),
                         contentDescription = "Account",
                         tint = Color.Black,
                         modifier = Modifier
@@ -165,7 +165,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
             NavigationDrawerItem(
                 icon = {
                     Icon(
-                        imageVector = Icons.Outlined.MonetizationOn,
+                        painterResource(id = R.drawable.donaciones_icon),
                         contentDescription = "Account",
                         tint = Color.Black,
                         modifier = Modifier
@@ -200,7 +200,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
             NavigationDrawerItem(
                 icon = {
                     Icon(
-                        imageVector = Icons.Outlined.HelpOutline,
+                        painterResource(id = R.drawable.centro_de_ayuda_icon),
                         contentDescription = "Account",
                         tint = Color.Black,
                         modifier = Modifier

@@ -119,9 +119,18 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                 },
                 // Barra de abajo
                 bottomBar = {
-                    NavigationBar(containerColor = DarkerPurpleColor) {
+                    NavigationBar(
+                        modifier = Modifier.height(60.dp),
+                        containerColor = DarkerPurpleColor
+                    ) {
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.home_unselected),
+                                    contentDescription = "Home",
+                                    tint = Color.White
+                                )
+                                   },
                             label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
                             onClick = { navController.navigate("main") },
@@ -132,7 +141,13 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                             )
                         )
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.EmojiPeople, contentDescription = "Relaxing", tint = Color.White) },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.relax_selected),
+                                    contentDescription = "Relaxing",
+                                    tint = Color.White
+                                )
+                                   },
                             label = { Text(relajacion, color = Color.White) },
                             selected = true,
                             onClick = {  },
