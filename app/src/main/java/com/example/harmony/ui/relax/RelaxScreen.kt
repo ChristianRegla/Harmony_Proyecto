@@ -1,5 +1,7 @@
 package com.example.harmony.ui.relax
 
+import Activity
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -64,6 +66,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel) {
     val context = LocalContext.current
+
 
     // Para los textos y que estén traducidos:
     val headerTitle = context.getString(R.string.relajacion)

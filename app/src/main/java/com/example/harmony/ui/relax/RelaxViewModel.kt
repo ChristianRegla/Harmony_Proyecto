@@ -3,6 +3,7 @@ package com.example.harmony.ui.relax
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.harmony.ui.common.DrawerActions
 import com.google.firebase.auth.FirebaseAuth
@@ -35,7 +36,10 @@ class RelaxViewModel(private val relaxModel: RelaxModel, private val context: Co
         FirebaseAuth.getInstance().signOut()
 
         navController.navigate("login") {
-            popUpTo(0) { inclusive = true }
+            popUpTo(navController.graph.findStartDestination().id) {
+                inclusive = true
+            }
+            launchSingleTop = true // Buena práctica para destinos como login/home
         }
     }
 }
