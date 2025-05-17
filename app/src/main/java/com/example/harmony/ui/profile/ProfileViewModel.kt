@@ -2,20 +2,24 @@ package com.example.harmony.ui.profile
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.common.DrawerActions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.UUID
+import java.io.File
+import java.io.FileOutputStream
 
-class ProfileViewModel(private val profileModel: ProfileModel, private val context: Context) : ViewModel(), DrawerActions {
+class ProfileViewModel(private val profileModel: ProfileModel, private val context: Context) : ViewModel(), DrawerActions, DataBaseActions{
 
     private val _currentTitle = MutableStateFlow("Perfil")
     val currentTitle: StateFlow<String> = _currentTitle
@@ -23,6 +27,9 @@ class ProfileViewModel(private val profileModel: ProfileModel, private val conte
     private val firestore = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     private val auth = FirebaseAuth.getInstance()
+
+    private val _imagenUrl = MutableStateFlow<String?>(null)
+    val imagenUrl: StateFlow<String?> = _imagenUrl.asStateFlow()
 
     val perfil = MutableStateFlow<PerfilModel?>(null)
 
@@ -32,8 +39,12 @@ class ProfileViewModel(private val profileModel: ProfileModel, private val conte
     private val _uploadError = MutableStateFlow<String?>(null)
     val uploadError: StateFlow<String?> = _uploadError.asStateFlow()
 
+    private val _apodo = MutableStateFlow("")
+    val apodo: StateFlow<String> = _apodo
+
     init {
         loadUserProfile()
+        cargarApodoEnDrawerContent()
     }
 
     private fun loadUserProfile() {
@@ -41,15 +52,13 @@ class ProfileViewModel(private val profileModel: ProfileModel, private val conte
             firestore.collection("usuarios").document(userId)
                 .addSnapshotListener { snapshot, error ->
                     if (error != null) {
-                        // Manejar el error
+                        Log.e("Firebase", "Error al escuchar cambios: ${error.message}")
                         return@addSnapshotListener
                     }
 
                     if (snapshot != null && snapshot.exists()) {
                         perfil.value = snapshot.toObject(PerfilModel::class.java)?.copy(userID = userId)
-
                     } else {
-                        // El documento no existe o está vacío
                         perfil.value = null
                     }
                 }
@@ -62,62 +71,58 @@ class ProfileViewModel(private val profileModel: ProfileModel, private val conte
                 firestore.collection("usuarios").document(userId)
                     .set(updatedPerfil)
                     .addOnSuccessListener {
-                        // Actualización exitosa
+                        Log.d("Firebase", "Perfil actualizado con éxito.")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Firebase", "Error al actualizar perfil: ${e.message}")
                     }
             }
         }
     }
 
-    fun uploadProfileImage(imageUri: Uri) {
-        viewModelScope.launch {
-            try {
-                _isUploading.value = true
-                _uploadError.value = null
+    override fun uploadProfileImage(uri: Uri) {
+        val userId = auth.currentUser?.uid ?: return
+        _isUploading.value = true
 
-                val userId = auth.currentUser?.uid ?: return@launch
-                val storageRef = storage.reference.child("profile_images/${userId}/${UUID.randomUUID()}")
-                val uploadTask = storageRef.putFile(imageUri)
+        val imageRef = storage.reference.child("profile_images/$userId.jpg")
 
-                uploadTask.continueWithTask { task ->
-                    if (!task.isSuccessful){
-                        task.exception?.let { throw it }
-                    }
-                    storageRef.downloadUrl
-                }.addOnCompleteListener { task ->
-                    if (task.isSuccessful){
-                        val downloadUri = task.result.toString()
-                        updateProfileImageUrl(downloadUri.toString())
-                    } else {
-                        _uploadError.value = "Error al subir la imagen"
-                    }
+        imageRef.putFile(uri)
+            .addOnSuccessListener {
+                imageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
+                    val imagenUrl = downloadUrl.toString()
+                    guardarImagenEnFirestore(userId, imagenUrl)
+                    _imagenUrl.value = imagenUrl
                     _isUploading.value = false
+                    Log.d("Storage", "Imagen subida correctamente.")
                 }
-            } catch (e: Exception) {
-                _uploadError.value = "Error al cargar la imagen: ${e.localizedMessage}"
+            }
+            .addOnFailureListener { e ->
+                Log.e("Storage", "Error subiendo imagen: ${e.message}")
+                _uploadError.value = e.message
                 _isUploading.value = false
             }
-        }
     }
 
-    private fun updateProfileImageUrl(imageUrl: String) {
-        auth.currentUser?.uid?.let { userId ->
-            firestore.collection("usuarios").document(userId)
-                .update("profileImageUrl", imageUrl)
-                .addOnFailureListener { e ->
-                    // Manejar el error
-                }
-        }
+
+    override fun guardarImagenEnFirestore(userId: String, imageUrl: String) {
+        val userDocRef = firestore.collection("usuarios").document(userId)
+
+        val userData = hashMapOf("imagenes" to imageUrl)
+
+        userDocRef.set(userData, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("Firebase", "Imagen guardada correctamente en el campo 'imagenes'.")
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firebase", "Error al guardar la imagen en Firestore: ${e.message}")
+            }
     }
+
+
+
 
     fun updateTitle(newTitle: String) {
         _currentTitle.value = newTitle
-    }
-
-    private val _apodo = MutableStateFlow("")
-    val apodo: StateFlow<String> = _apodo
-
-    init {
-        cargarApodoEnDrawerContent()
     }
 
     override fun cargarApodoEnDrawerContent() {
@@ -128,7 +133,6 @@ class ProfileViewModel(private val profileModel: ProfileModel, private val conte
 
     override fun cerrarSesion(navController: NavHostController) {
         FirebaseAuth.getInstance().signOut()
-
         navController.navigate("login") {
             popUpTo(0) { inclusive = true }
         }

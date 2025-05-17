@@ -123,14 +123,13 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
     var apodo by remember { mutableStateOf("perfilState.value?.apodo ?: ") }
 
     // Estado para la URI de la imagen seleccionada localmente
-    var selectedImageUri by remember { mutableStateOf<String?>(null) }
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
     // Launcher para seleccionar una imagen de la galería
-    val imagePickerLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent()
+    val imagePickerLauncher =rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            selectedImageUri = it.toString()
             viewModel.uploadProfileImage(it)
         }
     }
@@ -303,18 +302,14 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                     ) {
                         Spacer(modifier = Modifier.height(100.dp))
 
-                        // Mostrar la imagen del perfil
-                        val profileImageUrl = perfilState.value?.profileImageUrl
+                        val imagenUrl by viewModel.imagenUrl.collectAsState()
                         val painter = rememberAsyncImagePainter(
-                            ImageRequest.Builder(LocalContext.current)
-                                .data(selectedImageUri ?: profileImageUrl)
-                                .build()
+                            model = imagenUrl,
                         )
 
-                        // Foto de perfil
                         Image(
                             painter = painter,
-                            contentDescription = "Fondo de pantalla",
+                            contentDescription = "Foto de perfil",
                             modifier = Modifier
                                 .size(120.dp)
                                 .clip(CircleShape)
@@ -329,7 +324,7 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                             modifier = Modifier
                                 .size(24.dp)
                                 .align(Alignment.CenterHorizontally)
-                                .clickable { selectImage() }
+                                .clickable { imagePickerLauncher.launch("image/*") }
                         )
                         Spacer(modifier = Modifier.height(14.dp))
 
