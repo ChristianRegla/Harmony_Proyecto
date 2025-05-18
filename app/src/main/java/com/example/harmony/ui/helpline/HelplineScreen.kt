@@ -83,7 +83,7 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = helplineViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = helplineViewModel, dataBaseActions = helplineViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen

@@ -25,8 +25,7 @@ class ProfileViewModel(private val profileModel: ProfileModel, private val conte
     val currentTitle: StateFlow<String> = _currentTitle
 
     private val firestore = FirebaseFirestore.getInstance()
-    private val storage = FirebaseStorage.getInstance()
-    private val auth = FirebaseAuth.getInstance()
+    val auth = FirebaseAuth.getInstance()
 
     private val _imagenUrl = MutableStateFlow<String?>(null)
     val imagenUrl: StateFlow<String?> = _imagenUrl.asStateFlow()
@@ -57,9 +56,16 @@ class ProfileViewModel(private val profileModel: ProfileModel, private val conte
                     }
 
                     if (snapshot != null && snapshot.exists()) {
-                        perfil.value = snapshot.toObject(PerfilModel::class.java)?.copy(userID = userId)
+                        val perfilData = snapshot.toObject(PerfilModel::class.java)
+                        perfil.value = perfilData?.copy(userID = userId)
+
+                        val imagen = snapshot.getString("imagenes") // <<< aquí lees "imagenes" explícitamente
+                        _imagenUrl.value = imagen
+
+                        Log.d("PerfilViewModel", "Imagen recuperada manualmente: $imagen")
                     } else {
                         perfil.value = null
+                        _imagenUrl.value = null
                     }
                 }
         }
@@ -84,37 +90,23 @@ class ProfileViewModel(private val profileModel: ProfileModel, private val conte
         val userId = auth.currentUser?.uid ?: return
         _isUploading.value = true
 
-        val imageRef = storage.reference.child("profile_images/$userId.jpg")
-
-        imageRef.putFile(uri)
-            .addOnSuccessListener {
-                imageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
-                    val imagenUrl = downloadUrl.toString()
-                    guardarImagenEnFirestore(userId, imagenUrl)
-                    _imagenUrl.value = imagenUrl
-                    _isUploading.value = false
-                    Log.d("Storage", "Imagen subida correctamente.")
-                }
-            }
-            .addOnFailureListener { e ->
-                Log.e("Storage", "Error subiendo imagen: ${e.message}")
-                _uploadError.value = e.message
-                _isUploading.value = false
-            }
+        // En lugar de subir, solo guardar el nombre o ruta de la imagen local
+        val imageName = uri.lastPathSegment ?: uri.toString() // o solo el nombre que asocies con la imagen
+        guardarImagenEnFirestore(userId, imageName)
+        _imagenUrl.value = imageName
+        _isUploading.value = false
     }
 
-
-    override fun guardarImagenEnFirestore(userId: String, imageUrl: String) {
+    override fun guardarImagenEnFirestore(userId: String, imageName: String) {
         val userDocRef = firestore.collection("usuarios").document(userId)
-
-        val userData = hashMapOf("imagenes" to imageUrl)
+        val userData = hashMapOf("imagenes" to imageName)
 
         userDocRef.set(userData, SetOptions.merge())
             .addOnSuccessListener {
-                Log.d("Firebase", "Imagen guardada correctamente en el campo 'imagenes'.")
+                Log.d("Firebase", "Nombre de imagen guardado correctamente.")
             }
             .addOnFailureListener { e ->
-                Log.e("Firebase", "Error al guardar la imagen en Firestore: ${e.message}")
+                Log.e("Firebase", "Error al guardar nombre de imagen: ${e.message}")
             }
     }
 

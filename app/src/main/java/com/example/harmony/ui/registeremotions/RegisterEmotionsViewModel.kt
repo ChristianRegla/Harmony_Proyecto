@@ -1,11 +1,13 @@
 package com.example.harmony.ui.registeremotions
 
 import android.content.Context
+import android.net.Uri
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.common.DrawerActions
 import com.google.firebase.auth.FirebaseAuth
 import dataStore
@@ -13,7 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class RegisterEmotionsViewModel(private val registerEmotionsModel: RegisterEmotionsModel, private val context: Context) : ViewModel(), DrawerActions {
+class RegisterEmotionsViewModel(private val registerEmotionsModel: RegisterEmotionsModel, private val context: Context) : ViewModel(), DrawerActions, DataBaseActions {
 
     private val _apodo = MutableStateFlow("")
     val apodo: StateFlow<String> = _apodo
@@ -43,6 +45,14 @@ class RegisterEmotionsViewModel(private val registerEmotionsModel: RegisterEmoti
                 popUpTo("main") { inclusive = true }
             }
         }
+    }
+
+    override fun uploadProfileImage(uri: Uri) {
+        TODO("Not yet implemented")
+    }
+
+    override fun guardarImagenEnFirestore(userId: String, imageUrl: String) {
+        TODO("Not yet implemented")
     }
 
 }

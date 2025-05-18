@@ -74,11 +74,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.core.content.ContextCompat
 import android.Manifest
+import android.util.Log
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.EmojiPeople
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import com.example.harmony.ui.components.SystemBarStyle
+import androidx. compose. material3.Surface
+import androidx.compose.ui.window.Dialog
 
 
 data class MenuItem(
@@ -120,42 +123,15 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
     val contactanos = context.getString(R.string.contactanos)
     val politica_privacidad = context.getString(R.string.politica_privacidad)
 
-    var apodo by remember { mutableStateOf("perfilState.value?.apodo ?: ") }
+    var apodo by remember { mutableStateOf("") }
+
+    LaunchedEffect(perfilState.value?.apodo) {
+        apodo = perfilState.value?.apodo ?: ""
+    }
+
 
     // Estado para la URI de la imagen seleccionada localmente
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-
-    // Launcher para seleccionar una imagen de la galería
-    val imagePickerLauncher =rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let {
-            viewModel.uploadProfileImage(it)
-        }
-    }
-
-    // Launcher con el que se solicita permiso de la galería
-    val storagePermission = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            // El permiso fue otorgado
-            imagePickerLauncher.launch("image/*")
-        } else {
-            // El permiso fue denegado
-            println("Permiso de almacenamiento denegado")
-        }
-    }
-
-    // Funcion para verificar y solicitar el permiso
-    fun selectImage() {
-        val permissionCheckResult = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
-        if(permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
-            imagePickerLauncher.launch("image/*")
-        } else {
-            storagePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
-    }
 
     LaunchedEffect(selectedImageUri) {
         perfilState.value?.let {
@@ -175,7 +151,7 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = profileViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = profileViewModel, dataBaseActions = profileViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -295,37 +271,74 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                         .verticalScroll(scrollState)
                         .padding(bottom = 20.dp)
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .background(Color.Transparent)
-                            .align(Alignment.CenterHorizontally)
-                    ) {
                         Spacer(modifier = Modifier.height(100.dp))
+                        val imagenUrl by profileViewModel.imagenUrl.collectAsState()
+                        var showDialog by remember { mutableStateOf(false) }
+                    imagenUrl?.let { imageName ->
+                        val resId = remember(imageName) {
+                            context.resources.getIdentifier(imageName, "drawable", context.packageName)
+                        }
+                        Log.d("PerfilScreen", "resourceId for $imageName = $resId")
 
-                        val imagenUrl by viewModel.imagenUrl.collectAsState()
-                        val painter = rememberAsyncImagePainter(
-                            model = imagenUrl,
-                        )
+                        if (resId != 0) {
+                            Image(
+                                painter = painterResource(id = resId),
+                                contentDescription = "Foto de perfil",
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .clip(CircleShape)
+                                    .align(Alignment.CenterHorizontally),
+                                contentScale = ContentScale.Crop
+                            )
+                        } else {
+                            Text("Imagen no encontrada", modifier = Modifier.align(Alignment.CenterHorizontally))
+                        }
+                    }
+                            Icon(
+                                imageVector = Icons.Filled.Edit,
+                                contentDescription = "Editar foto de perfil",
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .align(Alignment.CenterHorizontally)
+                                    .clickable { showDialog = true }
+                            )
 
-                        Image(
-                            painter = painter,
-                            contentDescription = "Foto de perfil",
-                            modifier = Modifier
-                                .size(120.dp)
-                                .clip(CircleShape)
-                                .align(Alignment.CenterHorizontally),
-                            contentScale = ContentScale.Crop
-                        )
-
-                        Icon(
-                            imageVector = Icons.Filled.Edit,
-                            contentDescription = "Editar foto de perfil",
-                            tint = Color.White,
-                            modifier = Modifier
-                                .size(24.dp)
-                                .align(Alignment.CenterHorizontally)
-                                .clickable { imagePickerLauncher.launch("image/*") }
-                        )
+                        if (showDialog) {
+                            Dialog(onDismissRequest = { showDialog = false }) {
+                                Surface(
+                                    shape = RoundedCornerShape(8.dp),
+                                    color = Color.White,
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .fillMaxWidth()
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(16.dp),
+                                        horizontalArrangement = Arrangement.SpaceEvenly
+                                    ) {
+                                        val imageNames = listOf("perfil1", "perfil2", "perfil3", "perfil4")
+                                        imageNames.forEach { imageName ->
+                                            Image(
+                                                painter = painterResource(id = getResourceIdFromName(imageName)),
+                                                contentDescription = imageName,
+                                                modifier = Modifier
+                                                    .size(60.dp)
+                                                    .clip(CircleShape)
+                                                    .clickable {
+                                                        profileViewModel.guardarImagenEnFirestore(
+                                                            profileViewModel.auth.currentUser?.uid ?: "",
+                                                            imageName
+                                                        )
+                                                        showDialog = false
+                                                    },
+                                                contentScale = ContentScale.Crop
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         Spacer(modifier = Modifier.height(14.dp))
 
                         // Nombre del usuario
@@ -351,9 +364,9 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                             modifier = Modifier
                                 .wrapContentHeight()
                                 .wrapContentWidth()
+                                .align(Alignment.CenterHorizontally)
                         )
                         Spacer(modifier = Modifier.height(40.dp))
-                    }
 
                     Column(
                         modifier = Modifier
@@ -558,6 +571,13 @@ fun Modifier.advancedShadow(
         )
     }
 )
+@Composable
+fun getResourceIdFromName(imageName: String): Int {
+    val context = LocalContext.current
+    return remember(imageName) {
+        context.resources.getIdentifier(imageName.substringBeforeLast("."), "drawable", context.packageName)
+    }
+}
 
 @Preview(showBackground = true)
 @Composable

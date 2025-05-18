@@ -75,7 +75,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = homeViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = homeViewModel, dataBaseActions = homeViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen

@@ -86,7 +86,7 @@ fun DonationScreen(navController: NavHostController, donationViewModel: Donation
                 modifier = Modifier
                     .width(250.dp)
             ) {
-                DrawerContentComponent(navController = navController, drawerActions = donationViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = donationViewModel, dataBaseActions = donationViewModel)
             }
         },
         gesturesEnabled = drawerState.isOpen
