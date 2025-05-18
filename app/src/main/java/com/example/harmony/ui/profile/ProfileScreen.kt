@@ -343,7 +343,7 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
 
                         // Nombre del usuario
                         Text(
-                            text = usuario,
+                            text = apodo,
                             color = Color(0xffffffff),
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Normal,

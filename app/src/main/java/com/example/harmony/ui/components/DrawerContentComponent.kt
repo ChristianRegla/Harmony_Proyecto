@@ -46,15 +46,17 @@ import com.example.harmony.ui.home.HomeViewModel
 import com. example. harmony. ui. profile. ProfileViewModel
 import coil3.compose. rememberAsyncImagePainter
 import com.example.harmony.ui.common.DataBaseActions
-
+import com.google.android.gms.common.config.GservicesValue.value
+import com. example. harmony. ui. profile. ProfileModel
+import androidx. compose. runtime. produceState
 @Composable
 fun DrawerContentComponent(navController: NavHostController, drawerActions: DrawerActions, dataBaseActions: DataBaseActions) {
     val context = LocalContext.current
-    val apodo = if((drawerActions is HomeViewModel)){
-        drawerActions.apodo.collectAsState().value
-    } else {
-        context.getString(R.string.user_name)
+    val apodoState = produceState(initialValue = "") {
+        value = ProfileModel(context).cargarApodoEnDrawerContent()
     }
+
+    val apodo = apodoState.value
     val imagenUrl =  if (( dataBaseActions is ProfileViewModel)) {
         dataBaseActions.imagenUrl.collectAsState().value
     } else {
