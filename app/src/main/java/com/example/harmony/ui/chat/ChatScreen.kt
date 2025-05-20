@@ -67,6 +67,7 @@ fun ChatScreen(navController: NavHostController, chatViewModel: ChatViewModel) {
         navigationBarColor = Color.Transparent,
     )
 
+    // Esto es para el diálogo de confirmar o cancelar el eliminar una conversación
     if (showConfirmationDialog) {
         ConfirmationDialog(
             onConfirm = {
@@ -261,6 +262,5 @@ fun MessageInput(onMessageSend: (String) -> Unit){
 @Composable
 fun ChatbotPreview() {
     val navController = rememberNavController()
-    val context = LocalContext.current
     ChatScreen(navController = navController, chatViewModel = ChatViewModel())
 }

@@ -8,8 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.example.harmony.R
 
-
-// Puedes poner esto en el mismo archivo ChatScreen.kt o en un archivo de componentes separado.
 @Composable
 fun ConfirmationDialog(
     onConfirm: () -> Unit,
@@ -17,18 +15,18 @@ fun ConfirmationDialog(
 ) {
     val context = LocalContext.current
 
-    val eliminar_conversacion = context.getString(R.string.eliminar_conversacion)
-    val confirmacion_eliminar_conversacion = context.getString(R.string.confirmacion_eliminar_conversacion)
+    val eliminarConversacion = context.getString(R.string.eliminar_conversacion)
+    val confirmacionEliminarConversacion = context.getString(R.string.confirmacion_eliminar_conversacion)
     val eliminar = context.getString(R.string.eliminar)
     val cancelar = context.getString(R.string.cancelar)
 
     AlertDialog(
         onDismissRequest = onDismiss, // Acción cuando se toca fuera del diálogo o se presiona "atrás"
         title = {
-            Text(text = eliminar_conversacion)
+            Text(text = eliminarConversacion)
         },
         text = {
-            Text(text = confirmacion_eliminar_conversacion)
+            Text(text = confirmacionEliminarConversacion)
         },
         confirmButton = {
             TextButton(
@@ -44,8 +42,7 @@ fun ConfirmationDialog(
                 Text(text = cancelar)
             }
         },
-        // Opcional: puedes personalizar los colores y la forma del diálogo
-        containerColor = MaterialTheme.colorScheme.surface, // O el color que prefieras para el fondo del diálogo
+        containerColor = MaterialTheme.colorScheme.surface,
         titleContentColor = MaterialTheme.colorScheme.onSurface,
         textContentColor = MaterialTheme.colorScheme.onSurfaceVariant
     )
