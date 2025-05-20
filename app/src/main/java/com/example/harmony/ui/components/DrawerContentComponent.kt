@@ -25,8 +25,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,18 +52,21 @@ import com.google.android.gms.common.config.GservicesValue.value
 import com. example. harmony. ui. profile. ProfileModel
 import androidx. compose. runtime. produceState
 @Composable
-fun DrawerContentComponent(navController: NavHostController, drawerActions: DrawerActions, dataBaseActions: DataBaseActions) {
+fun DrawerContentComponent(navController: NavHostController, drawerActions: DrawerActions, isDrawerOpen: Boolean) {
     val context = LocalContext.current
-    val apodoState = produceState(initialValue = "") {
-        value = ProfileModel(context).cargarApodoEnDrawerContent()
+    val apodoState = remember { mutableStateOf("") }
+    val imagenUrlState = remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(isDrawerOpen) {
+        if (isDrawerOpen) {
+            apodoState.value = ProfileModel(context).cargarApodoEnDrawerContent()
+            imagenUrlState.value = ProfileModel(context).cargarImagenUrl()
+        }
     }
 
     val apodo = apodoState.value
-    val imagenUrl =  if (( dataBaseActions is ProfileViewModel)) {
-        dataBaseActions.imagenUrl.collectAsState().value
-    } else {
-        null
-    }
+    val imagenUrl = imagenUrlState.value
+
     Spacer(modifier = Modifier.height(32.dp))
 
     Box(
@@ -85,7 +90,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
         } else {
             Text("Cargando imagen...")
         }
-        }
+    }
 
     Text(
         text = apodo,

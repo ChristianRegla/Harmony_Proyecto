@@ -90,7 +90,7 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = relaxViewModel, dataBaseActions = relaxViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = relaxViewModel, isDrawerOpen = drawerState.isOpen)
             }
         },
         gesturesEnabled = drawerState.isOpen

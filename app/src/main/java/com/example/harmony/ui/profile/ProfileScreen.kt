@@ -151,7 +151,7 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = profileViewModel, dataBaseActions = profileViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = profileViewModel, isDrawerOpen = drawerState.isOpen)
             }
         },
         gesturesEnabled = drawerState.isOpen

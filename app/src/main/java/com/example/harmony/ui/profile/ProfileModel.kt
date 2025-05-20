@@ -53,7 +53,21 @@ class ProfileModel(private val context: Context) {
 
         apodo
     }
+    suspend fun cargarImagenUrl(): String? = withContext(Dispatchers.IO) {
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        val db = FirebaseFirestore.getInstance()
+
+        return@withContext try {
+            val document = db.collection("usuarios").document(currentUser?.uid ?: "").get().await()
+            document.getString("imagenes") // <-- Este es el campo que guardas en guardarImagenEnFirestore
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 }
+
 
 data class PerfilModel(
     val userID: String = "",

@@ -96,7 +96,7 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = contactanosViewModel, dataBaseActions = contactanosViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = contactanosViewModel, isDrawerOpen = drawerState.isOpen)
             }
         },
         gesturesEnabled = drawerState.isOpen
