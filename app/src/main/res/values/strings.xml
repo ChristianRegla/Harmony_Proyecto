@@ -89,9 +89,31 @@
     <string name="apodo">Apodo</string>
     <string name="o">O</string>
 
-    <!-- texto del "privacy notice" -->
-    <string name="header_privacidad"> "En Harmony, tu privacidad y seguridad son nuestra prioridad."</string>
-    <string name="texto_privacidad">" Entendemos lo importante que es sentirte seguro al compartir tus pensamientos y emociones. Por eso, todas tus conversaciones con nuestro chatbot están protegidas con tecnología de encriptación avanzada, garantizando que tus datos personales y tu información de salud mental sean confidenciales y seguros. En Harmony, no almacenamos tus conversaciones de manera identificable, y tus datos nunca serán compartidos con terceros sin tu consentimiento explícito. Nuestro objetivo es brindarte un espacio seguro donde puedas expresarte libremente y recibir el apoyo que necesitas. Tu bienestar emocional es importante para nosotros, y eso incluye proteger tu privacidad en todo momento. 🌟 Si tienes alguna pregunta sobre cómo manejamos tus datos, no dudes en contactarnos. Estamos aquí para ayudarte. — El equipo de Harmony 💙"</string>
+    <!-- Texto del "privacy notice" -->
+    <string name="header_privacidad">En Harmony, tu privacidad y seguridad son nuestra prioridad.</string>
+    <string name="texto_privacidad">Entendemos lo importante que es sentirte seguro al compartir tus pensamientos y emociones. Por eso, todas tus conversaciones con nuestro chatbot están protegidas con tecnología de encriptación avanzada, garantizando que tus datos personales y tu información de salud mental sean confidenciales y seguros. En Harmony, no almacenamos tus conversaciones de manera identificable, y tus datos nunca serán compartidos con terceros sin tu consentimiento explícito. Nuestro objetivo es brindarte un espacio seguro donde puedas expresarte libremente y recibir el apoyo que necesitas. Tu bienestar emocional es importante para nosotros, y eso incluye proteger tu privacidad en todo momento. 🌟 Si tienes alguna pregunta sobre cómo manejamos tus datos, no dudes en contactarnos. Estamos aquí para ayudarte. — El equipo de Harmony 💙</string>
+
+    <!-- Textos de la ventana "RegisterEmotionsScreen", ED=Emotions Descriptions, A=Activities -->
+    <string name="hoy">Hoy</string>
+    <string name="ED_feliz">Feliz</string>
+    <string name="ED_triste">Triste</string>
+    <string name="ED_enojado">Enojado</string>
+    <string name="ED_amor">Amor</string>
+    <string name="ED_sorprendido">Sorprendido</string>
+    <string name="A_trabajo">Trabajo</string>
+    <string name="A_amigos">Amigos</string>
+    <string name="A_familia">Familia</string>
+    <string name="A_escuela">Escuela</string>
+    <string name="A_pareja">Pareja</string>
+    <string name="A_hobbies">Hobbies</string>
+    <string name="A_salud">Salud</string>
+    <string name="A_otro">Otro</string>
+
+    <string name="content_description_DatePicker">Abrir selector de fecha</string>
+    <string name="content_description_TimePicker">Abrir selector de hora</string>
+
+    <string name="pregunta_como_se_siente">¿Cómo te sientes?</string>
+    <string name="selecciona_una_actividad">Selecciona una actividad</string>
 
     <!-- Nombres superiores para las ventanas -->
     <string name="header_menu_principal">Inicio</string>
