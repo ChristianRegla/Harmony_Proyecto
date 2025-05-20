@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,13 +34,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.DrawerValue
@@ -66,6 +64,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
@@ -93,7 +92,6 @@ data class Activity(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsViewModel: RegisterEmotionsViewModel) {
-
     SystemBarStyle(
         statusBarColor = Color.Transparent,
         navigationBarColor = Color.Transparent,
@@ -117,14 +115,21 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     val calendar = Calendar.getInstance()
+    val hoy = stringResource(R.string.hoy)
     var dateState by remember {
         mutableStateOf(
-            "Hoy, ${calendar.get(Calendar.DAY_OF_MONTH)} de ${getMonthName(calendar.get(Calendar.MONTH))}"
+            hoy+", ${calendar.get(Calendar.DAY_OF_MONTH)} ${getMonthName(calendar.get(Calendar.MONTH))}"
         )
     }
-    var timeState by remember { mutableStateOf(
-        "${calendar.get(Calendar.HOUR_OF_DAY)}:${calendar.get(Calendar.MINUTE)}"
-    ) }
+    var timeState by remember {
+        mutableStateOf(
+            String.format(
+                "%02d:%02d",
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE)
+            )
+        )
+    }
 
     // Lista de cinco emojis (como cadenas) y el estado del seleccionado
     val emotionIcons = listOf<Int>(
@@ -136,22 +141,36 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
     )
 
     //Cambiar por strings
+    val feliz=stringResource(R.string.ED_feliz)
+    val triste=stringResource(R.string.ED_triste)
+    val enojado=stringResource(R.string.ED_enojado)
+    val amor=stringResource(R.string.ED_amor)
+    val sorprendido=stringResource(R.string.ED_sorprendido)
     val emotionDescriptions = listOf(
-        "Feliz", "Triste", "Enojado", "Amor", "Sorprendido"
+        feliz, triste, enojado, amor, sorprendido
     )
 
     var selectedEmotionIndex by remember { mutableIntStateOf(-1) }
 
     // Lista de actividades con ícono y nombre
+    val trabajo = stringResource(R.string.A_trabajo)
+    val amigos = stringResource(R.string.A_amigos)
+    val familia = stringResource(R.string.A_familia)
+    val escuela = stringResource(R.string.A_escuela)
+    val pareja = stringResource(R.string.A_pareja)
+    val hobbies = stringResource(R.string.A_hobbies)
+    val salud = stringResource(R.string.A_salud)
+    val otro = stringResource(R.string.A_otro)
+
     val activities = listOf(
-        Activity(R.drawable.ic_work, "Trabajo"),
-        Activity(R.drawable.ic_friends, "Amigos"),
-        Activity(R.drawable.ic_family, "Familia"),
-        Activity(R.drawable.ic_school, "Escuela"),
-        Activity(R.drawable.ic_love, "Pareja"),
-        Activity(R.drawable.ic_hobby, "Hobbies"),
-        Activity(R.drawable.ic_health, "Salud"),
-        Activity(R.drawable.ic_other, "Otro")
+        Activity(R.drawable.ic_work, trabajo),
+        Activity(R.drawable.ic_friends, amigos),
+        Activity(R.drawable.ic_family, familia),
+        Activity(R.drawable.ic_school, escuela),
+        Activity(R.drawable.ic_love, pareja),
+        Activity(R.drawable.ic_hobby, hobbies),
+        Activity(R.drawable.ic_health, salud),
+        Activity(R.drawable.ic_other, otro)
     )
     var selectedActivity by remember { mutableStateOf<Activity?>(null) }
 
@@ -250,7 +269,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                         contentAlignment = Alignment.Center
                     ){
                         Text(
-                            text = "¿Cómo te sientes?",
+                            text = stringResource(R.string.pregunta_como_se_siente),
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = Color.White,
                                 fontFamily = literataFamily,
@@ -290,7 +309,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                 )
                                 Icon(
                                     imageVector = Icons.Filled.ArrowDropDown,
-                                    contentDescription = "Abrir selector de fecha"
+                                    contentDescription = stringResource(R.string.content_description_DatePicker)
                                 )
                             }
 
@@ -317,7 +336,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                 )
                                 Icon(
                                     imageVector = Icons.Filled.ArrowDropDown,
-                                    contentDescription = "Abrir selector de hora",
+                                    contentDescription = stringResource(R.string.content_description_TimePicker),
                                     modifier = Modifier.padding(start = 4.dp)
                                 )
                             }
@@ -325,7 +344,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     }
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // CONTENEDOR BLANCO PARA LOS BOTONES DE EMOJIS
+                    // CONTENEDOR DE LOS BOTONES DE EMOJIS
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -371,7 +390,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                         contentAlignment = Alignment.Center
                     ){
                         Text(
-                            text = "Selecciona una actividad",
+                            text = stringResource(R.string.selecciona_una_actividad),
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = Color.White,
                                 fontFamily = literataFamily,
@@ -381,7 +400,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                         )
                     }
 
-                    // CONTENEDOR AZUL PARA LOS BOTONES DE ACTIVIDADES
+                    //CONTENEDOR DE LAS ACTIVIDADES
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -415,7 +434,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     {
                         Button(
                             onClick = {
-                                // Aquí procesas dateState, timeState, selectedEmoji y selectedActivity
+                                // Aquí procesas dateState, timeState, selectedEmoji y selectedActivity, nota para después
                             },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(0xFFFF0080),
@@ -479,15 +498,20 @@ fun ActivityButton(
     val iconTint = if (isSelected) Color.White else Color.Black
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { onClick() }
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val interactionSource = remember { MutableInteractionSource() }
+
         Box(
             modifier = Modifier
                 .size(70.dp)
                 .clip(CircleShape)
                 .border(6.dp, borderColor, CircleShape)
-                .background(backgroundColor),
+                .background(backgroundColor)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,            // <— aquí anulamos el ripple
+                    onClick = onClick),
             contentAlignment = Alignment.Center
         ) {
             Image(
@@ -506,7 +530,6 @@ fun ActivityButton(
     }
 }
 
-
 fun getMonthName(month: Int): String {
     return when (month) {
         0 -> "enero"
@@ -523,24 +546,6 @@ fun getMonthName(month: Int): String {
         11 -> "diciembre"
         else -> "??"
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBarClose(title: String, onClose: () -> Unit) {
-    TopAppBar(
-        title = { Text(text = title, color = Color.White) },
-        navigationIcon = {
-            IconButton(onClick = onClose) {
-                Icon(
-                    imageVector = Icons.Filled.Close,
-                    contentDescription = "Close",
-                    tint = Color.White
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF0070A8))
-    )
 }
 
 @Preview(showBackground = true)
