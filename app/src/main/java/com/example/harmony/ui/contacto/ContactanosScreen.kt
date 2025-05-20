@@ -66,6 +66,7 @@ import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.home.HomeModel
 import com.example.harmony.ui.home.HomeScreen
 
@@ -95,7 +96,7 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = contactanosViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = contactanosViewModel, isDrawerOpen = drawerState.isOpen)
             }
         },
         gesturesEnabled = drawerState.isOpen
