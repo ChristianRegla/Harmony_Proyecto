@@ -58,6 +58,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.harmony.ui.components.TopBarEditar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -100,16 +101,10 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
             Scaffold(
                 // Barra de arriba
                 topBar = {
-                    TopBar(
-                        onOpenDrawer = {
-                            scope.launch {
-                                if(drawerState.isClosed) drawerState.open()
-                            }
-                        },
-                        // Este es el título que va en medio de la barra superior
+                    TopBarEditar(
+                        onBackClick = { navController.popBackStack() },
                         title = "",
-                        navController = navController,
-                        modifier = Modifier.wrapContentHeight()
+                        modifier = Modifier.size(20.dp)
                     )
                 },
                 // Barra de abajo
