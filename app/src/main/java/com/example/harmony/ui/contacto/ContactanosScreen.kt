@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -39,9 +36,6 @@ import androidx.navigation.NavHostController
 import com.example.harmony.R
 import com.example.harmony.ui.components.DrawerContentComponent
 import com.example.harmony.ui.components.SystemBarStyle
-import com.example.harmony.ui.contacto.ContactanosViewModel
-import com.example.harmony.ui.home.HomeViewModel
-import com.example.harmony.ui.home.ScreenContent
 import com.example.harmony.ui.home.TopBar
 import com.example.harmony.ui.theme.BlueDark
 import kotlinx.coroutines.launch
@@ -62,13 +56,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.filled.EmojiPeople
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.harmony.ui.common.DataBaseActions
-import com.example.harmony.ui.home.HomeModel
-import com.example.harmony.ui.home.HomeScreen
 
 
 @OptIn(ExperimentalMaterial3Api::class)

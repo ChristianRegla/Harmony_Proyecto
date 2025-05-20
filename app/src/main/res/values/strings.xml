@@ -95,11 +95,11 @@
 
     <!-- Textos de la ventana "RegisterEmotionsScreen", ED=Emotions Descriptions, A=Activities -->
     <string name="hoy">Hoy</string>
-    <string name="ED_feliz">Feliz</string>
-    <string name="ED_triste">Triste</string>
-    <string name="ED_enojado">Enojado</string>
-    <string name="ED_amor">Amor</string>
-    <string name="ED_sorprendido">Sorprendido</string>
+    <string name="ED_feliz" translatable="false">Feliz</string>
+    <string name="ED_triste" translatable="false">Triste</string>
+    <string name="ED_enojado" translatable="false">Enojado</string>
+    <string name="ED_amor" translatable="false">Amor</string>
+    <string name="ED_sorprendido" translatable="false">Sorprendido</string>
     <string name="A_trabajo">Trabajo</string>
     <string name="A_amigos">Amigos</string>
     <string name="A_familia">Familia</string>
@@ -153,6 +153,12 @@
     
     <string name="como_estuvo_el_dia">¿Cómo estuvo tu día?</string>
     <string name="lleva_un_registro">Lleva un registro de cómo te sientes</string>
+
+    <!-- Para eliminar conversación del chatbot -->
+    <string name="eliminar_conversacion">¿Eliminar conversación?</string>
+    <string name="confirmacion_eliminar_conversacion">¿Estás seguro de que deseas eliminar todo el historial de esta conversación? Esta acción no se puede deshacer.</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="cancelar">Cancelar</string>
 
 
 </resources>

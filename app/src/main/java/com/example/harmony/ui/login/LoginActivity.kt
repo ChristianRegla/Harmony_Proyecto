@@ -127,7 +127,7 @@ class LoginActivity : ComponentActivity() {
                 }
 
                 composable("chatbot") {
-                    ChatScreen(navController = navController, ChatViewModel = ChatViewModel)
+                    ChatScreen(navController = navController, chatViewModel = ChatViewModel)
                 }
 
                 composable("perfil") {

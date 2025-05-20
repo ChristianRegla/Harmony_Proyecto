@@ -62,7 +62,7 @@ fun TopBar(
             {
                 Icon(
                     imageVector = Icons.Default.Chat,
-                    contentDescription = "Menu",
+                    contentDescription = "Chat",
                     tint = Color.White,
                     modifier = Modifier
                         .padding(end = 16.dp)

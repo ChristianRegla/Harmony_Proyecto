@@ -186,4 +186,26 @@ class ChatViewModel : ViewModel() {
                 Log.e("ChatViewModel", "Error saving message", e)
             }
     }
+
+    fun deleteChatHistory() {
+        val userId = auth.currentUser?.uid ?: return
+        viewModelScope.launch {
+            try {
+                val messagesCollection = db.collection("usuarios")
+                    .document(userId)
+                    .collection("messages")
+
+                val querySnapshot = messagesCollection.get().await()
+                if (!querySnapshot.isEmpty) {
+                    val batch = db.batch()
+                    for (document in querySnapshot) {
+                        batch.delete(document.reference)
+                    }
+                    batch.commit().await()
+                }
+            } catch (e: Exception) {
+                Log.e("ChatViewModel", "Error deleting chat history", e)
+            }
+        }
+    }
 }

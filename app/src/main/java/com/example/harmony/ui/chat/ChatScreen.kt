@@ -48,6 +48,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
+import com.example.harmony.ui.components.ConfirmationDialog
 import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.ui.theme.ColorModelMessage
 import com.example.harmony.ui.theme.ColorUserMessage
@@ -56,14 +57,27 @@ import com.example.harmony.ui.theme.Sendbutton
 @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen(navController: NavHostController, ChatViewModel: ChatViewModel) {
+fun ChatScreen(navController: NavHostController, chatViewModel: ChatViewModel) {
     val context = LocalContext.current
-    val viewModel: ChatViewModel = viewModel()
+
+    var showConfirmationDialog by remember { mutableStateOf(false) }
 
     SystemBarStyle(
         statusBarColor = Color.Transparent,
         navigationBarColor = Color.Transparent,
     )
+
+    if (showConfirmationDialog) {
+        ConfirmationDialog(
+            onConfirm = {
+                chatViewModel.deleteChatHistory()
+                showConfirmationDialog = false
+            },
+            onDismiss = {
+                showConfirmationDialog = false
+            }
+        )
+    }
 
     Box(modifier = Modifier.fillMaxSize()){
         Image(
@@ -78,6 +92,7 @@ fun ChatScreen(navController: NavHostController, ChatViewModel: ChatViewModel) {
                 ChatTopBar(
                     onBackClick = { navController.popBackStack() },
                     title = context.getString(R.string.chatbot),
+                    onDeleteChatClick = { showConfirmationDialog = true },
                     modifier = Modifier.size(56.dp)
                 )
             },
@@ -89,11 +104,11 @@ fun ChatScreen(navController: NavHostController, ChatViewModel: ChatViewModel) {
             ) {
                 MessageList(
                     modifier = Modifier.weight(1f),
-                    messageList = viewModel.messageList
+                    messageList = chatViewModel.messageList
                 )
                 MessageInput(
                     onMessageSend = {
-                        viewModel.sendMessage(it)
+                        chatViewModel.sendMessage(it)
                     }
                 )
             }
@@ -247,5 +262,5 @@ fun MessageInput(onMessageSend: (String) -> Unit){
 fun ChatbotPreview() {
     val navController = rememberNavController()
     val context = LocalContext.current
-    ChatScreen(navController = navController, ChatViewModel = ChatViewModel())
+    ChatScreen(navController = navController, chatViewModel = ChatViewModel())
 }

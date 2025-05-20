@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,6 +28,7 @@ import com.example.harmony.ui.theme.Magenta
 fun ChatTopBar(
     title: String,
     onBackClick: () -> Unit,
+    onDeleteChatClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -51,10 +53,18 @@ fun ChatTopBar(
                 textAlign = TextAlign.Center,
                 fontFamily = FontFamily(Font(R.font.lobster)),
                 fontSize = 28.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 35.dp)
+                modifier = Modifier.fillMaxWidth()
             )
         },
+        actions = {
+            IconButton(onClick = onDeleteChatClick) {
+                Icon(
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = "Delete",
+                    tint = Color.White,
+                    modifier = Modifier
+                )
+            }
+        }
     )
 }
