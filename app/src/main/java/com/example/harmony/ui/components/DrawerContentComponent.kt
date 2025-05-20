@@ -73,22 +73,23 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
+        // Foto de Perfil
         if (imagenUrl != null) {
             val resId = context.resources.getIdentifier(imagenUrl, "drawable", context.packageName)
-            if (resId != 0) {
+            val defaultImageResId = R.drawable.foto_avatar
                 Image(
-                    painter = painterResource(id = resId),
+                    painter = painterResource(id = if (resId != 0) resId else defaultImageResId),
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp)
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
-            } else {
-                Text("Imagen no encontrada")
-            }
         } else {
-            Text("Cargando imagen...")
+            Text(
+                text = "Elige una foto de perfil",
+                color = Color(0xffffffff)
+            )
         }
     }
 

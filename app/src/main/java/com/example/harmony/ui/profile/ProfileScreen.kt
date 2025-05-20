@@ -272,27 +272,32 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                         .padding(bottom = 20.dp)
                 ) {
                         Spacer(modifier = Modifier.height(100.dp))
-                        val imagenUrl by profileViewModel.imagenUrl.collectAsState()
-                        var showDialog by remember { mutableStateOf(false) }
-                    imagenUrl?.let { imageName ->
-                        val resId = remember(imageName) {
-                            context.resources.getIdentifier(imageName, "drawable", context.packageName)
-                        }
-                        Log.d("PerfilScreen", "resourceId for $imageName = $resId")
 
-                        if (resId != 0) {
-                            Image(
-                                painter = painterResource(id = resId),
-                                contentDescription = "Foto de perfil",
-                                modifier = Modifier
-                                    .size(120.dp)
-                                    .clip(CircleShape)
-                                    .align(Alignment.CenterHorizontally),
-                                contentScale = ContentScale.Crop
-                            )
-                        } else {
-                            Text("Imagen no encontrada", modifier = Modifier.align(Alignment.CenterHorizontally))
+                    // Foto de perfil
+                        val imagenUrl by profileViewModel.imagenUrl.collectAsState()
+                        val defaultImageResId = R.drawable.foto_avatar
+                        var showDialog by remember { mutableStateOf(false) }
+                        val resId = remember(imagenUrl) {
+                        imagenUrl?.let { imageName ->
+                            context.resources.getIdentifier(imageName, "drawable", context.packageName)
+                            } ?: 0
                         }
+
+                    Image(
+                        painter = painterResource(id = if (resId != 0) resId else defaultImageResId),
+                        contentDescription = "Foto de perfil",
+                        modifier = Modifier
+                            .size(120.dp)
+                            .clip(CircleShape)
+                            .align(Alignment.CenterHorizontally),
+                        contentScale = ContentScale.Crop
+                    )
+                    if (imagenUrl == null) {
+                        Text(
+                            text = "Elige una foto de perfil",
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            color = Color(0xffffffff)
+                        )
                     }
                             Icon(
                                 imageVector = Icons.Filled.Edit,
@@ -303,7 +308,7 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                                     .align(Alignment.CenterHorizontally)
                                     .clickable { showDialog = true }
                             )
-
+                        // Elegir foto de perfil
                         if (showDialog) {
                             Dialog(onDismissRequest = { showDialog = false }) {
                                 Surface(
@@ -354,8 +359,11 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                                 .wrapContentWidth()
                                 .align(Alignment.CenterHorizontally)
                         )
+
+                    // Email del usuario
+                        val userEmail = profileViewModel.auth.currentUser?.email ?: "Correo no disponible"
                         Text(
-                            text = "youremail@domain.com",
+                            text = userEmail,
                             color = Color(0xfffafafa),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Normal,
