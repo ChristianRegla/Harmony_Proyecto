@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.harmony.ui.common.DrawerActions
 import com.example.harmony.ui.login.LoginActivity
@@ -44,14 +45,17 @@ class HomeViewModel(private val homeModel: HomeModel, private val context: Conte
             // Eliminar el apodo del caché
             context.dataStore.edit { preferences ->
                 preferences.remove(stringPreferencesKey("nickname"))
+                preferences.remove(stringPreferencesKey("email"))
             }
 
-            // Lógica de cierre de sesión de Firebase
             FirebaseAuth.getInstance().signOut()
+            kotlinx.coroutines.delay(100)
 
-            // Navegar a la pantalla de inicio de sesión
             navController.navigate("login") {
-                popUpTo("main") { inclusive = true }
+                popUpTo(navController.graph.findStartDestination().id) { // Pop up to the start of the graph
+                    inclusive = true
+                }
+                launchSingleTop = true // Asegura que no haya múltiples "login"
             }
         }
     }

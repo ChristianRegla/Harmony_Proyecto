@@ -46,6 +46,7 @@ import com.example.harmony.ui.relax.RelaxViewModel
 import com.example.harmony.ui.relax.RelaxViewModelFactory
 import com.example.harmony.ui.signup.SignUpScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalAnimationApi::class)
 class LoginActivity : ComponentActivity() {
@@ -83,7 +84,11 @@ class LoginActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            AnimatedNavHost(navController = navController, startDestination = "login") {
+            // Verificar si el usuario ya está autenticado para pasarlo al main
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            val startDestination = if (currentUser != null) "main" else "login"
+
+            AnimatedNavHost(navController = navController, startDestination = startDestination) {
                 composable(
                     "login",
                     enterTransition = { slideIntoContainer(SlideDirection.Right) },
