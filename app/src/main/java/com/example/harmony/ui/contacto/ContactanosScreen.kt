@@ -69,6 +69,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.home.HomeModel
 import com.example.harmony.ui.home.HomeScreen
+import com.example.harmony.ui.profile.ProfileViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)

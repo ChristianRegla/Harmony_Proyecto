@@ -34,6 +34,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,7 +57,10 @@ import com.example.harmony.ui.components.TopBarEditar
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Editar_PerfilScreen(navController: NavHostController, Editar_PerfilViewModel: Editar_PerfilViewModel) {
+fun Editar_PerfilScreen(
+    navController: NavHostController,
+    Editar_PerfilViewModel: Editar_PerfilViewModel
+) {
     val context = LocalContext.current
     val usuario = context.getString(R.string.user_name)
     val header = context.getString(R.string.header_Editarperfil)
@@ -70,6 +75,32 @@ fun Editar_PerfilScreen(navController: NavHostController, Editar_PerfilViewModel
     var generoSeleccionado by remember { mutableStateOf("") }
     var domicilio by remember { mutableStateOf("") }
 
+    // Actualizados
+    val nombreActual by Editar_PerfilViewModel.nombre.collectAsState()
+    val apodoActual by Editar_PerfilViewModel.apodo.collectAsState()
+    val emailActual by Editar_PerfilViewModel.email.collectAsState()
+    val numeroActual by Editar_PerfilViewModel.numero.collectAsState()
+    val ciudadActual by Editar_PerfilViewModel.ciudad.collectAsState()
+    val generoActual by Editar_PerfilViewModel.genero.collectAsState()
+    val domicilioActual by Editar_PerfilViewModel.domicilio.collectAsState()
+
+    LaunchedEffect(
+        nombreActual,
+        apodoActual,
+        emailActual,
+        numeroActual,
+        ciudadActual,
+        generoActual,
+        domicilioActual
+    ) {
+        nombre = nombreActual
+        apodo2 = apodoActual
+        email = emailActual
+        numero = numeroActual
+        ciudadSeleccionada = ciudadActual
+        generoSeleccionado = generoActual
+        domicilio = domicilioActual
+    }
     SystemBarStyle(
         statusBarColor = Color.Transparent,
         navigationBarColor = Color.Transparent,
@@ -147,7 +178,7 @@ fun Editar_PerfilScreen(navController: NavHostController, Editar_PerfilViewModel
 
                     EmailTextField(
                         email = email,
-                        onEmailChange = { email = it },
+                        onEmailChange = { },
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                     )
                     Spacer(modifier = Modifier.height(20.dp))
@@ -183,7 +214,18 @@ fun Editar_PerfilScreen(navController: NavHostController, Editar_PerfilViewModel
                     Spacer(modifier = Modifier.height(20.dp))
                     // Botón de Actualizar
                     Button(
-                        onClick = { },
+                        onClick = {
+                            Editar_PerfilViewModel.actualizarDatos(
+                                nombre = nombre,
+                                apodo = apodo2,
+                                numero = numero,
+                                ciudad = ciudadSeleccionada,
+                                genero = generoSeleccionado,
+                                domicilio = domicilio
+                            )
+                            Editar_PerfilViewModel.cargarDatosUsuario()
+
+                        },
                         colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.azul_oscuro)),
                         shape = RoundedCornerShape(50.dp),
                         modifier = Modifier
@@ -205,5 +247,8 @@ fun Editar_PerfilScreen(navController: NavHostController, Editar_PerfilViewModel
 @Composable
 fun Editar_PerfilPreview() {
     val navController = rememberNavController()
-    Editar_PerfilScreen(navController = navController, Editar_PerfilViewModel = Editar_PerfilViewModel())
+    Editar_PerfilScreen(
+        navController = navController,
+        Editar_PerfilViewModel = Editar_PerfilViewModel()
+    )
 }
