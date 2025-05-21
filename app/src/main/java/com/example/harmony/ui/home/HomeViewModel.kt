@@ -14,6 +14,7 @@ import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.common.DrawerActions
 import com.example.harmony.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,6 +24,7 @@ class HomeViewModel(private val homeModel: HomeModel, private val context: Conte
 
     private val _currentTitle = MutableStateFlow("Inicio")
     val currentTitle: StateFlow<String> = _currentTitle
+    private val db = FirebaseFirestore.getInstance()
 
     fun updateTitle(newTitle: String) {
         _currentTitle.value = newTitle
@@ -37,7 +39,7 @@ class HomeViewModel(private val homeModel: HomeModel, private val context: Conte
 
     override fun cargarApodoEnDrawerContent() {
         viewModelScope.launch {
-            _apodo.value = homeModel.cargarApodoEnDrawerContent()
+            _apodo.value = homeModel.cargarApodoEnDrawerContent(context, db)
         }
     }
 

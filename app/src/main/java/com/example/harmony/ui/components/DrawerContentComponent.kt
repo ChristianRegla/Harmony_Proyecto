@@ -52,17 +52,20 @@ import com.example.harmony.ui.common.DataBaseActions
 import com.google.android.gms.common.config.GservicesValue.value
 import com. example. harmony. ui. profile. ProfileModel
 import androidx. compose. runtime. produceState
+import com.google.firebase.firestore.FirebaseFirestore
+
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun DrawerContentComponent(navController: NavHostController, drawerActions: DrawerActions, isDrawerOpen: Boolean) {
     val context = LocalContext.current
+    val db = FirebaseFirestore.getInstance()
     val apodoState = remember { mutableStateOf("") }
     val imagenUrlState = remember { mutableStateOf<String?>(null) }
 
 
     LaunchedEffect(isDrawerOpen) {
         if (isDrawerOpen) {
-            apodoState.value = ProfileModel(context).cargarApodoEnDrawerContent()
+            apodoState.value = ProfileModel(context).cargarApodoEnDrawerContent(context, db)
             imagenUrlState.value = ProfileModel(context).cargarImagenUrl()
         }
     }

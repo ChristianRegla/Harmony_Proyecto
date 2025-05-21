@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.common.DrawerActions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class HelplineViewModel(private val helplineModel: HelplineModel, private val co
 
     private val _currentTitle = MutableStateFlow("Linea de Ayuda")
     val currentTitle: StateFlow<String> = _currentTitle
+    private val firestore = FirebaseFirestore.getInstance()
 
     fun updateTitle(newTitle: String) {
         _currentTitle.value = newTitle
@@ -33,7 +35,7 @@ class HelplineViewModel(private val helplineModel: HelplineModel, private val co
 
     override fun cargarApodoEnDrawerContent() {
         viewModelScope.launch {
-            _apodo.value = helplineModel.cargarApodoEnDrawerContent()
+            _apodo.value = helplineModel.cargarApodoEnDrawerContent(context, firestore)
         }
     }
 
