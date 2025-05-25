@@ -1,5 +1,10 @@
 package com.example.harmony.ui.donation
 
+import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,6 +23,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.EmojiPeople
@@ -30,7 +36,11 @@ import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material.icons.outlined.MonetizationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -47,135 +57,126 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
 import com.example.harmony.ui.components.DrawerContentComponent
-import com.example.harmony.ui.components.HelpCard
-import com.example.harmony.ui.helpline.HelplineModel
-import com.example.harmony.ui.helpline.HelplineViewModel
-import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.TopBar
 import com.example.harmony.ui.theme.BlueDark
-import com.example.harmony.ui.theme.Bluephone
+
 import kotlinx.coroutines.launch
+
+
+private const val PAYPAL_DONATION_URL = "https://www.paypal.com/paypalme/arturoyaelposadas"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DonationScreen(navController: NavHostController, donationViewModel: DonationViewModel) {
     val context = LocalContext.current
-    val currentRoute = navController.currentBackStackEntry?.destination?.route
 
-    // Para los textos y que estén traducidos:
     val headerTitle = context.getString(R.string.donacion)
     val relajacion = context.getString(R.string.relajacion)
+    val inicio = ("Inicio")
 
-    // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    val inicio = ("Inicio")
     val backgroundColor = Color(0xFF1D1B20)
 
-    // Contenedor del Drawer (menú lateral, lo vuelvo a especificar por si acaso)
+    var showPayPalWebView by remember { mutableStateOf(false) }
+
+    if (showPayPalWebView) {
+        BackHandler {
+            showPayPalWebView = false
+        }
+    }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
                 drawerContainerColor = BlueDark,
-                modifier = Modifier
-                    .width(250.dp)
+                modifier = Modifier.width(250.dp)
             ) {
                 DrawerContentComponent(navController = navController, drawerActions = donationViewModel, isDrawerOpen = drawerState.isOpen)
             }
         },
-        gesturesEnabled = drawerState.isOpen
+        gesturesEnabled = drawerState.isOpen && !showPayPalWebView
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(backgroundColor)
-        ) {
-
-            Scaffold(
-                // Barra de arriba
-                topBar = {
-                    TopBar(
-                        onOpenDrawer = {
-                            scope.launch {
-                                if (drawerState.isClosed) drawerState.open()
-                            }
-                        },
-                        // Este es el título que va en medio de la barra superior
-                        title = headerTitle,
-                        navController = navController,
-                        modifier = Modifier.size(56.dp)
+        if (showPayPalWebView) {
+            PayPalWebViewInternal(
+                donationUrl = PAYPAL_DONATION_URL,
+                onClose = { showPayPalWebView = false }
+            )
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor)
+            ) {
+                Scaffold(
+                    topBar = {
+                        TopBar(
+                            onOpenDrawer = {
+                                scope.launch {
+                                    if (drawerState.isClosed) drawerState.open()
+                                }
+                            },
+                            title = headerTitle,
+                            navController = navController,
+                        )
+                    },
+                    bottomBar = {
+                        NavigationBar(
+                            modifier = Modifier.height(80.dp),
+                            containerColor = BlueDark
+                        ) {
+                            NavigationBarItem(
+                                icon = { Icon(painter = painterResource(id = R.drawable.home_unselected), contentDescription = "Home", tint = Color.White) },
+                                label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
+                                selected = false,
+                                onClick = { if (!showPayPalWebView) navController.navigate("main") },
+                                colors = NavigationBarItemDefaults.colors(
+                                    indicatorColor = Color.Transparent,
+                                )
+                            )
+                            NavigationBarItem(
+                                icon = { Icon(painter = painterResource(id = R.drawable.relax_unselected), contentDescription = "Relaxing", tint = Color.White) },
+                                label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
+                                selected = false,
+                                onClick = { if (!showPayPalWebView) navController.navigate("relax") },
+                                colors = NavigationBarItemDefaults.colors(
+                                    indicatorColor = Color.Transparent
+                                )
+                            )
+                        }
+                    },
+                    containerColor = Color.Transparent,
+                    contentColor = Color.White
+                ) { paddingValues ->
+                    ScreenContent(
+                        modifier = Modifier.padding(paddingValues),
+                        onPayPalClick = { showPayPalWebView = true }
                     )
-                },
-                // Barra de abajo
-                bottomBar = {
-                    NavigationBar(
-                        modifier = Modifier.height(80.dp),
-                        containerColor = BlueDark
-                    ) {
-                        NavigationBarItem(
-                            icon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.home_unselected),
-                                    contentDescription = "Home",
-                                    tint = Color.White
-                                )
-                            },
-                            label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                            selected = false,
-                            onClick = { navController.navigate("main") },
-                            colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent,
-                                selectedIconColor = Color.Transparent,
-                                unselectedIconColor = Color.Transparent
-                            )
-                        )
-                        NavigationBarItem(
-                            icon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.relax_unselected),
-                                    contentDescription = "Relaxing",
-                                    tint = Color.White
-                                )
-                            },
-                            label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                            selected = false,
-                            onClick = { navController.navigate("relax") },
-                            colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent,
-                                selectedIconColor = Color.Transparent,
-                                unselectedIconColor = Color.Transparent
-                            )
-                        )
-                    }
-                },
-                containerColor = Color.Transparent,
-                contentColor = Color.White
-            ) { padding ->
-                ScreenContent(modifier = Modifier.padding(padding))
+                }
             }
         }
     }
 }
 
 @Composable
-fun ScreenContent(modifier: Modifier = Modifier) {
+fun ScreenContent(modifier: Modifier = Modifier, onPayPalClick: () -> Unit) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Transparent),
+        ,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(32.dp))
-        // Imagen de perfil (simulada con un icono) y nombre
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                imageVector = Icons.Filled.Person, // Reemplaza con tu imagen real
+                imageVector = Icons.Filled.Person,
                 contentDescription = "Perfil",
                 modifier = Modifier.size(64.dp),
                 tint = Color.White
@@ -190,7 +191,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .background(Color.White, RoundedCornerShape(16.dp))
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -209,16 +210,16 @@ fun ScreenContent(modifier: Modifier = Modifier) {
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,
                 color = Color.Black,
-                modifier = Modifier.fillMaxWidth().padding(start = 8.dp)
+                modifier = Modifier.fillMaxWidth().padding(start = 8.dp) // Alineado a la izquierda dentro del contenedor blanco
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
-                horizontalArrangement = Arrangement.SpaceAround,
+                horizontalArrangement = Arrangement.spacedBy(8.dp), // Espacio entre botones de donación
                 modifier = Modifier.fillMaxWidth()
             ) {
-                DonationButton(amount = "10.00$")
-                DonationButton(amount = "50.00$")
-                DonationButton(amount = "100.00$")
+                DonationButton(amount = "10.00$", modifier = Modifier.weight(1f)) { /* TODO: Lógica de selección de cantidad 10 */ }
+                DonationButton(amount = "50.00$", modifier = Modifier.weight(1f)) { /* TODO: Lógica de selección de cantidad 50 */ }
+                DonationButton(amount = "100.00$", modifier = Modifier.weight(1f)) { /* TODO: Lógica de selección de cantidad 100 */ }
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
@@ -230,15 +231,28 @@ fun ScreenContent(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
-                horizontalArrangement = Arrangement.SpaceAround,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                PaymentButton(text = stringResource(R.string.tarjeta_credito))
-                PaymentButton(text = stringResource(R.string.paypal))
+                PaymentButton(
+                    text = stringResource(R.string.tarjeta_credito),
+                    onClick = { /* TODO: Implementar lógica para tarjeta de crédito */ },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(40.dp)
+
+                )
+                PaymentButton(
+                    text = stringResource(R.string.paypal),
+                    onClick = { onPayPalClick() },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(40.dp)
+                )
             }
             Spacer(modifier = Modifier.height(24.dp))
             Button(
-                onClick = { /* TODO: Implementar acción de donar */ },
+                onClick = { /* TODO: Implementar acción de donar (puede depender de la selección) */ },
                 modifier = Modifier.fillMaxWidth(0.7f),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -253,37 +267,107 @@ fun ScreenContent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun DonationButton(amount: String) {
+fun DonationButton(amount: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Button(
-        onClick = { /* TODO: Implementar selección de cantidad */ },
+        onClick = onClick,
         shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFF388BAC),
             contentColor = Color.White
         ),
-        modifier = Modifier.size(100.dp, 80.dp).padding(end = 5.dp)
+        modifier = modifier
+            .height(80.dp)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "$", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-            Text(text = amount, fontSize = 12.sp)
+            Text(text = amount, fontSize = 12.sp, color = Color.White)
         }
     }
 }
 
 @Composable
-fun PaymentButton(text: String) {
+fun PaymentButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Button(
-        onClick = { /* TODO: Implementar selección de método de pago */ },
+        onClick = onClick,
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFF388BAC),
-            contentColor = Color.White),
-        modifier = Modifier.padding(8.dp).width(120.dp).height(35.dp)
+            contentColor = Color.White
+        ),
+        modifier = modifier
     ) {
-        Text(text = text)
+        Text(text = text, textAlign = TextAlign.Center)
     }
 }
 
+// Composable privado para el WebView
+@SuppressLint("SetJavaScriptEnabled")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PayPalWebViewInternal(donationUrl: String, onClose: () -> Unit) {
+    var isLoading by remember { mutableStateOf(true) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Donar con PayPal") },
+                navigationIcon = {
+                    IconButton(onClick = onClose) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Cerrar PayPal"
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = BlueDark,
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = Color.White
+                )
+            )
+        },
+        containerColor = Color.White
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
+            AndroidView(
+                factory = { context ->
+                    WebView(context).apply {
+                        webViewClient = object : WebViewClient() {
+                            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                                super.onPageStarted(view, url, favicon)
+                                isLoading = true
+                            }
+
+                            override fun onPageFinished(view: WebView?, url: String?) {
+                                super.onPageFinished(view, url)
+                                isLoading = false
+                                // Opcional: Detectar éxito/cancelación basado en URL
+                                // if (url != null && url.contains("paypal.com/...../thank_you")) {
+                                //     onClose() // Cierra si la donación fue exitosa
+                                // }
+                            }
+                        }
+                        settings.javaScriptEnabled = true
+                        loadUrl(donationUrl)
+                    }
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+
+            if (isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -292,8 +376,6 @@ fun DonationPreview() {
     val context = LocalContext.current
     DonationScreen(
         navController = navController,
-        donationViewModel = DonationViewModel(
-            DonationModel(context), context
-        )
+        donationViewModel = DonationViewModel(DonationModel(context), context)
     )
 }
