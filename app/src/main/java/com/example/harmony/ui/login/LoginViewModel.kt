@@ -3,6 +3,8 @@ package com.example.harmony.ui.login
 import android.content.Context
 import android.util.Patterns
 import android.widget.Toast
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.harmony.CustomToast
@@ -13,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import dataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -45,8 +48,8 @@ class LoginViewModel : ViewModel() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val user = auth.currentUser
-                user?.let {
-                    val userDocRef = db.collection("usuarios").document(it.uid)
+                user?.let { firebaseUser ->
+                    val userDocRef = db.collection("usuarios").document(firebaseUser.uid)
                     userDocRef.get().addOnSuccessListener { document ->
                         if (document.exists()) {
                             val apodo = document.getString("apodo")
@@ -57,6 +60,13 @@ class LoginViewModel : ViewModel() {
                                 R.drawable.logo_harmony,
                                 Toast.LENGTH_SHORT
                             )
+
+                            // Se guarda el apodo en el caché
+                            viewModelScope.launch {
+                                context.dataStore.edit { preferences ->
+                                    preferences[stringPreferencesKey("nickname")] = apodo ?: ""
+                                }
+                            }
                             _loginState.value = ResultState.Success(Unit)
                         } else {
                             val mensaje = context.getString(R.string.error_apodo)

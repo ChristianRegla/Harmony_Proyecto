@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -39,9 +36,6 @@ import androidx.navigation.NavHostController
 import com.example.harmony.R
 import com.example.harmony.ui.components.DrawerContentComponent
 import com.example.harmony.ui.components.SystemBarStyle
-import com.example.harmony.ui.contacto.ContactanosViewModel
-import com.example.harmony.ui.home.HomeViewModel
-import com.example.harmony.ui.home.ScreenContent
 import com.example.harmony.ui.home.TopBar
 import com.example.harmony.ui.theme.BlueDark
 import kotlinx.coroutines.launch
@@ -62,12 +56,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.filled.EmojiPeople
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.harmony.ui.home.HomeModel
-import com.example.harmony.ui.home.HomeScreen
+import com.example.harmony.ui.components.TopBarEditar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -95,7 +86,7 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = contactanosViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = contactanosViewModel, isDrawerOpen = drawerState.isOpen)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -110,27 +101,23 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
             Scaffold(
                 // Barra de arriba
                 topBar = {
-                    TopBar(
-                        onOpenDrawer = {
-                            scope.launch {
-                                if(drawerState.isClosed) drawerState.open()
-                            }
-                        },
-                        // Este es el título que va en medio de la barra superior
+                    TopBarEditar(
+                        onBackClick = { navController.popBackStack() },
                         title = "",
-                        navController = navController,
-                        modifier = Modifier.wrapContentHeight()
+                        modifier = Modifier.size(20.dp)
                     )
                 },
                 // Barra de abajo
                 bottomBar = {
-                    NavigationBar(containerColor = BlueDark) {
+                    NavigationBar(
+                        modifier = Modifier.height(80.dp),
+                        containerColor = BlueDark
+                    ) {
                         NavigationBarItem(
                             icon = { Icon(
-                                imageVector = Icons.Filled.Home,
+                                painterResource(id = R.drawable.home_unselected),
                                 contentDescription = "Home",
-                                tint = Color.White,
-                                modifier = Modifier.alpha(0.5f)
+                                tint = Color.White
                             ) },
                             label = { Text(home, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
@@ -143,10 +130,9 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                         )
                         NavigationBarItem(
                             icon = { Icon(
-                                imageVector = Icons.Filled.EmojiPeople,
+                                painterResource(id = R.drawable.relax_unselected),
                                 contentDescription = "Relaxing",
-                                tint = Color.White,
-                                modifier = Modifier.alpha(0.5f)
+                                tint = Color.White
                             ) },
                             label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,

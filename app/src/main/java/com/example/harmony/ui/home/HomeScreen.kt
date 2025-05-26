@@ -1,5 +1,6 @@
 package com.example.harmony.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +23,8 @@ import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,12 +40,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
 import com.example.harmony.ui.components.DrawerContentComponent
 import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.ui.theme.BlueDark
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +59,6 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
     // Para los textos y que estén traducidos:
     val headerTitle = context.getString(R.string.header_menu_principal)
     val relajacion = context.getString(R.string.relajacion)
-
 
     // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -75,7 +79,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = homeViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = homeViewModel, isDrawerOpen = drawerState.isOpen)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -105,9 +109,12 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                 },
                 // Barra de abajo
                 bottomBar = {
-                    NavigationBar(containerColor = BlueDark) {
+                    NavigationBar(
+                        modifier = Modifier.height(80.dp),
+                        containerColor = BlueDark
+                    ) {
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White) },
+                            icon = { Icon(painterResource(id = R.drawable.home_selected), contentDescription = "Home", tint = Color.White) },
                             label = { Text(headerTitle, color = Color.White) },
                             selected = true,
                             onClick = {},
@@ -119,10 +126,9 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                         )
                         NavigationBarItem(
                             icon = { Icon(
-                                imageVector = Icons.Filled.EmojiPeople,
+                                painter = painterResource(id = R.drawable.relax_unselected),
                                 contentDescription = "Relaxing",
-                                tint = Color.White,
-                                modifier = Modifier.alpha(0.5f)
+                                tint = Color.White
                             ) },
                             label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,

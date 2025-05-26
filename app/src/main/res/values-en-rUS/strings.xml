@@ -60,6 +60,7 @@
     <string name="Numero_Telefonico">Phone Number</string>
     <string name="apodo">Username</string>
     <string name="o">Or</string>
+    <string name="selecciona_una_actividad">Choose an activity</string>
     <string name="header_menu_principal">Home</string>
     <string name="header_perfil">Profile</string>
     <string name="error_contraseña_debil">Your password is too weak. Please choose a stronger one.</string>
@@ -86,4 +87,18 @@
     <string name="tarjeta_credito">Credit Card</string>
     <string name="como_estuvo_el_dia">How was your day?</string>
     <string name="lleva_un_registro">Keep track of how you\'re feeling</string>
+    <string name="hoy">Today</string>
+    <string name="A_trabajo">Work</string>
+    <string name="A_amigos">Friends</string>
+    <string name="A_familia">Family</string>
+    <string name="A_escuela">School</string>
+    <string name="A_pareja">Love</string>
+    <string name="A_hobbies">Hobbies</string>
+    <string name="A_salud">Health</string>
+    <string name="A_otro">Others</string>
+    <string name="pregunta_como_se_siente">How are you feeling?</string>
+    <string name="eliminar_conversacion">Delete conversation?</string>
+    <string name="confirmacion_eliminar_conversacion">Are you sure you want to delete the entire history of this conversation? This action cannot be undone.</string>
+    <string name="eliminar">Delete</string>
+    <string name="cancelar">Cancel</string>
 </resources>

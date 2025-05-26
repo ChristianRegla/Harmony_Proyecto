@@ -33,13 +33,13 @@ class MainActivity : BaseActivity() {
         binding.containerLineaDeAyudaBackground.setOnClickListener {
             val intent = Intent(this, LineaDeAyudaActivity::class.java)
             startActivity(intent)
-            finish()
         }
 
         // Manejo del container temporal de la configuracion de la cuenta
         binding.editarPerfilButton.setOnClickListener {
             val intent = Intent(this, PerfilActivity::class.java)
             startActivity(intent)
+            finish() // Cierra la actividad actual para evitar que el usuario regrese a esta actividad al presionar el botón de retroceso
         }
 
         binding.logout.setOnClickListener {

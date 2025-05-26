@@ -30,7 +30,7 @@ class ChatModel : ComponentActivity() {
             val navController = rememberNavController()
             HarmonyTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    ChatScreen(navController = navController, ChatViewModel = ChatViewModel)
+                    ChatScreen(navController = navController, chatViewModel = ChatViewModel)
                 }
             }
         }

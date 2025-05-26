@@ -25,6 +25,10 @@ import com.example.harmony.ui.donation.DonationModel
 import com.example.harmony.ui.donation.DonationScreen
 import com.example.harmony.ui.donation.DonationViewModel
 import com.example.harmony.ui.donation.DonationViewModelFactory
+import com.example.harmony.ui.ejercicios.EjerciciosModel
+import com.example.harmony.ui.ejercicios.EjerciciosScreen
+import com.example.harmony.ui.ejercicios.EjerciciosViewModel
+import com.example.harmony.ui.ejercicios.EjerciciosViewModelFactory
 import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.HomeViewModelFactory
 import com.example.harmony.ui.privacynotice.PrivacyNoticeModel
@@ -46,6 +50,7 @@ import com.example.harmony.ui.relax.RelaxViewModel
 import com.example.harmony.ui.relax.RelaxViewModelFactory
 import com.example.harmony.ui.signup.SignUpScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalAnimationApi::class)
 class LoginActivity : ComponentActivity() {
@@ -77,13 +82,20 @@ class LoginActivity : ComponentActivity() {
     private val registerEmotionsViewModel: RegisterEmotionsViewModel by viewModels(){
         RegisterEmotionsViewModelFactory(RegisterEmotionsModel(this), this)
     }
+    private val ejerciciosViewModel: EjerciciosViewModel by viewModels(){
+        EjerciciosViewModelFactory(EjerciciosModel(this), this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             val navController = rememberNavController()
-            AnimatedNavHost(navController = navController, startDestination = "login") {
+            // Verificar si el usuario ya está autenticado para pasarlo al main
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            val startDestination = if (currentUser != null) "main" else "login"
+
+            AnimatedNavHost(navController = navController, startDestination = startDestination) {
                 composable(
                     "login",
                     enterTransition = { slideIntoContainer(SlideDirection.Right) },
@@ -122,7 +134,7 @@ class LoginActivity : ComponentActivity() {
                 }
 
                 composable("chatbot") {
-                    ChatScreen(navController = navController, ChatViewModel = ChatViewModel)
+                    ChatScreen(navController = navController, chatViewModel = ChatViewModel)
                 }
 
                 composable("perfil") {
@@ -166,6 +178,12 @@ class LoginActivity : ComponentActivity() {
                     RegisterEmotionsScreen(
                         navController = navController,
                         registerEmotionsViewModel = registerEmotionsViewModel
+                    )
+                }
+                composable("ejercicios") {
+                    EjerciciosScreen(
+                        navController = navController,
+                        ejerciciosViewModel = ejerciciosViewModel
                     )
                 }
             }

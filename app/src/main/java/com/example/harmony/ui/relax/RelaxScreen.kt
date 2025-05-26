@@ -1,5 +1,7 @@
 package com.example.harmony.ui.relax
 
+import Activity
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -65,6 +67,7 @@ import kotlinx.coroutines.launch
 fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel) {
     val context = LocalContext.current
 
+
     // Para los textos y que estén traducidos:
     val headerTitle = context.getString(R.string.relajacion)
     val inicio = context.getString(R.string.inicio)
@@ -87,7 +90,7 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = relaxViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = relaxViewModel, isDrawerOpen = drawerState.isOpen)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -116,9 +119,18 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                 },
                 // Barra de abajo
                 bottomBar = {
-                    NavigationBar(containerColor = DarkerPurpleColor) {
+                    NavigationBar(
+                        modifier = Modifier.height(80.dp),
+                        containerColor = DarkerPurpleColor
+                    ) {
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.home_unselected),
+                                    contentDescription = "Home",
+                                    tint = Color.White
+                                )
+                                   },
                             label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
                             onClick = { navController.navigate("main") },
@@ -129,7 +141,13 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                             )
                         )
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.EmojiPeople, contentDescription = "Relaxing", tint = Color.White) },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.relax_selected),
+                                    contentDescription = "Relaxing",
+                                    tint = Color.White
+                                )
+                                   },
                             label = { Text(relajacion, color = Color.White) },
                             selected = true,
                             onClick = {  },
@@ -175,7 +193,7 @@ fun RelaxScreenContent(navController: NavHostController) {
                 Subtitulo = "4-7-8",
                 Duracion = "1-2 MIN",
                 Imagen = R.drawable.relajacion_imagen1,
-                OnClick = { }
+                OnClick = { navController.navigate("ejercicios") }
             )
         }
         item {

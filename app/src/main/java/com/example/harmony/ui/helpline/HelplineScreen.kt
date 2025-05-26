@@ -83,7 +83,7 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = helplineViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = helplineViewModel, isDrawerOpen = drawerState.isOpen)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -110,9 +110,12 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                 },
                 // Barra de abajo
                 bottomBar = {
-                    NavigationBar(containerColor = BlueDark) {
+                    NavigationBar(
+                        modifier = Modifier.height(80.dp),
+                        containerColor = BlueDark
+                    ) {
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
+                            icon = { Icon(painter = painterResource(id = R.drawable.home_unselected), contentDescription = "Home", tint = Color.White) },
                             label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
                             onClick = { navController.navigate("main") },
@@ -123,7 +126,7 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                             )
                         )
                         NavigationBarItem(
-                            icon = { Icon(imageVector = Icons.Filled.EmojiPeople, contentDescription = "Relaxing", tint = Color.White, modifier = Modifier.alpha(0.5f)) },
+                            icon = { Icon(painter = painterResource(id = R.drawable.relax_unselected), contentDescription = "Relaxing", tint = Color.White) },
                             label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                             selected = false,
                             onClick = { navController.navigate("relax") },

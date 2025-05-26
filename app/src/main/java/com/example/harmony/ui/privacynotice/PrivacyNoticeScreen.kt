@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -73,7 +74,7 @@ fun PrivacyNoticeScreen(navController: NavHostController, privacyNoticeViewModel
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = privacyNoticeViewModel)
+                DrawerContentComponent(navController = navController, drawerActions = privacyNoticeViewModel,isDrawerOpen = drawerState.isOpen)
             }
         },
         gesturesEnabled = drawerState.isOpen
@@ -95,14 +96,20 @@ fun PrivacyNoticeScreen(navController: NavHostController, privacyNoticeViewModel
             },
             // Barra de abajo
             bottomBar = {
-                NavigationBar(containerColor = BlueDark) {
+                NavigationBar(
+                    modifier = Modifier.height(80.dp),
+                    containerColor = BlueDark
+                ) {
                     NavigationBarItem(
-                        icon = { Icon(imageVector = Icons.Filled.Home,
+                        icon = { Icon(painterResource(id = R.drawable.home_unselected),
                             contentDescription = "Home",
-                            tint = Color.White,
+                            tint = Color.White
+                        ) },
+                        label = { Text(
+                            inicio,
+                            color = Color.White,
                             modifier = Modifier.alpha(0.5f)
                         ) },
-                        label = { Text(inicio, color = Color.White) },
                         selected = true,
                         onClick = { navController.navigate("main") },
                         colors = NavigationBarItemDefaults.colors(
@@ -113,10 +120,9 @@ fun PrivacyNoticeScreen(navController: NavHostController, privacyNoticeViewModel
                     )
                     NavigationBarItem(
                         icon = { Icon(
-                            imageVector = Icons.Filled.EmojiPeople,
+                            painter = painterResource(id = R.drawable.relax_unselected),
                             contentDescription = "Relaxing",
-                            tint = Color.White,
-                            modifier = Modifier.alpha(0.5f)
+                            tint = Color.White
                         ) },
                         label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
                         selected = false,
