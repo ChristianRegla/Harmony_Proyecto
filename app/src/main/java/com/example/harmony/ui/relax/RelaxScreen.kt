@@ -193,7 +193,7 @@ fun RelaxScreenContent(navController: NavHostController) {
                 Subtitulo = "4-7-8",
                 Duracion = "1-2 MIN",
                 Imagen = R.drawable.relajacion_imagen1,
-                OnClick = { }
+                OnClick = { navController.navigate("ejercicios") }
             )
         }
         item {

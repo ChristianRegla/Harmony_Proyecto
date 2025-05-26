@@ -25,6 +25,10 @@ import com.example.harmony.ui.donation.DonationModel
 import com.example.harmony.ui.donation.DonationScreen
 import com.example.harmony.ui.donation.DonationViewModel
 import com.example.harmony.ui.donation.DonationViewModelFactory
+import com.example.harmony.ui.ejercicios.EjerciciosModel
+import com.example.harmony.ui.ejercicios.EjerciciosScreen
+import com.example.harmony.ui.ejercicios.EjerciciosViewModel
+import com.example.harmony.ui.ejercicios.EjerciciosViewModelFactory
 import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.HomeViewModelFactory
 import com.example.harmony.ui.privacynotice.PrivacyNoticeModel
@@ -77,6 +81,9 @@ class LoginActivity : ComponentActivity() {
     }
     private val registerEmotionsViewModel: RegisterEmotionsViewModel by viewModels(){
         RegisterEmotionsViewModelFactory(RegisterEmotionsModel(this), this)
+    }
+    private val ejerciciosViewModel: EjerciciosViewModel by viewModels(){
+        EjerciciosViewModelFactory(EjerciciosModel(this), this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -171,6 +178,12 @@ class LoginActivity : ComponentActivity() {
                     RegisterEmotionsScreen(
                         navController = navController,
                         registerEmotionsViewModel = registerEmotionsViewModel
+                    )
+                }
+                composable("ejercicios") {
+                    EjerciciosScreen(
+                        navController = navController,
+                        ejerciciosViewModel = ejerciciosViewModel
                     )
                 }
             }
