@@ -1,5 +1,7 @@
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.util.Log
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -82,6 +84,7 @@ import com.example.harmony.ui.registeremotions.RegisterEmotionsModel
 import com.example.harmony.ui.registeremotions.RegisterEmotionsViewModel
 import com.example.harmony.ui.theme.BlueDark
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 // DATA CLASE PARA ACTIVIDADES
 data class Activity(
@@ -96,6 +99,30 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
         statusBarColor = Color.Transparent,
         navigationBarColor = Color.Transparent,
     )
+
+    val currentCalendar = Calendar.getInstance()
+    currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
+    currentCalendar.set(Calendar.MINUTE, 0)
+    currentCalendar.set(Calendar.SECOND, 0)
+    currentCalendar.set(Calendar.MILLISECOND, 0)
+
+// Sumar un día solo para comparación
+    currentCalendar.add(Calendar.DAY_OF_MONTH, 1)
+
+
+    val currentDate = String.format(Locale.getDefault(), "%04d-%02d-%02d",
+        currentCalendar.get(Calendar.YEAR),
+        currentCalendar.get(Calendar.MONTH) + 1,
+        currentCalendar.get(Calendar.DAY_OF_MONTH)
+    )
+
+    val currentTime = String.format(Locale.getDefault(), "%02d:%02d",
+        currentCalendar.get(Calendar.HOUR_OF_DAY),
+        currentCalendar.get(Calendar.MINUTE)
+    )
+
+    var selectedDate by remember { mutableStateOf("") }
+    var selectedTime by remember { mutableStateOf("") }
 
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
@@ -114,6 +141,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
     // Estados para los diálogos de fecha y hora
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
+
     val calendar = Calendar.getInstance()
     val hoy = stringResource(R.string.hoy)
     var dateState by remember {
@@ -123,10 +151,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
     }
     var timeState by remember {
         mutableStateOf(
-            String.format(
-                "%02d:%02d",
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE)
+            String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)
             )
         )
     }
@@ -434,7 +459,30 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     {
                         Button(
                             onClick = {
-                                // Aquí procesas dateState, timeState, selectedEmoji y selectedActivity, nota para después
+                                if (selectedEmotionIndex != -1 && selectedActivity != null &&
+                                    selectedDate.isNotEmpty() && selectedTime.isNotEmpty()) {
+
+                                    // Convertir fecha y hora seleccionadas a `Calendar`
+                                    val selectedCalendar = Calendar.getInstance()
+                                    val dateParts = selectedDate.split("-")
+                                    val timeParts = selectedTime.split(":")
+
+                                    selectedCalendar.set(Calendar.YEAR, dateParts[0].toInt())
+                                    selectedCalendar.set(Calendar.MONTH, dateParts[1].toInt() - 1) // Meses van de 0 a 11
+                                    selectedCalendar.set(Calendar.DAY_OF_MONTH, dateParts[2].toInt())
+                                    selectedCalendar.set(Calendar.HOUR_OF_DAY, timeParts[0].toInt())
+                                    selectedCalendar.set(Calendar.MINUTE, timeParts[1].toInt())
+
+                                    // Comparación con un día extra en la fecha actual
+                                    if (selectedCalendar.after(currentCalendar)) {
+                                        Toast.makeText(context, "Error: No puedes seleccionar una fecha futura.", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        sendEmotions(selectedEmotionIndex, activities.indexOf(selectedActivity), selectedDate, selectedTime)
+                                        Toast.makeText(context, "¡Registro guardado!", Toast.LENGTH_SHORT).show()
+                                    }
+                                } else {
+                                    Toast.makeText(context, "Error: Selecciona emoción, actividad, fecha y hora.", Toast.LENGTH_SHORT).show()
+                                }
                             },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(0xFFFF0080),
@@ -455,31 +503,66 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
 
                 // DIÁLOGOS DE FECHA Y HORA
                 if (showDatePicker) {
-                    DatePickerDialog(
+                    val datePicker = DatePickerDialog(
                         context,
                         { _, year, month, dayOfMonth ->
-                            calendar.set(year, month, dayOfMonth)
-                            dateState = "$dayOfMonth de ${getMonthName(month)}"
+                            val selectedCalendar = Calendar.getInstance()
+                            selectedCalendar.set(year, month, dayOfMonth)
+
+                            val currentCalendar = Calendar.getInstance()
+                            currentCalendar.set(Calendar.HOUR_OF_DAY, 0)
+                            currentCalendar.set(Calendar.MINUTE, 0)
+                            currentCalendar.set(Calendar.SECOND, 0)
+                            currentCalendar.set(Calendar.MILLISECOND, 0) // Asegurar que comparamos correctamente
+
+                            if (selectedCalendar.after(currentCalendar)) {
+                                Toast.makeText(context, "No puedes seleccionar una fecha futura.", Toast.LENGTH_SHORT).show()
+                            } else {
+                                selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
+                                dateState = "$dayOfMonth de ${getMonthName(month)}"
+                            }
+
                             showDatePicker = false
                         },
                         calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH)
-                    ).show()
+                    )
+
+                    datePicker.setOnCancelListener {
+                        showDatePicker = false
+                    }
+
+                    datePicker.show()
                 }
                 if (showTimePicker) {
-                    TimePickerDialog(
+                    val timePicker = TimePickerDialog(
                         context,
                         { _, hourOfDay, minute ->
-                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                            calendar.set(Calendar.MINUTE, minute)
-                            timeState = String.format("%02d:%02d", hourOfDay, minute)
+                            val currentCalendar = Calendar.getInstance()
+                            val selectedCalendar = Calendar.getInstance()
+                            selectedCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                            selectedCalendar.set(Calendar.MINUTE, minute)
+
+                            if (selectedCalendar.after(currentCalendar)) {
+                                Toast.makeText(context, "No puedes seleccionar una hora futura.", Toast.LENGTH_SHORT).show()
+                            } else {
+                                selectedTime = String.format("%02d:%02d", hourOfDay, minute)
+                                timeState = selectedTime
+                            }
+
                             showTimePicker = false
                         },
                         calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE),
                         true
-                    ).show()
+                    )
+
+                    timePicker.setOnCancelListener {
+                        showTimePicker = false
+                    }
+
+                    timePicker.show()
                 }
             }
         }
