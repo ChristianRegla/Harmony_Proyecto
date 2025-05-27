@@ -1,12 +1,17 @@
 package com.example.harmony.ui.login
 
 import RegisterEmotionsScreen
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.core.content.ContextCompat
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.chat.ChatScreen
@@ -51,6 +56,11 @@ import com.example.harmony.ui.relax.RelaxViewModelFactory
 import com.example.harmony.ui.signup.SignUpScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.firebase.auth.FirebaseAuth
+import android.Manifest
+import android.content.Intent
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
+import com.example.harmony.notifications.ReminderReceiver
 
 @OptIn(ExperimentalAnimationApi::class)
 class LoginActivity : ComponentActivity() {
@@ -89,11 +99,43 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        handleIntentExtras(intent)
+
         setContent {
             val navController = rememberNavController()
             // Verificar si el usuario ya está autenticado para pasarlo al main
             val currentUser = FirebaseAuth.getInstance().currentUser
             val startDestination = if (currentUser != null) "main" else "login"
+
+            if (startDestination == "main") { // Solo si el usuario ya está logueado
+                val context = LocalContext.current // Obtén el contexto dentro del Composable
+                val requestPermissionLauncher = rememberLauncherForActivityResult(
+                    ActivityResultContracts.RequestPermission()
+                ) { isGranted: Boolean ->
+                    if (isGranted) {
+                        // Permiso concedido
+                    } else {
+                        // Permiso denegado
+                    }
+                }
+
+                // LaunchedEffect para pedir el permiso una vez que el Composable entre en la composición
+                LaunchedEffect(Unit) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        when {
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.POST_NOTIFICATIONS // Ahora debería encontrarlo
+                            ) == PackageManager.PERMISSION_GRANTED -> {
+                                // Ya tienes el permiso
+                            }
+                            else -> {
+                                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                            }
+                        }
+                    }
+                }
+            }
 
             AnimatedNavHost(navController = navController, startDestination = startDestination) {
                 composable(
@@ -187,6 +229,34 @@ class LoginActivity : ComponentActivity() {
                     )
                 }
             }
+
+            // Navegar al destino de la notificación si existe y el usuario está autenticado
+            LaunchedEffect(intent, currentUser) { // Reaccionar a cambios en el intent
+                val routeFromNotification = intent.getStringExtra(ReminderReceiver.DESTINATION_ROUTE)
+                if (currentUser != null && routeFromNotification != null) {
+                    navController.navigate(routeFromNotification) {
+                        launchSingleTop = true
+                    }
+                    // Limpiar el extra del intent para que no se vuelva a procesar
+                    intent.removeExtra(ReminderReceiver.DESTINATION_ROUTE)
+                }
+            }
+        }
+    }
+
+    // Manejar nuevos intents si la actividad ya está en primer plano
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        // Actualizar el intent de la actividad para que el LaunchedEffect en setContent lo recoja
+        // y procesar los extras del nuevo intent.
+        handleIntentExtras(intent)
+        setIntent(intent) // Muy importante para que el LaunchedEffect reaccione
+    }
+
+    // Función auxiliar para procesar los extras del intent
+    private fun handleIntentExtras(intent: Intent?) {
+        intent?.getStringExtra(ReminderReceiver.DESTINATION_ROUTE)?.let { route ->
+            println("Notification wants to navigate to: $route")
         }
     }
 }

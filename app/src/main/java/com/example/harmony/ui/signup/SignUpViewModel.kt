@@ -7,7 +7,6 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.harmony.CustomToast
-import com.example.harmony.MainActivity
 import com.example.harmony.R
 import com.example.harmony.utils.ResultState
 import com.google.firebase.FirebaseNetworkException
