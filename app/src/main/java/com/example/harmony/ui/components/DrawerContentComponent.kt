@@ -132,7 +132,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                         contentDescription = "Account",
                         tint = Color.Black,
                         modifier = Modifier
-                            .size(27.dp)
+                            .size(22.dp)
                     ) },
                 label = {
                     Text(
@@ -166,7 +166,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                         contentDescription = "Account",
                         tint = Color.Black,
                         modifier = Modifier
-                            .size(27.dp)
+                            .size(22.dp)
                     ) },
                 label = {
                     Text(
@@ -200,7 +200,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                         contentDescription = "Account",
                         tint = Color.Black,
                         modifier = Modifier
-                            .size(27.dp)
+                            .size(22.dp)
                     ) },
                 label = {
                     Text(
@@ -235,7 +235,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                         contentDescription = "Account",
                         tint = Color.Black,
                         modifier = Modifier
-                            .size(27.dp)
+                            .size(22.dp)
                     ) },
                 label = {
                     Text(
@@ -271,7 +271,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                         contentDescription = "Account",
                         tint = Color.Black,
                         modifier = Modifier
-                            .size(27.dp)
+                            .size(22.dp)
                     ) },
                 label = {
                     Text(
