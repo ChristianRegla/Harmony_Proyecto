@@ -1,5 +1,7 @@
 package com.example.harmony.ui.chat
 
+import com.example.harmony.BuildConfig
+
 object Constants {
-    val apiKey = "AIzaSyCGZw-1FVWVpz2RiVBQuJgcs3Mm1h2r0hY"
+    val apiKey = BuildConfig.GEMINI_API_KEY
 }

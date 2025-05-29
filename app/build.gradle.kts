@@ -1,8 +1,21 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    try {
+        localProperties.load(FileInputStream(localPropertiesFile))
+    } catch (e: Exception) {
+        println("Advertencia: No se pudo cargar local.properties. ${e.message}")
+    }
 }
 
 android {
@@ -12,6 +25,7 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -22,6 +36,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY")
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
     }
 
     buildTypes {

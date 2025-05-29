@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Text
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,7 +24,7 @@ import com.example.harmony.ui.components.TopBarEditar
 
 @Composable
 fun EjerciciosScreen(navController: NavHostController, ejerciciosViewModel: EjerciciosViewModel) {
-    val context = LocalContext
+    val context = LocalContext.current
 
     SystemBarStyle(
         statusBarColor = Color.Transparent,
@@ -41,19 +42,29 @@ fun EjerciciosScreen(navController: NavHostController, ejerciciosViewModel: Ejer
             topBar = {
                 TopBarEditar(
                     onBackClick = { navController.popBackStack() },
-                    title = "",
-                    modifier = Modifier.size(20.dp)
+                    title = ""
                 )
-            }
+            },
+            containerColor = Color.Transparent
         ) { innerpadding ->
             EjerciciosContent(modifier = Modifier.fillMaxSize().padding(innerpadding))
         }
     }
 }
 
+@Composable
+fun EjerciciosContent(modifier: Modifier = Modifier) {
+    Text(
+        text = "Ejercicios",
+        modifier = modifier.padding(16.dp),
+        color = Color.White
+    )
+}
+
+
 @Preview(showBackground = true)
 @Composable
-fun EjerciciosContent(modifier: Modifier = Modifier){
+fun EjerciciosPreview(modifier: Modifier = Modifier){
     val navController = rememberNavController()
     val context = LocalContext.current
     EjerciciosScreen(navController = navController, ejerciciosViewModel = EjerciciosViewModel(EjerciciosModel(context), context))
