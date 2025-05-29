@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.common.DrawerActions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 class ContactanosViewModel(private val contactanosModel: ContactanosModel, private val context: Context) : ViewModel(), DrawerActions, DataBaseActions {
     private val _Title = MutableStateFlow("Contactanos")
     val curTitle: StateFlow<String> = _Title
+    private val firestore = FirebaseFirestore.getInstance()
 
     fun tituloActualizado(newTitle: String) {
         _Title.value = newTitle
@@ -28,7 +30,7 @@ class ContactanosViewModel(private val contactanosModel: ContactanosModel, priva
 
     override fun cargarApodoEnDrawerContent() {
         viewModelScope.launch {
-            _apodo.value = contactanosModel.cargarApodoEnDrawerContent()
+            _apodo.value = contactanosModel.cargarApodoEnDrawerContent(context, firestore)
         }
     }
     override fun cerrarSesion(navController: NavHostController) {

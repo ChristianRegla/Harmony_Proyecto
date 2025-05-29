@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.common.DrawerActions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,6 +20,7 @@ class RegisterEmotionsViewModel(private val registerEmotionsModel: RegisterEmoti
 
     private val _apodo = MutableStateFlow("")
     val apodo: StateFlow<String> = _apodo
+    private val db = FirebaseFirestore.getInstance()
 
     init {
         cargarApodoEnDrawerContent()
@@ -26,7 +28,7 @@ class RegisterEmotionsViewModel(private val registerEmotionsModel: RegisterEmoti
 
     override fun cargarApodoEnDrawerContent() {
         viewModelScope.launch {
-            _apodo.value = registerEmotionsModel.cargarApodoEnDrawerContent()
+            _apodo.value = registerEmotionsModel.cargarApodoEnDrawerContent(context, db)
         }
     }
 

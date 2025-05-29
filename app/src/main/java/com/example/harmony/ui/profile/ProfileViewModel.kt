@@ -119,7 +119,7 @@ class ProfileViewModel(private val profileModel: ProfileModel, private val conte
 
     override fun cargarApodoEnDrawerContent() {
         viewModelScope.launch {
-            _apodo.value = profileModel.cargarApodoEnDrawerContent()
+            _apodo.value = profileModel.cargarApodoEnDrawerContent(context, firestore)
         }
     }
 

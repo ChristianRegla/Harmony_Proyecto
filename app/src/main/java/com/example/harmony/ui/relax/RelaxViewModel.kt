@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.common.DrawerActions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 class RelaxViewModel(private val relaxModel: RelaxModel, private val context: Context) : ViewModel(), DrawerActions, DataBaseActions {
     private val _currentTitle = MutableStateFlow("Relax")
     val currentTitle: StateFlow<String> = _currentTitle
+    private val db = FirebaseFirestore.getInstance()
 
     fun updateTitle(newTitle: String) {
         _currentTitle.value = newTitle
@@ -30,7 +32,7 @@ class RelaxViewModel(private val relaxModel: RelaxModel, private val context: Co
 
     override fun cargarApodoEnDrawerContent() {
         viewModelScope.launch {
-            _apodo.value = relaxModel.cargarApodoEnDrawerContent()
+            _apodo.value = relaxModel.cargarApodoEnDrawerContent(context, db)
         }
     }
 
