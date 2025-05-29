@@ -106,23 +106,33 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
     currentCalendar.set(Calendar.SECOND, 0)
     currentCalendar.set(Calendar.MILLISECOND, 0)
 
-// Sumar un día solo para comparación
-    currentCalendar.add(Calendar.DAY_OF_MONTH, 1)
+    val now = Calendar.getInstance()
 
+    val todayEnd = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, 23)
+        set(Calendar.MINUTE, 59)
+        set(Calendar.SECOND, 59)
+        set(Calendar.MILLISECOND, 999)
+    }
 
-    val currentDate = String.format(Locale.getDefault(), "%04d-%02d-%02d",
-        currentCalendar.get(Calendar.YEAR),
-        currentCalendar.get(Calendar.MONTH) + 1,
-        currentCalendar.get(Calendar.DAY_OF_MONTH)
-    )
+    var selectedDate by remember {
+        mutableStateOf(
+            String.format(Locale.getDefault(), "%04d-%02d-%02d",
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH) + 1,
+                now.get(Calendar.DAY_OF_MONTH)
+            )
+        )
+    }
 
-    val currentTime = String.format(Locale.getDefault(), "%02d:%02d",
-        currentCalendar.get(Calendar.HOUR_OF_DAY),
-        currentCalendar.get(Calendar.MINUTE)
-    )
-
-    var selectedDate by remember { mutableStateOf("") }
-    var selectedTime by remember { mutableStateOf("") }
+    var selectedTime by remember {
+        mutableStateOf(
+            String.format(Locale.getDefault(), "%02d:%02d",
+                now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE)
+            )
+        )
+    }
 
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
@@ -475,7 +485,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                     selectedCalendar.set(Calendar.MINUTE, timeParts[1].toInt())
 
                                     // Comparación con un día extra en la fecha actual
-                                    if (selectedCalendar.after(currentCalendar)) {
+                                    if (selectedCalendar.after(todayEnd)) {
                                         Toast.makeText(context, "Error: No puedes seleccionar una fecha futura.", Toast.LENGTH_SHORT).show()
                                     } else {
                                         sendEmotions(selectedEmotionIndex, activities.indexOf(selectedActivity), selectedDate, selectedTime)
@@ -516,7 +526,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             currentCalendar.set(Calendar.SECOND, 0)
                             currentCalendar.set(Calendar.MILLISECOND, 0) // Asegurar que comparamos correctamente
 
-                            if (selectedCalendar.after(currentCalendar)) {
+                            if (selectedCalendar.after(todayEnd)) {
                                 Toast.makeText(context, "No puedes seleccionar una fecha futura.", Toast.LENGTH_SHORT).show()
                             } else {
                                 selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
@@ -540,12 +550,18 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     val timePicker = TimePickerDialog(
                         context,
                         { _, hourOfDay, minute ->
-                            val currentCalendar = Calendar.getInstance()
                             val selectedCalendar = Calendar.getInstance()
+
+                            val dateParts = selectedDate.split("-")
+                            selectedCalendar.set(Calendar.YEAR, dateParts[0].toInt())
+                            selectedCalendar.set(Calendar.MONTH, dateParts[1].toInt() - 1)
+                            selectedCalendar.set(Calendar.DAY_OF_MONTH, dateParts[2].toInt())
                             selectedCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             selectedCalendar.set(Calendar.MINUTE, minute)
+                            selectedCalendar.set(Calendar.SECOND, 0)
+                            selectedCalendar.set(Calendar.MILLISECOND, 0)
 
-                            if (selectedCalendar.after(currentCalendar)) {
+                            if (selectedCalendar.after(now)) {
                                 Toast.makeText(context, "No puedes seleccionar una hora futura.", Toast.LENGTH_SHORT).show()
                             } else {
                                 selectedTime = String.format("%02d:%02d", hourOfDay, minute)
