@@ -59,6 +59,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.components.TopBarEditar
+import com.example.harmony.ui.common.DataBaseActions
+import com.example.harmony.ui.home.HomeModel
+import com.example.harmony.ui.home.HomeScreen
+import com.example.harmony.ui.profile.ProfileViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -199,7 +203,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     .background(Color(0xffffffff), RoundedCornerShape(25.dp))
 
             ) {
-                // Nuestro equipo esta en linea Lun-Vie • 9-17
+                // Nuestro equipo esta en lineaLun-Vie • 9-17
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)

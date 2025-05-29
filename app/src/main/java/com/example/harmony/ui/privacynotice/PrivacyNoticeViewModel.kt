@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.common.DrawerActions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,6 +20,7 @@ class PrivacyNoticeViewModel(private val privacyNoticeModel: PrivacyNoticeModel,
 
     private val _apodo = MutableStateFlow("")
     val apodo: StateFlow<String> = _apodo
+    private val db = FirebaseFirestore.getInstance()
 
     init {
         cargarApodoEnDrawerContent()
@@ -26,7 +28,7 @@ class PrivacyNoticeViewModel(private val privacyNoticeModel: PrivacyNoticeModel,
 
     override fun cargarApodoEnDrawerContent() {
         viewModelScope.launch {
-            _apodo.value = privacyNoticeModel.cargarApodoEnDrawerContent()
+            _apodo.value = privacyNoticeModel.cargarApodoEnDrawerContent(context, db)
         }
     }
 

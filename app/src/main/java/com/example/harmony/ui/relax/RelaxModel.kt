@@ -13,43 +13,25 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class RelaxModel(private val context: Context) {
-    suspend fun cargarApodoEnDrawerContent(): String = withContext(Dispatchers.IO) {
-        var apodo = ""
+    suspend fun cargarApodoEnDrawerContent(context: Context, db: FirebaseFirestore): String  {
+        val currentUser = FirebaseAuth.getInstance().currentUser
 
-        val auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser
-        val db = FirebaseFirestore.getInstance()
-
-        if (currentUser != null) {
+        return if (currentUser != null) {
             val userId = currentUser.uid
 
             try {
-                val preferences = context.dataStore.data.first()
-                val cachedNickname = preferences[stringPreferencesKey("nickname")]
-
-                if (cachedNickname != null) {
-                    apodo = cachedNickname
+                val document = db.collection("usuarios").document(userId).get().await()
+                if (document.exists()) {
+                    val nickname = document.getString("apodo")
+                    nickname ?: context.getString(R.string.apodo_no_encontrado)
                 } else {
-                    val document = db.collection("usuarios").document(userId).get().await()
-
-                    if (document.exists()) {
-                        val nickname = document.getString("apodo")
-                        apodo = nickname.toString()
-
-                        context.dataStore.edit { preferences ->
-                            preferences[stringPreferencesKey("nickname")] = apodo
-                        }
-                    } else {
-                        apodo = context.getString(R.string.apodo_no_encontrado)
-                    }
+                    context.getString(R.string.apodo_no_encontrado)
                 }
             } catch (e: Exception) {
-                apodo = context.getString(R.string.error_apodo)
+                context.getString(R.string.error_apodo)
             }
         } else {
-            apodo = context.getString(R.string.usuario_no_autenticado)
+            context.getString(R.string.usuario_no_autenticado)
         }
-
-        apodo
     }
 }
