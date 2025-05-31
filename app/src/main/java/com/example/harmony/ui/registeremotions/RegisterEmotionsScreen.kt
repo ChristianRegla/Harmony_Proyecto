@@ -1,8 +1,20 @@
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.util.Log
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.with
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import kotlinx.coroutines.delay
+import androidx.compose.ui.draw.scale
+import androidx.compose.runtime.LaunchedEffect
 import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -40,8 +52,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.EmojiPeople
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -92,9 +103,16 @@ data class Activity(
     val label: String
 )
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalAnimationApi::class
+)
 @Composable
 fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsViewModel: RegisterEmotionsViewModel) {
+    val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    val screenHeight = configuration.screenHeightDp.dp
+
     SystemBarStyle(
         statusBarColor = Color.Transparent,
         navigationBarColor = Color.Transparent,
@@ -106,28 +124,47 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
     currentCalendar.set(Calendar.SECOND, 0)
     currentCalendar.set(Calendar.MILLISECOND, 0)
 
-// Sumar un día solo para comparación
-    currentCalendar.add(Calendar.DAY_OF_MONTH, 1)
+    val now = Calendar.getInstance()
 
+    var isSaved by remember { mutableStateOf(false) }
 
-    val currentDate = String.format(Locale.getDefault(), "%04d-%02d-%02d",
-        currentCalendar.get(Calendar.YEAR),
-        currentCalendar.get(Calendar.MONTH) + 1,
-        currentCalendar.get(Calendar.DAY_OF_MONTH)
+    val buttonWidth by animateDpAsState(
+        targetValue = if (isSaved) 60.dp else screenWidth * 0.5f,
+        animationSpec = tween(durationMillis = 600),
+        label = "width"
     )
 
-    val currentTime = String.format(Locale.getDefault(), "%02d:%02d",
-        currentCalendar.get(Calendar.HOUR_OF_DAY),
-        currentCalendar.get(Calendar.MINUTE)
+    val checkScale by animateFloatAsState(
+        targetValue = if (isSaved) 2.3f else 1.0f, // Ajuste de escala más controlado
+        animationSpec = tween(durationMillis = 600, easing = EaseInOut),
+        label = "checkScale"
     )
 
-    var selectedDate by remember { mutableStateOf("") }
-    var selectedTime by remember { mutableStateOf("") }
+    val todayEnd = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, 23)
+        set(Calendar.MINUTE, 59)
+        set(Calendar.SECOND, 59)
+        set(Calendar.MILLISECOND, 999)
+    }
 
-    val context = LocalContext.current
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val screenHeight = configuration.screenHeightDp.dp
+    var selectedDate by remember {
+        mutableStateOf(
+            String.format(Locale.getDefault(), "%04d-%02d-%02d",
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH) + 1,
+                now.get(Calendar.DAY_OF_MONTH)
+            )
+        )
+    }
+
+    var selectedTime by remember {
+        mutableStateOf(
+            String.format(Locale.getDefault(), "%02d:%02d",
+                now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE)
+            )
+        )
+    }
 
     val headerTitle = ""
     val relajacion = context.getString(R.string.relajacion)
@@ -201,6 +238,32 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    if (isSaved) {
+        LaunchedEffect(isSaved) {
+            delay(1000) // espera breve para mostrar la animación del check
+            // Limpiar los campos
+            selectedEmotionIndex = -1
+            selectedActivity = null
+
+            val now = Calendar.getInstance()
+            selectedDate = String.format("%04d-%02d-%02d",
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH) + 1,
+                now.get(Calendar.DAY_OF_MONTH)
+            )
+            dateState = context.getString(R.string.hoy) + ", ${now.get(Calendar.DAY_OF_MONTH)} ${getMonthName(now.get(Calendar.MONTH))}"
+
+            selectedTime = String.format("%02d:%02d",
+                now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE)
+            )
+            timeState = selectedTime
+
+            delay(2000) // tiempo restante para completar los 3s
+            isSaved = false
+        }
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -460,44 +523,116 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     {
                         Button(
                             onClick = {
-                                if (selectedEmotionIndex != -1 && selectedActivity != null &&
-                                    selectedDate.isNotEmpty() && selectedTime.isNotEmpty()) {
-
-                                    // Convertir fecha y hora seleccionadas a `Calendar`
-                                    val selectedCalendar = Calendar.getInstance()
-                                    val dateParts = selectedDate.split("-")
-                                    val timeParts = selectedTime.split(":")
-
-                                    selectedCalendar.set(Calendar.YEAR, dateParts[0].toInt())
-                                    selectedCalendar.set(Calendar.MONTH, dateParts[1].toInt() - 1) // Meses van de 0 a 11
-                                    selectedCalendar.set(Calendar.DAY_OF_MONTH, dateParts[2].toInt())
-                                    selectedCalendar.set(Calendar.HOUR_OF_DAY, timeParts[0].toInt())
-                                    selectedCalendar.set(Calendar.MINUTE, timeParts[1].toInt())
-
-                                    // Comparación con un día extra en la fecha actual
-                                    if (selectedCalendar.after(currentCalendar)) {
-                                        Toast.makeText(context, "Error: No puedes seleccionar una fecha futura.", Toast.LENGTH_SHORT).show()
-                                    } else {
-                                        sendEmotions(selectedEmotionIndex, activities.indexOf(selectedActivity), selectedDate, selectedTime)
-                                        Toast.makeText(context, "¡Registro guardado!", Toast.LENGTH_SHORT).show()
+                                when {
+                                    selectedEmotionIndex == -1 -> {
+                                        Toast.makeText(
+                                            context,
+                                            "Selecciona una emoción antes de continuar.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
-                                } else {
-                                    Toast.makeText(context, "Error: Selecciona emoción, actividad, fecha y hora.", Toast.LENGTH_SHORT).show()
+
+                                    selectedActivity == null -> {
+                                        Toast.makeText(
+                                            context,
+                                            "Selecciona una actividad antes de continuar.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    selectedDate.isEmpty() -> {
+                                        Toast.makeText(
+                                            context,
+                                            "Selecciona una fecha válida.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    selectedTime.isEmpty() -> {
+                                        Toast.makeText(
+                                            context,
+                                            "Selecciona una hora válida.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    else -> {
+                                        val selectedCalendar = Calendar.getInstance()
+                                        val dateParts = selectedDate.split("-")
+                                        val timeParts = selectedTime.split(":")
+
+                                        selectedCalendar.set(Calendar.YEAR, dateParts[0].toInt())
+                                        selectedCalendar.set(
+                                            Calendar.MONTH,
+                                            dateParts[1].toInt() - 1
+                                        )
+                                        selectedCalendar.set(
+                                            Calendar.DAY_OF_MONTH,
+                                            dateParts[2].toInt()
+                                        )
+                                        selectedCalendar.set(
+                                            Calendar.HOUR_OF_DAY,
+                                            timeParts[0].toInt()
+                                        )
+                                        selectedCalendar.set(Calendar.MINUTE, timeParts[1].toInt())
+                                        selectedCalendar.set(Calendar.SECOND, 0)
+                                        selectedCalendar.set(Calendar.MILLISECOND, 0)
+
+                                        if (selectedCalendar.after(now)) {
+                                            Toast.makeText(
+                                                context,
+                                                "No puedes seleccionar una fecha u hora futura.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            sendEmotions(
+                                              selectedEmotionIndex,
+                                              activities.indexOf(selectedActivity),
+                                              selectedDate,
+                                              selectedTime
+                                            )
+                                            isSaved = true
+                                        }
+                                    }
                                 }
                             },
+                            enabled = !isSaved, // ← desactiva durante la animación
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(0xFFFF0080),
-                                contentColor = Color.White
+                                contentColor = Color.Black,
+                                disabledContainerColor = Color(0xFFFF0080), // mismo color para que no se vea "apagado"
+                                disabledContentColor = Color.Black
                             ),
-                            shape = RoundedCornerShape(50),
+                            shape = RoundedCornerShape(30.dp),
                             modifier = Modifier
-                                .padding(
-                                    horizontal = screenWidth * 0.1f
-                                )
-                                .fillMaxWidth(0.5f)
+                                .width(buttonWidth)
+                                .height(60.dp)
                         ) {
-                            Text("OK")
+                            AnimatedContent(
+                                targetState = isSaved,
+                                transitionSpec = {
+                                    (fadeIn(tween(300)) + scaleIn(tween(300))) with fadeOut(tween(100))
+                                },
+                                label = "button-content"
+                            ) { saved ->
+                                Box(
+                                    modifier = Modifier.size(25.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    if (saved) {
+                                        Icon(
+                                            imageVector = Icons.Filled.Check,
+                                            contentDescription = "Guardado",
+                                            tint = Color.Black,
+                                            modifier = Modifier.scale(checkScale) // Sincronizar escala con botón
+                                        )
+                                    } else {
+                                        Text("OK", color = Color.White)
+                                    }
+                                }
+                            }
                         }
+
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -516,7 +651,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             currentCalendar.set(Calendar.SECOND, 0)
                             currentCalendar.set(Calendar.MILLISECOND, 0) // Asegurar que comparamos correctamente
 
-                            if (selectedCalendar.after(currentCalendar)) {
+                            if (selectedCalendar.after(todayEnd)) {
                                 Toast.makeText(context, "No puedes seleccionar una fecha futura.", Toast.LENGTH_SHORT).show()
                             } else {
                                 selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
@@ -540,12 +675,18 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     val timePicker = TimePickerDialog(
                         context,
                         { _, hourOfDay, minute ->
-                            val currentCalendar = Calendar.getInstance()
                             val selectedCalendar = Calendar.getInstance()
+
+                            val dateParts = selectedDate.split("-")
+                            selectedCalendar.set(Calendar.YEAR, dateParts[0].toInt())
+                            selectedCalendar.set(Calendar.MONTH, dateParts[1].toInt() - 1)
+                            selectedCalendar.set(Calendar.DAY_OF_MONTH, dateParts[2].toInt())
                             selectedCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             selectedCalendar.set(Calendar.MINUTE, minute)
+                            selectedCalendar.set(Calendar.SECOND, 0)
+                            selectedCalendar.set(Calendar.MILLISECOND, 0)
 
-                            if (selectedCalendar.after(currentCalendar)) {
+                            if (selectedCalendar.after(now)) {
                                 Toast.makeText(context, "No puedes seleccionar una hora futura.", Toast.LENGTH_SHORT).show()
                             } else {
                                 selectedTime = String.format("%02d:%02d", hourOfDay, minute)
