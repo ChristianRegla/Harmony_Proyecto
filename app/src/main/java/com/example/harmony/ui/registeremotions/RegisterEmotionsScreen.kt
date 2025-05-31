@@ -27,12 +27,14 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -129,13 +131,13 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
     var isSaved by remember { mutableStateOf(false) }
 
     val buttonWidth by animateDpAsState(
-        targetValue = if (isSaved) 60.dp else screenWidth * 0.5f,
+        targetValue = if (isSaved) screenWidth * 0.15f else screenWidth * 0.5f,
         animationSpec = tween(durationMillis = 600),
         label = "width"
     )
 
     val checkScale by animateFloatAsState(
-        targetValue = if (isSaved) 2.3f else 1.0f, // Ajuste de escala más controlado
+        targetValue = if (isSaved) 2.3f else 1f, // Ajuste de escala más controlado
         animationSpec = tween(durationMillis = 600, easing = EaseInOut),
         label = "checkScale"
     )
@@ -345,18 +347,16 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
-                            horizontal = screenWidth * 0.07f,
-                            vertical = screenHeight * 0.03f
-                        )
+                            horizontal = screenWidth * 0.07f)
                 ) {
-                    Box (
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
-                                bottom = screenHeight*0.03f
+                                bottom = screenHeight * 0.03f
                             ),
                         contentAlignment = Alignment.Center
-                    ){
+                    ) {
                         Text(
                             text = stringResource(R.string.pregunta_como_se_siente),
                             style = MaterialTheme.typography.bodyLarge.copy(
@@ -383,12 +383,13 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             )
                         ) {
                             Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(horizontal = (-screenWidth * 0f))
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.CalendarMonth,
-                                    contentDescription = ""
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .padding(end = 3.dp)
                                 )
                                 Text(
                                     text = dateState,
@@ -396,10 +397,17 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                         textDecoration = TextDecoration.Underline
                                     )
                                 )
-                                Icon(
-                                    imageVector = Icons.Filled.ArrowDropDown,
-                                    contentDescription = stringResource(R.string.content_description_DatePicker)
-                                )
+                                Box(
+                                    modifier = Modifier.size(24.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ArrowDropDown,
+                                        contentDescription = stringResource(R.string.content_description_DatePicker),
+                                        modifier = Modifier.fillMaxSize()
+                                            .requiredSize(24.dp)
+                                    )
+                                }
                             }
 
                         }
@@ -412,23 +420,35 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                 contentColor = Color.Black,
                             )
                         ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    imageVector = Icons.Filled.AccessTime,
-                                    contentDescription = ""
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ){
+                            Icon(
+                                imageVector = Icons.Filled.AccessTime,
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .padding(end = 3.dp)
+                            )
+                            Text(
+                                text = timeState,
+                                style = TextStyle(
+                                    textDecoration = TextDecoration.Underline
                                 )
-                                Text(
-                                    text = timeState,
-                                    style = TextStyle(
-                                        textDecoration = TextDecoration.Underline
-                                    )
-                                )
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(24.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
                                 Icon(
                                     imageVector = Icons.Filled.ArrowDropDown,
                                     contentDescription = stringResource(R.string.content_description_TimePicker),
-                                    modifier = Modifier.padding(start = 4.dp)
+                                    modifier = Modifier.fillMaxSize()
+                                        .padding(start = 10.dp)
+                                        .requiredSize(24.dp)
                                 )
                             }
+                                }
                         }
                     }
                     Spacer(modifier = Modifier.height(16.dp))
@@ -470,14 +490,14 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     }
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    Box (
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
-                                bottom = screenHeight*0.03f
+                                bottom = screenHeight * 0.03f
                             ),
                         contentAlignment = Alignment.Center
-                    ){
+                    ) {
                         Text(
                             text = stringResource(R.string.selecciona_una_actividad),
                             style = MaterialTheme.typography.bodyLarge.copy(
@@ -501,7 +521,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     ) {
                         FlowRow(
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalArrangement = Arrangement.spacedBy(screenHeight*0.02f),
+                            verticalArrangement = Arrangement.spacedBy(screenHeight * 0.025f),
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             activities.forEach { activity ->
@@ -512,13 +532,13 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.weight(1f))
 
-                    // BOTÓN INFERIOR (ROSA) PARA GUARDAR/CONTINUAR
-                    Row (
+                    //boton ok
+                    Box (
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
+                            .fillMaxWidth()
+                            .weight(1f),
+                        contentAlignment = Alignment.Center
                     )
                     {
                         Button(
@@ -527,7 +547,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                     selectedEmotionIndex == -1 -> {
                                         Toast.makeText(
                                             context,
-                                            "Selecciona una emoción antes de continuar.",
+                                            R.string.ME_Emociones,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
@@ -535,7 +555,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                     selectedActivity == null -> {
                                         Toast.makeText(
                                             context,
-                                            "Selecciona una actividad antes de continuar.",
+                                            R.string.ME_Actividades,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
@@ -543,7 +563,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                     selectedDate.isEmpty() -> {
                                         Toast.makeText(
                                             context,
-                                            "Selecciona una fecha válida.",
+                                            R.string.ME_Date,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
@@ -551,7 +571,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                     selectedTime.isEmpty() -> {
                                         Toast.makeText(
                                             context,
-                                            "Selecciona una hora válida.",
+                                            R.string.ME_Time,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
@@ -581,15 +601,15 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                         if (selectedCalendar.after(now)) {
                                             Toast.makeText(
                                                 context,
-                                                "No puedes seleccionar una fecha u hora futura.",
+                                                R.string.ME_Fecha_Hora_Futura,
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         } else {
                                             sendEmotions(
-                                              selectedEmotionIndex,
-                                              activities.indexOf(selectedActivity),
-                                              selectedDate,
-                                              selectedTime
+                                                selectedEmotionIndex,
+                                                activities.indexOf(selectedActivity),
+                                                selectedDate,
+                                                selectedTime
                                             )
                                             isSaved = true
                                         }
@@ -606,7 +626,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             shape = RoundedCornerShape(30.dp),
                             modifier = Modifier
                                 .width(buttonWidth)
-                                .height(60.dp)
+                                .fillMaxHeight(0.35f)
                         ) {
                             AnimatedContent(
                                 targetState = isSaved,
@@ -634,8 +654,8 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                         }
 
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
+            }
 
                 // DIÁLOGOS DE FECHA Y HORA
                 if (showDatePicker) {
@@ -652,7 +672,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             currentCalendar.set(Calendar.MILLISECOND, 0) // Asegurar que comparamos correctamente
 
                             if (selectedCalendar.after(todayEnd)) {
-                                Toast.makeText(context, "No puedes seleccionar una fecha futura.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.ME_Fecha_Futura, Toast.LENGTH_SHORT).show()
                             } else {
                                 selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
                                 dateState = "$dayOfMonth de ${getMonthName(month)}"
@@ -687,7 +707,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             selectedCalendar.set(Calendar.MILLISECOND, 0)
 
                             if (selectedCalendar.after(now)) {
-                                Toast.makeText(context, "No puedes seleccionar una hora futura.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.ME_Hora_Futura, Toast.LENGTH_SHORT).show()
                             } else {
                                 selectedTime = String.format("%02d:%02d", hourOfDay, minute)
                                 timeState = selectedTime
@@ -709,7 +729,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
             }
         }
     }
-}
+
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -729,13 +749,13 @@ fun ActivityButton(
 
         Box(
             modifier = Modifier
-                .size(70.dp)
+                .size(68.dp)
                 .clip(CircleShape)
                 .border(6.dp, borderColor, CircleShape)
                 .background(backgroundColor)
                 .clickable(
                     interactionSource = interactionSource,
-                    indication = null,            // <— aquí anulamos el ripple
+                    indication = null,
                     onClick = onClick),
             contentAlignment = Alignment.Center
         ) {
