@@ -93,7 +93,7 @@
     <string name="header_privacidad">En Harmony, tu privacidad y seguridad son nuestra prioridad.</string>
     <string name="texto_privacidad">Entendemos lo importante que es sentirte seguro al compartir tus pensamientos y emociones. Por eso, todas tus conversaciones con nuestro chatbot están protegidas con tecnología de encriptación avanzada, garantizando que tus datos personales y tu información de salud mental sean confidenciales y seguros. En Harmony, no almacenamos tus conversaciones de manera identificable, y tus datos nunca serán compartidos con terceros sin tu consentimiento explícito. Nuestro objetivo es brindarte un espacio seguro donde puedas expresarte libremente y recibir el apoyo que necesitas. Tu bienestar emocional es importante para nosotros, y eso incluye proteger tu privacidad en todo momento. 🌟 Si tienes alguna pregunta sobre cómo manejamos tus datos, no dudes en contactarnos. Estamos aquí para ayudarte. — El equipo de Harmony 💙</string>
 
-    <!-- Textos de la ventana "RegisterEmotionsScreen", ED=Emotions Descriptions, A=Activities -->
+    <!-- Textos de la ventana "RegisterEmotionsScreen", ED=Emotions Descriptions, A=Activities, ME= Mensaje Errores -->
     <string name="hoy">Hoy</string>
     <string name="ED_feliz" translatable="false">Feliz</string>
     <string name="ED_triste" translatable="false">Triste</string>
@@ -108,6 +108,14 @@
     <string name="A_hobbies">Hobbies</string>
     <string name="A_salud">Salud</string>
     <string name="A_otro">Otro</string>
+
+    <string name="ME_Emociones">Selecciona una emoción antes de continuar</string>
+    <string name="ME_Actividades">Selecciona una actividad antes de continuar</string>
+    <string name="ME_Date">Selecciona una fecha válida</string>
+    <string name="ME_Time">Selecciona una hora válida</string>
+    <string name="ME_Fecha_Hora_Futura">No puedes seleccionar una fecha u hora futura</string>
+    <string name="ME_Fecha_Futura">No puedes seleccionar una fecha futura</string>
+    <string name="ME_Hora_Futura">No puedes seleccionar una hora futura</string>
 
     <string name="content_description_DatePicker">Abrir selector de fecha</string>
     <string name="content_description_TimePicker">Abrir selector de hora</string>
