@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -140,12 +141,6 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
         label = "width"
     )
 
-    val checkSize by animateDpAsState(
-        targetValue = if (isSaved) 80.dp else 56.dp, // Ajusta el tamaño según el estado
-        animationSpec = tween(durationMillis = 400),
-        label = "checkSize"
-    )
-
     val cornerRadius by animateDpAsState(
         targetValue = if (isSaved) 30.dp else 50.dp,
         animationSpec = animationSpec,
@@ -153,8 +148,8 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
     )
 
     val checkScale by animateFloatAsState(
-        targetValue = if (isSaved) 1f else 0f,
-        animationSpec = tween(durationMillis = 400),
+        targetValue = if (isSaved) 2f else 1.0f,
+        animationSpec = tween(durationMillis = 600, easing = EaseInOut),
         label = "checkScale"
     )
 
@@ -628,7 +623,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                             imageVector = Icons.Filled.Check,
                                             contentDescription = "Guardado",
                                             tint = Color.Black,
-                                            modifier = Modifier.size(checkSize) // Usar el valor animado
+                                            modifier = Modifier.scale(checkScale) // Aplica la escala suavemente
                                         )
                                     } else {
                                         Text("OK", color = Color.White)
