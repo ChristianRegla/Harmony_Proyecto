@@ -1,6 +1,5 @@
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.with
 import androidx.compose.animation.fadeIn
@@ -10,7 +9,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.runtime.LaunchedEffect
 import android.widget.Toast
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.animateDpAsState
@@ -55,8 +53,6 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.EmojiPeople
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -89,7 +85,6 @@ import com.example.harmony.ui.components.Background_Register_Emotions
 import java.util.Calendar
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
@@ -133,27 +128,17 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
 
     var isSaved by remember { mutableStateOf(false) }
 
-    val animationSpec = tween<Dp>(durationMillis = 600)
-
     val buttonWidth by animateDpAsState(
         targetValue = if (isSaved) 60.dp else screenWidth * 0.5f,
-        animationSpec = animationSpec,
+        animationSpec = tween(durationMillis = 600),
         label = "width"
     )
 
-    val cornerRadius by animateDpAsState(
-        targetValue = if (isSaved) 30.dp else 50.dp,
-        animationSpec = animationSpec,
-        label = "corner"
-    )
-
     val checkScale by animateFloatAsState(
-        targetValue = if (isSaved) 2f else 1.0f,
+        targetValue = if (isSaved) 2.3f else 1.0f, // Ajuste de escala más controlado
         animationSpec = tween(durationMillis = 600, easing = EaseInOut),
         label = "checkScale"
     )
-
-    val buttonShape = RoundedCornerShape(cornerRadius)
 
     val todayEnd = Calendar.getInstance().apply {
         set(Calendar.HOUR_OF_DAY, 23)
@@ -179,13 +164,6 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                 now.get(Calendar.MINUTE)
             )
         )
-    }
-
-    if (isSaved) {
-        LaunchedEffect(isSaved) {
-            delay(3000)
-            isSaved = false
-        }
     }
 
     val headerTitle = ""
@@ -260,6 +238,32 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    if (isSaved) {
+        LaunchedEffect(isSaved) {
+            delay(1000) // espera breve para mostrar la animación del check
+            // Limpiar los campos
+            selectedEmotionIndex = -1
+            selectedActivity = null
+
+            val now = Calendar.getInstance()
+            selectedDate = String.format("%04d-%02d-%02d",
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH) + 1,
+                now.get(Calendar.DAY_OF_MONTH)
+            )
+            dateState = context.getString(R.string.hoy) + ", ${now.get(Calendar.DAY_OF_MONTH)} ${getMonthName(now.get(Calendar.MONTH))}"
+
+            selectedTime = String.format("%02d:%02d",
+                now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE)
+            )
+            timeState = selectedTime
+
+            delay(2000) // tiempo restante para completar los 3s
+            isSaved = false
+        }
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -582,40 +586,37 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                             ).show()
                                         } else {
                                             sendEmotions(
-                                                selectedEmotionIndex,
-                                                activities.indexOf(selectedActivity),
-                                                selectedDate,
-                                                selectedTime
+                                              selectedEmotionIndex,
+                                              activities.indexOf(selectedActivity),
+                                              selectedDate,
+                                              selectedTime
                                             )
                                             isSaved = true
                                         }
                                     }
                                 }
                             },
+                            enabled = !isSaved, // ← desactiva durante la animación
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(0xFFFF0080),
-                                contentColor = Color.Black
+                                contentColor = Color.Black,
+                                disabledContainerColor = Color(0xFFFF0080), // mismo color para que no se vea "apagado"
+                                disabledContentColor = Color.Black
                             ),
-                            shape = buttonShape,
+                            shape = RoundedCornerShape(30.dp),
                             modifier = Modifier
-                                .padding(horizontal = screenWidth * 0.1f)
                                 .width(buttonWidth)
                                 .height(60.dp)
                         ) {
                             AnimatedContent(
                                 targetState = isSaved,
                                 transitionSpec = {
-                                    (fadeIn(tween(300)) + scaleIn(tween(300))) with fadeOut(
-                                        tween(
-                                            100
-                                        )
-                                    )
+                                    (fadeIn(tween(300)) + scaleIn(tween(300))) with fadeOut(tween(100))
                                 },
                                 label = "button-content"
                             ) { saved ->
                                 Box(
-                                    modifier = Modifier
-                                        .fillMaxSize(),
+                                    modifier = Modifier.size(25.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     if (saved) {
@@ -623,7 +624,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                             imageVector = Icons.Filled.Check,
                                             contentDescription = "Guardado",
                                             tint = Color.Black,
-                                            modifier = Modifier.scale(checkScale) // Aplica la escala suavemente
+                                            modifier = Modifier.scale(checkScale) // Sincronizar escala con botón
                                         )
                                     } else {
                                         Text("OK", color = Color.White)
@@ -631,6 +632,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                 }
                             }
                         }
+
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
