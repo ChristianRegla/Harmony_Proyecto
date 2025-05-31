@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -382,12 +383,13 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             )
                         ) {
                             Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.fillMaxWidth(0.5f)
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.CalendarMonth,
-                                    contentDescription = ""
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .padding(end = 3.dp)
                                 )
                                 Text(
                                     text = dateState,
@@ -395,10 +397,17 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                         textDecoration = TextDecoration.Underline
                                     )
                                 )
-                                Icon(
-                                    imageVector = Icons.Filled.ArrowDropDown,
-                                    contentDescription = stringResource(R.string.content_description_DatePicker)
-                                )
+                                Box(
+                                    modifier = Modifier.size(24.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ArrowDropDown,
+                                        contentDescription = stringResource(R.string.content_description_DatePicker),
+                                        modifier = Modifier.fillMaxSize()
+                                            .requiredSize(24.dp)
+                                    )
+                                }
                             }
 
                         }
@@ -411,24 +420,35 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                 contentColor = Color.Black,
                             )
                         ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    imageVector = Icons.Filled.AccessTime,
-                                    contentDescription = "",
-                                    modifier = Modifier.fillMaxWidth(0.3f)
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ){
+                            Icon(
+                                imageVector = Icons.Filled.AccessTime,
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .padding(end = 3.dp)
+                            )
+                            Text(
+                                text = timeState,
+                                style = TextStyle(
+                                    textDecoration = TextDecoration.Underline
                                 )
-                                Text(
-                                    text = timeState,
-                                    style = TextStyle(
-                                        textDecoration = TextDecoration.Underline
-                                    )
-                                )
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(24.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
                                 Icon(
                                     imageVector = Icons.Filled.ArrowDropDown,
                                     contentDescription = stringResource(R.string.content_description_TimePicker),
-                                    modifier = Modifier.padding(start = 4.dp)
+                                    modifier = Modifier.fillMaxSize()
+                                        .padding(start = 10.dp)
+                                        .requiredSize(24.dp)
                                 )
                             }
+                                }
                         }
                     }
                     Spacer(modifier = Modifier.height(16.dp))
@@ -517,7 +537,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     Box (
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f), // Ocupa todo el espacio vertical restante
+                            .weight(1f),
                         contentAlignment = Alignment.Center
                     )
                     {
@@ -527,7 +547,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                     selectedEmotionIndex == -1 -> {
                                         Toast.makeText(
                                             context,
-                                            "Selecciona una emoción antes de continuar.",
+                                            R.string.ME_Emociones,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
@@ -535,7 +555,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                     selectedActivity == null -> {
                                         Toast.makeText(
                                             context,
-                                            "Selecciona una actividad antes de continuar.",
+                                            R.string.ME_Actividades,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
@@ -543,7 +563,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                     selectedDate.isEmpty() -> {
                                         Toast.makeText(
                                             context,
-                                            "Selecciona una fecha válida.",
+                                            R.string.ME_Date,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
@@ -551,7 +571,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                     selectedTime.isEmpty() -> {
                                         Toast.makeText(
                                             context,
-                                            "Selecciona una hora válida.",
+                                            R.string.ME_Time,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
@@ -581,7 +601,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                         if (selectedCalendar.after(now)) {
                                             Toast.makeText(
                                                 context,
-                                                "No puedes seleccionar una fecha u hora futura.",
+                                                R.string.ME_Fecha_Hora_Futura,
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         } else {
@@ -637,9 +657,6 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                 }
             }
 
-                //boton ok
-
-
                 // DIÁLOGOS DE FECHA Y HORA
                 if (showDatePicker) {
                     val datePicker = DatePickerDialog(
@@ -655,7 +672,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             currentCalendar.set(Calendar.MILLISECOND, 0) // Asegurar que comparamos correctamente
 
                             if (selectedCalendar.after(todayEnd)) {
-                                Toast.makeText(context, "No puedes seleccionar una fecha futura.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.ME_Fecha_Futura, Toast.LENGTH_SHORT).show()
                             } else {
                                 selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
                                 dateState = "$dayOfMonth de ${getMonthName(month)}"
@@ -690,7 +707,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             selectedCalendar.set(Calendar.MILLISECOND, 0)
 
                             if (selectedCalendar.after(now)) {
-                                Toast.makeText(context, "No puedes seleccionar una hora futura.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.ME_Hora_Futura, Toast.LENGTH_SHORT).show()
                             } else {
                                 selectedTime = String.format("%02d:%02d", hourOfDay, minute)
                                 timeState = selectedTime
@@ -732,13 +749,13 @@ fun ActivityButton(
 
         Box(
             modifier = Modifier
-                .size(70.dp)
+                .size(68.dp)
                 .clip(CircleShape)
                 .border(6.dp, borderColor, CircleShape)
                 .background(backgroundColor)
                 .clickable(
                     interactionSource = interactionSource,
-                    indication = null,            // <— aquí anulamos el ripple
+                    indication = null,
                     onClick = onClick),
             contentAlignment = Alignment.Center
         ) {
