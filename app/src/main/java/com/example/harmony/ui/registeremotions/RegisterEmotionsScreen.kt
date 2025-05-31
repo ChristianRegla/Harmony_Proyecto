@@ -130,13 +130,13 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
     var isSaved by remember { mutableStateOf(false) }
 
     val buttonWidth by animateDpAsState(
-        targetValue = if (isSaved) 60.dp else screenWidth * 0.5f,
+        targetValue = if (isSaved) screenWidth * 0.15f else screenWidth * 0.5f,
         animationSpec = tween(durationMillis = 600),
         label = "width"
     )
 
     val checkScale by animateFloatAsState(
-        targetValue = if (isSaved) 2.3f else 1.0f, // Ajuste de escala más controlado
+        targetValue = if (isSaved) 2.3f else 1f, // Ajuste de escala más controlado
         animationSpec = tween(durationMillis = 600, easing = EaseInOut),
         label = "checkScale"
     )
@@ -605,7 +605,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             ),
                             shape = RoundedCornerShape(30.dp),
                             modifier = Modifier
-                                .fillMaxWidth(0.6f)
+                                .width(buttonWidth)
                                 .fillMaxHeight(0.35f)
                         ) {
                             AnimatedContent(
