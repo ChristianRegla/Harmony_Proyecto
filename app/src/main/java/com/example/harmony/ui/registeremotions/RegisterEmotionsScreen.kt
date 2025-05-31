@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.foundation.layout.fillMaxSize
@@ -345,18 +346,16 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
-                            horizontal = screenWidth * 0.07f,
-                            vertical = screenHeight * 0.03f
-                        )
+                            horizontal = screenWidth * 0.07f)
                 ) {
-                    Box (
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
-                                bottom = screenHeight*0.03f
+                                bottom = screenHeight * 0.03f
                             ),
                         contentAlignment = Alignment.Center
-                    ){
+                    ) {
                         Text(
                             text = stringResource(R.string.pregunta_como_se_siente),
                             style = MaterialTheme.typography.bodyLarge.copy(
@@ -384,7 +383,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(horizontal = (-screenWidth * 0f))
+                                modifier = Modifier.fillMaxWidth(0.5f)
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.CalendarMonth,
@@ -415,7 +414,8 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     imageVector = Icons.Filled.AccessTime,
-                                    contentDescription = ""
+                                    contentDescription = "",
+                                    modifier = Modifier.fillMaxWidth(0.3f)
                                 )
                                 Text(
                                     text = timeState,
@@ -470,14 +470,14 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     }
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    Box (
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
-                                bottom = screenHeight*0.03f
+                                bottom = screenHeight * 0.03f
                             ),
                         contentAlignment = Alignment.Center
-                    ){
+                    ) {
                         Text(
                             text = stringResource(R.string.selecciona_una_actividad),
                             style = MaterialTheme.typography.bodyLarge.copy(
@@ -501,7 +501,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                     ) {
                         FlowRow(
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalArrangement = Arrangement.spacedBy(screenHeight*0.02f),
+                            verticalArrangement = Arrangement.spacedBy(screenHeight * 0.025f),
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             activities.forEach { activity ->
@@ -512,13 +512,13 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.weight(1f))
 
-                    // BOTÓN INFERIOR (ROSA) PARA GUARDAR/CONTINUAR
-                    Row (
+                    //boton ok
+                    Box (
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
+                            .fillMaxWidth()
+                            .weight(1f), // Ocupa todo el espacio vertical restante
+                        contentAlignment = Alignment.Center
                     )
                     {
                         Button(
@@ -586,10 +586,10 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                                             ).show()
                                         } else {
                                             sendEmotions(
-                                              selectedEmotionIndex,
-                                              activities.indexOf(selectedActivity),
-                                              selectedDate,
-                                              selectedTime
+                                                selectedEmotionIndex,
+                                                activities.indexOf(selectedActivity),
+                                                selectedDate,
+                                                selectedTime
                                             )
                                             isSaved = true
                                         }
@@ -605,8 +605,8 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                             ),
                             shape = RoundedCornerShape(30.dp),
                             modifier = Modifier
-                                .width(buttonWidth)
-                                .height(60.dp)
+                                .fillMaxWidth(0.6f)
+                                .fillMaxHeight(0.35f)
                         ) {
                             AnimatedContent(
                                 targetState = isSaved,
@@ -634,8 +634,11 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                         }
 
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
+            }
+
+                //boton ok
+
 
                 // DIÁLOGOS DE FECHA Y HORA
                 if (showDatePicker) {
@@ -709,7 +712,7 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
             }
         }
     }
-}
+
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
