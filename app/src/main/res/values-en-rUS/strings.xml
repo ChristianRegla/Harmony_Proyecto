@@ -86,7 +86,7 @@
     <string name="seleccione_metodo_pago">Payment method:</string>
     <string name="tarjeta_credito">Credit Card</string>
     <string name="como_estuvo_el_dia">How was your day?</string>
-    <string name="lleva_un_registro">Keep track of how you\'re feeling</string>
+    <string name="lleva_un_registro">Keep track of how you\'re feeling.</string>
     <string name="hoy">Today</string>
     <string name="A_trabajo">Work</string>
     <string name="A_amigos">Friends</string>
@@ -117,4 +117,14 @@
     <string name="juevesAbreviado">Thu</string>
     <string name="viernesAbreviado">Fri</string>
     <string name="sabadoAbreviado">Sat</string>
+    <string name="no_hay_datos_para_el_resumen_mensual">There isn\'t enough data for the monthly summary.</string>
+    <string name="no_hay_datos_para_el_resumen_semanal">There is no emotion data for this week yet.</string>
+    <string name="resumen_mensual">Monthly Summary</string>
+    <string name="resumen_semanal">Weekly Summary</string>
+    <string name="ED_feliz">Happy</string>
+    <string name="ED_triste">Sad</string>
+    <string name="ED_enojado">Angry</string>
+    <string name="ED_amor">Love</string>
+    <string name="ED_sorprendido">Surprised</string>
+    <string name="popup_dia_grafico">Day</string>
 </resources>

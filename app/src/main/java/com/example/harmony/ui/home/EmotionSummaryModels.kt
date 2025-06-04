@@ -15,7 +15,7 @@ data class MonthlyEmotionDataPoint(
 )
 
 data class EmotionEntry(
-    val emotionId: String = "",
-    val activityId: String = "", // Aunque no la usemos directamente en el resumen
+    val emotionId: Long = 0L,
+    val activityId: Long = 0L, // Aunque no la usemos directamente en el resumen
     val timestamp: String = "" // "yyyy-MM-dd HH:mm"
 )

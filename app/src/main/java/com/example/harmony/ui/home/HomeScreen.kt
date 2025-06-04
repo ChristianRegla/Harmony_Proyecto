@@ -200,6 +200,21 @@ fun ScreenContent(
     ) {
         Spacer(modifier = Modifier.height(16.dp))
 
+        val tituloChatbot = context.getString(R.string.te_gustar_a_contar_algo)
+        val subtituloChatbot = context.getString(R.string.estoy_para_lo_que_necesites)
+        ChatbotSection(
+            titulo = tituloChatbot,
+            subtitulo = subtituloChatbot,
+            imageResId = R.drawable.logo_harmony,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp),
+            navController = navController,
+            onClick = { navController.navigate("chatbot") }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         if (isLoadingSummaries) {
             Box(
                 modifier = Modifier
@@ -223,8 +238,9 @@ fun ScreenContent(
                         contentColor = Color.White.copy(alpha = 0.8f)
                     )
                 ) {
+                    val mensajeSinDatos = context.getString(R.string.no_hay_datos_para_el_resumen_semanal)
                     Text(
-                        "No hay datos de emociones para esta semana aún.",
+                        mensajeSinDatos,
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Center,
                         color = Color.White.copy(alpha = 0.8f), // Ajusta el color del texto
@@ -248,8 +264,9 @@ fun ScreenContent(
                         contentColor = Color.White.copy(alpha = 0.8f)
                     )
                 ) {
+                    val mensajeSinDatos = context.getString(R.string.no_hay_datos_para_el_resumen_mensual)
                     Text(
-                        "No hay suficientes datos para el resumen mensual.",
+                        mensajeSinDatos,
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Center,
                         color = Color.White.copy(alpha = 0.8f),
@@ -259,21 +276,6 @@ fun ScreenContent(
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
-
-        val tituloChatbot = context.getString(R.string.te_gustar_a_contar_algo)
-        val subtituloChatbot = context.getString(R.string.estoy_para_lo_que_necesites)
-        ChatbotSection(
-            titulo = tituloChatbot,
-            subtitulo = subtituloChatbot,
-            imageResId = R.drawable.logo_harmony,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp),
-            navController = navController,
-            onClick = { navController.navigate("chatbot") }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
 
         val tituloEmociones = context.getString(R.string.como_estuvo_el_dia)
         val subtituloEmociones = context.getString(R.string.lleva_un_registro)
@@ -303,7 +305,7 @@ fun ScreenContent(
             onClick = { navController.navigate("helpline") }
         )
 
-
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -365,9 +367,11 @@ fun ChatbotSection(
 
 @Composable
 fun WeeklyEmotionSummaryView(summary: List<DailyEmotionSummary>) {
+    val context = LocalContext.current
     Column {
+        val tituloResumen = context.getString(R.string.resumen_semanal)
         Text(
-            "Resumen Semanal",
+            tituloResumen,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
@@ -452,9 +456,11 @@ fun WeeklyEmotionSummaryView(summary: List<DailyEmotionSummary>) {
 
 @Composable
 fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
+    val context = LocalContext.current
     Column {
+        val resumenMensual = context.getString(R.string.resumen_mensual)
         Text(
-            "Resumen Mensual (YCharts)",
+            resumenMensual,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             color = Color.White // Asumiendo fondo oscuro
@@ -542,7 +548,8 @@ fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
                                 ),
                                 selectionHighlightPopUp = SelectionHighlightPopUp( // Popup al seleccionar
                                     popUpLabel = { x, y ->
-                                        "Día ${x.toInt()}: ${String.format("%.1f", y)}"
+                                        val diaTraducido = context.getString(R.string.popup_dia_grafico)
+                                        "$diaTraducido ${x.toInt()}: ${String.format("%.1f", y)}"
                                     },
                                     labelColor = Color.Black,
                                     labelSize = 12.sp,

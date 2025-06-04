@@ -95,11 +95,11 @@
 
     <!-- Textos de la ventana "RegisterEmotionsScreen", ED=Emotions Descriptions, A=Activities, ME= Mensaje Errores -->
     <string name="hoy">Hoy</string>
-    <string name="ED_feliz" translatable="false">Feliz</string>
-    <string name="ED_triste" translatable="false">Triste</string>
-    <string name="ED_enojado" translatable="false">Enojado</string>
-    <string name="ED_amor" translatable="false">Amor</string>
-    <string name="ED_sorprendido" translatable="false">Sorprendido</string>
+    <string name="ED_feliz">Feliz</string>
+    <string name="ED_triste">Triste</string>
+    <string name="ED_enojado">Enojado</string>
+    <string name="ED_amor">Amor</string>
+    <string name="ED_sorprendido">Sorprendido</string>
     <string name="A_trabajo">Trabajo</string>
     <string name="A_amigos">Amigos</string>
     <string name="A_familia">Familia</string>
@@ -160,7 +160,7 @@
     <string name="Respiracion">Respiración</string>
     
     <string name="como_estuvo_el_dia">¿Cómo estuvo tu día?</string>
-    <string name="lleva_un_registro">Lleva un registro de cómo te sientes</string>
+    <string name="lleva_un_registro">Lleva un registro de cómo te sientes.</string>
 
     <!-- Para eliminar conversación del chatbot -->
     <string name="eliminar_conversacion">¿Eliminar conversación?</string>
@@ -177,5 +177,12 @@
     <string name="juevesAbreviado">Jue</string>
     <string name="viernesAbreviado">Vie</string>
     <string name="sabadoAbreviado">Sáb</string>
+
+
+    <string name="no_hay_datos_para_el_resumen_mensual">No hay suficientes datos para el resumen mensual.</string>
+    <string name="no_hay_datos_para_el_resumen_semanal">No hay datos de emociones para esta semana aún.</string>
+    <string name="resumen_mensual">Resumen Mensual</string>
+    <string name="resumen_semanal">Resumen Semanal</string>
+    <string name="popup_dia_grafico">Día</string>
 
 </resources>

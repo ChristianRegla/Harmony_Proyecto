@@ -1,7 +1,5 @@
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.Calendar
-import java.util.Locale
 import android.util.Log
 
 // Clase de datos para almacenar un registro en Firestore
