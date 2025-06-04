@@ -1,0 +1,209 @@
+package com.example.harmony.ui.notifications
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.harmony.R
+import com.example.harmony.ui.components.SystemBarStyle
+import com.example.harmony.ui.components.TopBarEditar
+import com.example.harmony.ui.theme.BlueDark
+import androidx.compose.runtime.getValue // Necesario para el by remember
+import androidx.compose.runtime.mutableStateOf // Necesario para mutableStateOf
+import androidx.compose.runtime.remember // Necesario para remember
+import androidx.compose.runtime.setValue
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+
+@Composable
+fun NotificationsScreen(navController: NavHostController) {
+    val context = LocalContext.current
+
+    val headerTitle = context.getString(R.string.notificaciones)
+    val home = context.getString(R.string.header_menu_principal)
+    val relajacion = context.getString(R.string.relajacion)
+
+    SystemBarStyle(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Transparent,
+    )
+
+    var localNotificationsEnabled by remember { mutableStateOf(true) } // Valor inicial, ej: true
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.background_inicio),
+            contentDescription = "Background Image",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Scaffold(
+            topBar = {
+                TopBarEditar(
+                    onBackClick = { navController.popBackStack() },
+                    title = headerTitle
+                )
+            },
+            bottomBar = {
+                NavigationBar(
+                    modifier = Modifier.height(80.dp),
+                    containerColor = BlueDark
+                ) {
+                    NavigationBarItem(
+                        icon = { Icon(painterResource(id = R.drawable.home_unselected), contentDescription = "Home", tint = Color.White) },
+                        label = { Text(home, color = Color.White, modifier = Modifier.alpha(0.5f)) },
+                        selected = false,
+                        onClick = { navController.navigate("main") },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                            selectedIconColor = Color.Transparent,
+                            unselectedIconColor = Color.Transparent
+                        )
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(
+                            painter = painterResource(id = R.drawable.relax_unselected),
+                            contentDescription = "Relaxing",
+                            tint = Color.White
+                        ) },
+                        label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
+                        selected = false,
+                        onClick = { navController.navigate("relax") },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                            selectedIconColor = Color.Transparent,
+                            unselectedIconColor = Color.Transparent
+                        )
+                    )
+                }
+            },
+            containerColor = Color.Transparent,
+            contentColor = Color.White
+        ) { innerPadding ->
+            NotificationsContent(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                notificationsEnabled = localNotificationsEnabled, // Pasa el estado local
+                onNotificationSettingChanged = { newState ->
+                    localNotificationsEnabled = newState // Actualiza el estado local
+                    // No se llama a ninguna lógica de ViewModel aquí
+                }
+            )
+        }
+    }
+
+}
+
+@Composable
+fun NotificationsContent(
+    modifier: Modifier = Modifier,
+    notificationsEnabled: Boolean,
+    onNotificationSettingChanged: (Boolean) -> Unit
+) {
+    val context = LocalContext.current
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+    ) {
+        Text(
+            text = context.getString(R.string.configuracion_de_notificaciones),
+            style = MaterialTheme.typography.headlineSmall,
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White.copy(alpha = 0.15f)
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        ) {
+            Column {
+                NotificationSettingItem(
+                    title = context.getString(R.string.recordatorios_diarios),
+                    description = context.getString(R.string.recibir_recordatorios_para_registrar_emocion),
+                    isChecked = notificationsEnabled, // Usa el estado que se le pasa
+                    onCheckedChanged = onNotificationSettingChanged // Llama a la lambda que se le pasa
+                )
+                // Puedes añadir más items aquí si lo deseas, cada uno con su propio estado local
+                // o todos controlados por un estado más general si tiene sentido.
+            }
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+
+    }
+}
+
+@Composable
+fun NotificationSettingItem(
+    title: String,
+    description: String,
+    isChecked: Boolean,
+    onCheckedChanged: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 20.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.White
+            )
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White.copy(alpha = 0.7f),
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        Switch(
+            checked = isChecked,
+            onCheckedChange = onCheckedChanged, // Esta lambda ahora solo actualiza el estado local
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = Color.White,
+                uncheckedThumbColor = Color.White.copy(alpha = 0.7f),
+                uncheckedTrackColor = Color.Gray.copy(alpha = 0.5f),
+                uncheckedBorderColor = Color.Gray.copy(alpha = 0.75f)
+            )
+        )
+    }
+}

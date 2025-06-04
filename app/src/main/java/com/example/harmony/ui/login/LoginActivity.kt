@@ -61,6 +61,7 @@ import android.content.Intent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import com.example.harmony.notifications.ReminderReceiver
+import com.example.harmony.ui.notifications.NotificationsScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 class LoginActivity : ComponentActivity() {
@@ -95,6 +96,7 @@ class LoginActivity : ComponentActivity() {
     private val ejerciciosViewModel: EjerciciosViewModel by viewModels(){
         EjerciciosViewModelFactory(EjerciciosModel(this), this)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -226,6 +228,11 @@ class LoginActivity : ComponentActivity() {
                     EjerciciosScreen(
                         navController = navController,
                         ejerciciosViewModel = ejerciciosViewModel
+                    )
+                }
+                composable("notifications") {
+                    NotificationsScreen(
+                        navController = navController
                     )
                 }
             }

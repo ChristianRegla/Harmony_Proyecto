@@ -171,7 +171,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     )
                 },
                 selected = false,
-                onClick = {},
+                onClick = { navController.navigate("notifications") },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()
