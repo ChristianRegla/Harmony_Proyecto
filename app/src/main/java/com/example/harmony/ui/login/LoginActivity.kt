@@ -61,6 +61,7 @@ import android.content.Intent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import com.example.harmony.notifications.ReminderReceiver
+import com.example.harmony.ui.notifications.NotificationsScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 class LoginActivity : ComponentActivity() {
@@ -96,6 +97,7 @@ class LoginActivity : ComponentActivity() {
         EjerciciosViewModelFactory(EjerciciosModel(this), this)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -107,8 +109,8 @@ class LoginActivity : ComponentActivity() {
             val currentUser = FirebaseAuth.getInstance().currentUser
             val startDestination = if (currentUser != null) "main" else "login"
 
-            if (startDestination == "main") { // Solo si el usuario ya está logueado
-                val context = LocalContext.current // Obtén el contexto dentro del Composable
+            if (startDestination == "main") {
+                val context = LocalContext.current
                 val requestPermissionLauncher = rememberLauncherForActivityResult(
                     ActivityResultContracts.RequestPermission()
                 ) { isGranted: Boolean ->
@@ -119,15 +121,13 @@ class LoginActivity : ComponentActivity() {
                     }
                 }
 
-                // LaunchedEffect para pedir el permiso una vez que el Composable entre en la composición
                 LaunchedEffect(Unit) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         when {
                             ContextCompat.checkSelfPermission(
                                 context,
-                                Manifest.permission.POST_NOTIFICATIONS // Ahora debería encontrarlo
+                                Manifest.permission.POST_NOTIFICATIONS
                             ) == PackageManager.PERMISSION_GRANTED -> {
-                                // Ya tienes el permiso
                             }
                             else -> {
                                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -163,7 +163,7 @@ class LoginActivity : ComponentActivity() {
                     popExitTransition = { slideOutOfContainer(SlideDirection.Left) }
                 ) {
                     SignUpScreen(
-                        onNavigateToLogin = { navController.popBackStack() }, // Regresar
+                        onNavigateToLogin = { navController.popBackStack() },
                         onNavigateToMain = { navController.navigate("main") }
                     )
                 }
@@ -226,6 +226,11 @@ class LoginActivity : ComponentActivity() {
                     EjerciciosScreen(
                         navController = navController,
                         ejerciciosViewModel = ejerciciosViewModel
+                    )
+                }
+                composable("notifications") {
+                    NotificationsScreen(
+                        navController = navController
                     )
                 }
             }

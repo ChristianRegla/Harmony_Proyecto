@@ -15,20 +15,14 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.EmojiPeople
 import androidx.compose.material.icons.filled.NotificationsNone
-import androidx.compose.material.icons.filled.PersonOutline
-import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Logout
-import androidx.compose.material.icons.outlined.MonetizationOn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -45,13 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.harmony.R
 import com.example.harmony.ui.common.DrawerActions
-import com.example.harmony.ui.home.HomeViewModel
-import com. example. harmony. ui. profile. ProfileViewModel
-import coil3.compose. rememberAsyncImagePainter
-import com.example.harmony.ui.common.DataBaseActions
-import com.google.android.gms.common.config.GservicesValue.value
 import com. example. harmony. ui. profile. ProfileModel
-import androidx. compose. runtime. produceState
 import com.google.firebase.firestore.FirebaseFirestore
 
 @SuppressLint("SuspiciousIndentation")
@@ -183,7 +171,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     )
                 },
                 selected = false,
-                onClick = {},
+                onClick = { navController.navigate("notifications") },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()
