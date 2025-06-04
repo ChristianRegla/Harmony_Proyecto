@@ -1,11 +1,8 @@
 package com.example.harmony.ui.relax
 
-import Activity
-import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,52 +12,40 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.EmojiPeople
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.NotificationsNone
-import androidx.compose.material.icons.filled.PersonOutline
-import androidx.compose.material.icons.outlined.HelpOutline
-import androidx.compose.material.icons.outlined.Logout
-import androidx.compose.material.icons.outlined.MonetizationOn
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.R
 import com.example.harmony.ui.components.Container_Ejercicio
 import com.example.harmony.ui.components.DrawerContentComponent
 import com.example.harmony.ui.components.SystemBarStyle
-import com.example.harmony.ui.home.ScreenContent
 import com.example.harmony.ui.theme.DarkerPurpleColor
 import com.example.harmony.ui.theme.PurpleColor
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.remember
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,7 +96,6 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                                 if(drawerState.isClosed) drawerState.open()
                             }
                         },
-                        // Este es el título que va en medio de la barra superior
                         title = headerTitle,
                         navController = navController,
                         modifier = Modifier.size(56.dp)
@@ -135,7 +119,7 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                             selected = false,
                             onClick = { navController.navigate("main") },
                             colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                                indicatorColor = Color.Transparent,
                                 selectedIconColor = Color.Transparent,
                                 unselectedIconColor = Color.Transparent
                             )
@@ -152,7 +136,7 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                             selected = true,
                             onClick = {  },
                             colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                                indicatorColor = Color.Transparent,
                                 selectedIconColor = Color.Transparent,
                                 unselectedIconColor = Color.Transparent
                             )
@@ -167,7 +151,7 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     RelaxScreenContent(navController = navController)
                 }
@@ -177,73 +161,69 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
     } // ModalNavigationDrawer
 } // fun
 
+val listaDeEjercicios = listOf(
+    EjercicioData("Respiración", "4-7-8", "1-2 MIN", R.drawable.relajacion_imagen1, onClickAction = {  }),
+    EjercicioData("Relajación", "Muscular", "5-10 MIN", R.drawable.relajacion_imagen2, onClickAction = {  }),
+    EjercicioData("Técnica de", "la caja", "2-3 MIN", R.drawable.relajacion_imagen3, onClickAction = {  }),
+    EjercicioData("Mindfulness", "Aquí y ahora", "3-5 MIN", R.drawable.relajacion_imagen4, onClickAction = {  }),
+    EjercicioData("Técnica", "5-4-3-2-1", "2-4 MIN", R.drawable.relajacion_imagen5, onClickAction = {  }),
+    EjercicioData("Escaneo", "Corporal", "5-7 MIN", R.drawable.relajacion_imagen6, onClickAction = {  })
+)
+
 @Composable
 fun RelaxScreenContent(navController: NavHostController) {
-    Spacer(Modifier.height(16.dp))
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 5.dp, vertical = 10.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp) // Opcional: padding alrededor del contenido
-    ) {
-        item {
-            Container_Ejercicio(
-                Titulo = "Respiración",
-                Subtitulo = "4-7-8",
-                Duracion = "1-2 MIN",
-                Imagen = R.drawable.relajacion_imagen1,
-                OnClick = { navController.navigate("ejercicios") }
-            )
-        }
-        item {
-            Container_Ejercicio(
-                Titulo = "Relajación",
-                Subtitulo = "Muscular",
-                Duracion = "5-10 MIN",
-                Imagen = R.drawable.relajacion_imagen2,
-                OnClick = { }
-            )
-        }
-        item {
-            Container_Ejercicio(
-                Titulo = "Técnica de",
-                Subtitulo = "la caja",
-                Duracion = "2-3 MIN",
-                Imagen = R.drawable.relajacion_imagen3,
-                OnClick = { }
-            )
-        }
-        item {
-            Container_Ejercicio(
-                Titulo = "Mindfulness",
-                Subtitulo = "Aquí y ahora",
-                Duracion = "3-5 MIN",
-                Imagen = R.drawable.relajacion_imagen4,
-                OnClick = { }
-            )
-        }
-        item {
-            Container_Ejercicio(
-                Titulo = "Técnica",
-                Subtitulo = "5-4-3-2-1",
-                Duracion = "2-4 MIN",
-                Imagen = R.drawable.relajacion_imagen5,
-                OnClick = { }
-            )
-        }
-        item {
-            Container_Ejercicio(
-                Titulo = "Escaneo",
-                Subtitulo = "Corporal",
-                Duracion = "5-7 MIN",
-                Imagen = R.drawable.relajacion_imagen6,
-                OnClick = { }
-            )
-        }
+    val ejercicios = remember {
+        listOf(
+            EjercicioData("Respiración", "4-7-8", "1-2 MIN", R.drawable.relajacion_imagen1, onClickAction = { navController.navigate("ejercicios") }),
+            EjercicioData("Relajación", "Muscular", "5-10 MIN", R.drawable.relajacion_imagen2, onClickAction = {  }),
+            EjercicioData("Técnica de", "la caja", "2-3 MIN", R.drawable.relajacion_imagen3, onClickAction = {  }),
+            EjercicioData("Mindfulness", "Aquí y ahora", "3-5 MIN", R.drawable.relajacion_imagen4, onClickAction = {  }),
+            EjercicioData("Técnica", "5-4-3-2-1", "2-4 MIN", R.drawable.relajacion_imagen5, onClickAction = {  }),
+            EjercicioData("Escaneo", "Corporal", "5-7 MIN", R.drawable.relajacion_imagen6, onClickAction = {  })
+            // ... más ejercicios
+        )
     }
 
+    val groupedEjercicios: List<List<EjercicioData>> = listaDeEjercicios.chunked(2)
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp, vertical = 10.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(bottom = 16.dp)
+    ) {
+        items(items = groupedEjercicios) { rowItems ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                rowItems.forEach { ejercicio ->
+                    Box(modifier = Modifier.weight(1f)) {
+                        Container_Ejercicio(
+                            Titulo = ejercicio.titulo,
+                            Subtitulo = ejercicio.subtitulo,
+                            Duracion = ejercicio.duracion,
+                            Imagen = ejercicio.imagenResId,
+                            OnClick = ejercicio.onClickAction
+                        )
+                    }
+                }
+                if (rowItems.size == 1) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
+        }
+    }
 }
+
+data class EjercicioData(
+    val titulo: String,
+    val subtitulo: String,
+    val duracion: String,
+    val imagenResId: Int,
+    val onClickAction: () -> Unit
+)
 
 @Preview(showBackground = true)
 @Composable

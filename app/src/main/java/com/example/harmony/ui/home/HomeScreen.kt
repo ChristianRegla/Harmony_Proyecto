@@ -144,7 +144,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                             selected = true,
                             onClick = {},
                             colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                                indicatorColor = Color.Transparent,
                                 selectedIconColor = Color.Transparent,
                                 unselectedIconColor = Color.Transparent
                             )
@@ -159,7 +159,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                             selected = false,
                             onClick = { navController.navigate("relax") },
                             colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                                indicatorColor = Color.Transparent,
                                 selectedIconColor = Color.Transparent,
                                 unselectedIconColor = Color.Transparent
                             )
@@ -243,14 +243,13 @@ fun ScreenContent(
                         mensajeSinDatos,
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Center,
-                        color = Color.White.copy(alpha = 0.8f), // Ajusta el color del texto
+                        color = Color.White.copy(alpha = 0.8f),
                         modifier = Modifier.padding(16.dp)
                     )
                 }
                 Spacer(modifier = Modifier.height(24.dp))
             }
 
-            // Mostramos el gráfico mensual si hay datos existentes
             if (monthlySummary.isNotEmpty()) {
                 MonthlyEmotionChartView(summaryPoints = monthlySummary)
                 Spacer(modifier = Modifier.height(24.dp))
@@ -352,7 +351,7 @@ fun ChatbotSection(
                 Text(text = subtitulo, fontSize = 14.sp, color = Color(0xFF1D1B20))
             }
 
-            Spacer(modifier = Modifier.weight(1f)) // Espacio flexible para empujar la flecha a la derecha
+            Spacer(modifier = Modifier.weight(1f))
 
             Image( // Flecha a la derecha
                 painter = painterResource(id = R.drawable.image_arrow_right),
@@ -494,50 +493,46 @@ fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
 
                 // 2. Configura los ejes
                 val maxDays = summaryPoints.maxOfOrNull { it.dayOfMonth }?.toFloat() ?: 31f
-                val stepsXAxis = summaryPoints.distinctBy { it.dayOfMonth }.count().coerceAtLeast(1) // Número de etiquetas en X
+                val stepsXAxis = summaryPoints.distinctBy { it.dayOfMonth }.count().coerceAtLeast(1)
 
                 val xAxisData = AxisData.Builder()
-                    .axisStepSize(30.dp) // Espacio entre etiquetas del eje
+                    .axisStepSize(30.dp)
                     .backgroundColor(Color.Transparent)
-                    .steps(pointsData.size.coerceAtLeast(1) -1) // Número de pasos/intervalos
+                    .steps(pointsData.size.coerceAtLeast(1) -1)
                     .labelData { index ->
-                        // Mapea el índice de la etiqueta al día del mes
-                        // Esto puede necesitar ajuste si los días no son consecutivos o empiezan desde 1
                         val pointIndex = (index * (pointsData.size - 1) / (stepsXAxis -1).coerceAtLeast(1) ).coerceIn(0, pointsData.size -1)
                         pointsData.getOrNull(pointIndex)?.x?.toInt()?.toString() ?: ""
                     }
                     .axisLineColor(Color.White.copy(alpha = 0.5f))
                     .build()
 
-                // Encuentra el valor Y máximo y mínimo para escalar el eje Y
                 val minYValue = pointsData.minOfOrNull { it.y } ?: 0f
-                val maxYValue = pointsData.maxOfOrNull { it.y } ?: 5f // Asume un máximo de 5 si no hay datos o es 0
+                val maxYValue = pointsData.maxOfOrNull { it.y } ?: 5f
 
                 val yAxisData = AxisData.Builder()
-                    .steps(((maxYValue - minYValue).coerceAtLeast(1f)).toInt().coerceAtLeast(1)) // Número de pasos en Y
+                    .steps(((maxYValue - minYValue).coerceAtLeast(1f)).toInt().coerceAtLeast(1))
                     .backgroundColor(Color.Transparent)
-                    .labelData { value -> String.format("%.1f", value * (maxYValue-minYValue)/((maxYValue - minYValue).coerceAtLeast(1f)).toInt().coerceAtLeast(1) + minYValue) } // Formatea las etiquetas del eje Y
+                    .labelData { value -> String.format("%.1f", value * (maxYValue-minYValue)/((maxYValue - minYValue).coerceAtLeast(1f)).toInt().coerceAtLeast(1) + minYValue) }
                     .axisLineColor(Color.White.copy(alpha = 0.5f))
                     .build()
 
-                // 3. Configura los datos del gráfico de líneas
                 val lineChartData = LineChartData(
                     linePlotData = LinePlotData(
                         lines = listOf(
                             Line(
                                 dataPoints = pointsData,
                                 lineStyle = LineStyle(
-                                    color = MaterialTheme.colorScheme.secondary, // Color de la línea
-                                    width = 3f // Ancho de la línea
+                                    color = MaterialTheme.colorScheme.secondary,
+                                    width = 3f
                                 ),
                                 intersectionPoint = IntersectionPoint(
-                                    color = MaterialTheme.colorScheme.secondary, // Color de los puntos
+                                    color = MaterialTheme.colorScheme.secondary,
                                     radius = 4.dp
                                 ),
-                                selectionHighlightPoint = SelectionHighlightPoint( // Resaltado al seleccionar
+                                selectionHighlightPoint = SelectionHighlightPoint(
                                     color = MaterialTheme.colorScheme.tertiary
                                 ),
-                                shadowUnderLine = ShadowUnderLine( // Sombra debajo de la línea
+                                shadowUnderLine = ShadowUnderLine(
                                     alpha = 0.2f,
                                     brush = androidx.compose.ui.graphics.Brush.verticalGradient(
                                         colors = listOf(
@@ -546,7 +541,7 @@ fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
                                         )
                                     )
                                 ),
-                                selectionHighlightPopUp = SelectionHighlightPopUp( // Popup al seleccionar
+                                selectionHighlightPopUp = SelectionHighlightPopUp(
                                     popUpLabel = { x, y ->
                                         val diaTraducido = context.getString(R.string.popup_dia_grafico)
                                         "$diaTraducido ${x.toInt()}: ${String.format("%.1f", y)}"

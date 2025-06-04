@@ -36,9 +36,8 @@ import com.example.harmony.R
 import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.ui.components.TopBarEditar
 import com.example.harmony.ui.theme.BlueDark
-import androidx.compose.runtime.getValue // Necesario para el by remember
-import androidx.compose.runtime.mutableStateOf // Necesario para mutableStateOf
-import androidx.compose.runtime.remember // Necesario para remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -56,7 +55,7 @@ fun NotificationsScreen(navController: NavHostController) {
         navigationBarColor = Color.Transparent,
     )
 
-    var localNotificationsEnabled by remember { mutableStateOf(true) } // Valor inicial, ej: true
+    var localNotificationsEnabled by remember { mutableStateOf(true) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -83,7 +82,7 @@ fun NotificationsScreen(navController: NavHostController) {
                         selected = false,
                         onClick = { navController.navigate("main") },
                         colors = NavigationBarItemDefaults.colors(
-                            indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                            indicatorColor = Color.Transparent,
                             selectedIconColor = Color.Transparent,
                             unselectedIconColor = Color.Transparent
                         )
@@ -98,7 +97,7 @@ fun NotificationsScreen(navController: NavHostController) {
                         selected = false,
                         onClick = { navController.navigate("relax") },
                         colors = NavigationBarItemDefaults.colors(
-                            indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                            indicatorColor = Color.Transparent,
                             selectedIconColor = Color.Transparent,
                             unselectedIconColor = Color.Transparent
                         )
@@ -112,10 +111,9 @@ fun NotificationsScreen(navController: NavHostController) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding),
-                notificationsEnabled = localNotificationsEnabled, // Pasa el estado local
+                notificationsEnabled = localNotificationsEnabled,
                 onNotificationSettingChanged = { newState ->
-                    localNotificationsEnabled = newState // Actualiza el estado local
-                    // No se llama a ninguna lógica de ViewModel aquí
+                    localNotificationsEnabled = newState
                 }
             )
         }
@@ -153,11 +151,9 @@ fun NotificationsContent(
                 NotificationSettingItem(
                     title = context.getString(R.string.recordatorios_diarios),
                     description = context.getString(R.string.recibir_recordatorios_para_registrar_emocion),
-                    isChecked = notificationsEnabled, // Usa el estado que se le pasa
-                    onCheckedChanged = onNotificationSettingChanged // Llama a la lambda que se le pasa
+                    isChecked = notificationsEnabled,
+                    onCheckedChanged = onNotificationSettingChanged
                 )
-                // Puedes añadir más items aquí si lo deseas, cada uno con su propio estado local
-                // o todos controlados por un estado más general si tiene sentido.
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
@@ -197,7 +193,7 @@ fun NotificationSettingItem(
         Spacer(modifier = Modifier.width(16.dp))
         Switch(
             checked = isChecked,
-            onCheckedChange = onCheckedChanged, // Esta lambda ahora solo actualiza el estado local
+            onCheckedChange = onCheckedChanged,
             colors = SwitchDefaults.colors(
                 checkedThumbColor = Color.White,
                 uncheckedThumbColor = Color.White.copy(alpha = 0.7f),
