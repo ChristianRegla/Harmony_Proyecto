@@ -5,11 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,20 +30,16 @@ import com.example.harmony.EmailTextField
 import com.example.harmony.PasswordTextField
 import com.example.harmony.R
 import com.example.harmony.ui.components.SystemBarStyle
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 @Composable
 fun SignUpScreen(
     viewModel: SignUpViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     onNavigateToLogin: () -> Unit,
-    onNavigateToMain: () -> Unit
 ) {
     val context = LocalContext.current
     var apodo by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val auth = Firebase.auth
 
     SystemBarStyle(
         statusBarColor = Color.Transparent,
@@ -53,9 +49,8 @@ fun SignUpScreen(
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        val (logo, apodoField, emailField, passwordField, loginButton, googleButton, divider, signUpText, backgroundBox, contentColumn) = createRefs()
+        val (logo, apodoField, emailField, passwordField, loginButton, googleButton, divider, signUpText, backgroundBox) = createRefs()
 
-        // Box para el fondo
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -66,14 +61,12 @@ fun SignUpScreen(
                     end.linkTo(parent.end)
                 }
         ) {
-            // Imagen de fondo
             Image(
                 painter = painterResource(id = R.drawable.background_login_signup),
                 contentDescription = stringResource(id = R.string.background_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            // Imagen de fondo con opacidad
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -81,7 +74,6 @@ fun SignUpScreen(
             )
         }
 
-        // Nombre de la app centrado
         Text(
             text = stringResource(id = R.string.app_name),
             fontSize = 64.sp,
@@ -107,7 +99,6 @@ fun SignUpScreen(
             }
         )
 
-        // Campo de entrada para el correo
         EmailTextField(
             email = email,
             onEmailChange = { email = it },
@@ -118,7 +109,6 @@ fun SignUpScreen(
             }
         )
 
-        // Campo de entrada para la contraseña
         PasswordTextField(
             password = password,
             onPasswordChange = { password = it },
@@ -129,10 +119,9 @@ fun SignUpScreen(
             }
         )
 
-        // Botón de inicio de sesión
         Button(
             onClick = { viewModel.crearCuenta(apodo, email, password, context) },
-            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.azul_oscuro)),
+            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_oscuro)),
             shape = RoundedCornerShape(50.dp),
             modifier = Modifier
                 .constrainAs(loginButton) {
@@ -149,7 +138,6 @@ fun SignUpScreen(
             )
         }
 
-        // Linea con O
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -160,7 +148,7 @@ fun SignUpScreen(
                 }
                 .padding(horizontal = 32.dp)
         ) {
-            Divider(
+            HorizontalDivider(
                 color = Color.White,
                 thickness = 1.dp,
                 modifier = Modifier.weight(1f)
@@ -170,17 +158,16 @@ fun SignUpScreen(
                 color = Color.White,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
-            Divider(
+            HorizontalDivider(
                 color = Color.White,
                 thickness = 1.dp,
                 modifier = Modifier.weight(1f)
             )
         }
 
-        // Botón de continuar con Google
         Button(
             onClick = { /* TODO: Google Sign-In */ },
-            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.google)),
+            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.google)),
             shape = RoundedCornerShape(50.dp),
             modifier = Modifier
                 .constrainAs(googleButton) {
@@ -199,10 +186,9 @@ fun SignUpScreen(
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(10.dp))
-            Text(text = stringResource(id = R.string.continuar_google), color = Color.Black,)
+            Text(text = stringResource(id = R.string.continuar_google), color = Color.Black)
         }
 
-        // Texto de crear una cuenta
         Text(
             text = stringResource(id = R.string.Ya_tienes_cuenta),
             color = Color.White,

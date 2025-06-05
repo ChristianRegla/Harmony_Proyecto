@@ -1,18 +1,16 @@
 package com.example.harmony.ui.login
 
-import android.content.Context
-import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,16 +26,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.example.harmony.CustomToast
 import com.example.harmony.EmailTextField
 import com.example.harmony.PasswordTextField
 import com.example.harmony.R
 import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.utils.ResultState
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 
 @Composable
 fun LoginScreen(
@@ -48,7 +41,6 @@ fun LoginScreen(
     val context = LocalContext.current
     val loginState by viewModel.loginState.collectAsState()
 
-    // UI: Campos email y password
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -78,7 +70,7 @@ fun LoginScreen(
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        val (logo, emailField, passwordField, loginButton, googleButton, divider, signUpText, backgroundBox, contentColumn) = createRefs()
+        val (logo, emailField, passwordField, loginButton, googleButton, divider, signUpText, backgroundBox) = createRefs()
 
         // Box para el fondo
         Box(
@@ -147,7 +139,9 @@ fun LoginScreen(
         // Botón de inicio de sesión
         Button(
             onClick = { viewModel.iniciarSesion(email, password, context) },
-            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.azul_oscuro)),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.azul_oscuro)
+            ),
             shape = RoundedCornerShape(50.dp),
             modifier = Modifier
                 .constrainAs(loginButton) {
@@ -164,7 +158,6 @@ fun LoginScreen(
             )
         }
 
-        // Linea con O
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -175,27 +168,29 @@ fun LoginScreen(
                 }
                 .padding(horizontal = 32.dp)
         ) {
-            Divider(
-                color = Color.White,
+            HorizontalDivider(
+                modifier = Modifier.weight(1f),
                 thickness = 1.dp,
-                modifier = Modifier.weight(1f)
+                color = Color.White
             )
             Text(
                 text = stringResource(id = R.string.o),
                 color = Color.White,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
-            Divider(
-                color = Color.White,
+            HorizontalDivider(
+                modifier = Modifier.weight(1f),
                 thickness = 1.dp,
-                modifier = Modifier.weight(1f)
+                color = Color.White
             )
         }
 
         // Botón de continuar con Google
         Button(
-            onClick = { /* TODO: Google Sign-In */ },
-            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.google)),
+            onClick = { },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.google)
+            ),
             shape = RoundedCornerShape(50.dp),
             modifier = Modifier
                 .constrainAs(googleButton) {
@@ -214,7 +209,7 @@ fun LoginScreen(
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(10.dp))
-            Text(text = stringResource(id = R.string.continuar_google), color = Color.Black,)
+            Text(text = stringResource(id = R.string.continuar_google), color = Color.Black)
         }
 
         // Texto de crear una cuenta
