@@ -1,3 +1,5 @@
+package com.example.harmony.ui.registeremotions
+
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.compose.animation.AnimatedContent
@@ -93,10 +95,9 @@ import com.example.harmony.R
 import com.example.harmony.ui.components.DrawerContentComponent
 import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.ui.home.TopBar
-import com.example.harmony.ui.registeremotions.RegisterEmotionsModel
-import com.example.harmony.ui.registeremotions.RegisterEmotionsViewModel
 import com.example.harmony.ui.theme.BlueDark
 import kotlinx.coroutines.launch
+import sendEmotions
 import java.util.Locale
 
 // DATA CLASE PARA ACTIVIDADES

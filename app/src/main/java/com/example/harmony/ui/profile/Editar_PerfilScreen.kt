@@ -15,25 +15,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import android.annotation.SuppressLint
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -59,14 +55,10 @@ import com.example.harmony.ui.components.TopBarEditar
 @Composable
 fun Editar_PerfilScreen(
     navController: NavHostController,
-    Editar_PerfilViewModel: Editar_PerfilViewModel
+    editarPerfilViewModel: Editar_PerfilViewModel
 ) {
-    val context = LocalContext.current
-    val usuario = context.getString(R.string.user_name)
-    val header = context.getString(R.string.header_Editarperfil)
+    val header = stringResource(R.string.header_Editarperfil)
     val scrollState = rememberScrollState()
-    val scope = rememberCoroutineScope()
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     var nombre by remember { mutableStateOf("") }
     var apodo2 by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -76,13 +68,13 @@ fun Editar_PerfilScreen(
     var domicilio by remember { mutableStateOf("") }
 
     // Actualizados
-    val nombreActual by Editar_PerfilViewModel.nombre.collectAsState()
-    val apodoActual by Editar_PerfilViewModel.apodo.collectAsState()
-    val emailActual by Editar_PerfilViewModel.email.collectAsState()
-    val numeroActual by Editar_PerfilViewModel.numero.collectAsState()
-    val ciudadActual by Editar_PerfilViewModel.ciudad.collectAsState()
-    val generoActual by Editar_PerfilViewModel.genero.collectAsState()
-    val domicilioActual by Editar_PerfilViewModel.domicilio.collectAsState()
+    val nombreActual by editarPerfilViewModel.nombre.collectAsState()
+    val apodoActual by editarPerfilViewModel.apodo.collectAsState()
+    val emailActual by editarPerfilViewModel.email.collectAsState()
+    val numeroActual by editarPerfilViewModel.numero.collectAsState()
+    val ciudadActual by editarPerfilViewModel.ciudad.collectAsState()
+    val generoActual by editarPerfilViewModel.genero.collectAsState()
+    val domicilioActual by editarPerfilViewModel.domicilio.collectAsState()
 
     LaunchedEffect(
         nombreActual,
@@ -109,7 +101,7 @@ fun Editar_PerfilScreen(
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        val (scaffold, topBar, TextNombre, TextApodo, TextCorreo, SpinCiudad, SpintGenero, TextDomicilio, TextNumero, BtnActualizar, fondoImage) = createRefs()
+        val (scaffold, fondoImage) = createRefs()
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -215,7 +207,7 @@ fun Editar_PerfilScreen(
                     // Botón de Actualizar
                     Button(
                         onClick = {
-                            Editar_PerfilViewModel.actualizarDatos(
+                            editarPerfilViewModel.actualizarDatos(
                                 nombre = nombre,
                                 apodo = apodo2,
                                 numero = numero,
@@ -223,10 +215,10 @@ fun Editar_PerfilScreen(
                                 genero = generoSeleccionado,
                                 domicilio = domicilio
                             )
-                            Editar_PerfilViewModel.cargarDatosUsuario()
+                            editarPerfilViewModel.cargarDatosUsuario()
 
                         },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.azul_oscuro)),
+                        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_oscuro)),
                         shape = RoundedCornerShape(50.dp),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -249,6 +241,6 @@ fun Editar_PerfilPreview() {
     val navController = rememberNavController()
     Editar_PerfilScreen(
         navController = navController,
-        Editar_PerfilViewModel = Editar_PerfilViewModel()
+        editarPerfilViewModel = Editar_PerfilViewModel()
     )
 }

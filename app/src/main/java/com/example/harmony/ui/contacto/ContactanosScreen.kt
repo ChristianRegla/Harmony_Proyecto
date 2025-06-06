@@ -1,7 +1,6 @@
 package com.example.harmony.ui.contacto
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +22,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -36,9 +34,7 @@ import androidx.navigation.NavHostController
 import com.example.harmony.R
 import com.example.harmony.ui.components.DrawerContentComponent
 import com.example.harmony.ui.components.SystemBarStyle
-import com.example.harmony.ui.home.TopBar
 import com.example.harmony.ui.theme.BlueDark
-import kotlinx.coroutines.launch
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -56,26 +52,21 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.harmony.ui.components.TopBarEditar
-import com.example.harmony.ui.common.DataBaseActions
-import com.example.harmony.ui.home.HomeModel
-import com.example.harmony.ui.home.HomeScreen
-import com.example.harmony.ui.profile.ProfileViewModel
+import androidx.core.net.toUri
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactanosScreen(navController: NavHostController, contactanosViewModel: ContactanosViewModel) {
-    val context = LocalContext.current
-    val currentRoute = navController.currentBackStackEntry?.destination?.route
     // Para los textos y que estén traducidos:
-    val relajacion = context.getString(R.string.relajacion)
-    val home = context.getString(R.string.inicio)
+    val relajacion = stringResource(R.string.relajacion)
+    val home = stringResource(R.string.inicio)
     // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
 
     SystemBarStyle(
         statusBarColor = Color.Transparent,
@@ -165,11 +156,11 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
 fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    val Titulo = context.getString(R.string.contactanos)
-    val Email_mensaje = context.getString(R.string.Nuestro_equipo)
-    val Seguidores1 = context.getString(R.string.Seguidores1)
-    val Seguidores2 = context.getString(R.string.Seguidores2)
-    val Seguidores3 = context.getString(R.string.Seguidores3)
+    val titulo = stringResource(R.string.contactanos)
+    val emailMensaje = stringResource(R.string.Nuestro_equipo)
+    val seguidores1 = stringResource(R.string.Seguidores1)
+    val seguidores2 = stringResource(R.string.Seguidores2)
+    val seguidores3 = stringResource(R.string.Seguidores3)
     Column(modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(scrollState)){
 
         // Contenido de la pantalla de contacto
@@ -186,7 +177,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                     .align(Alignment.TopCenter)
                     .wrapContentSize()
                     .offset(x = 0.dp, y = 45.dp),
-                text = Titulo,
+                text = titulo,
                 color = Color(0xffffffff),
                 fontSize = 42.sp,
                 fontWeight = FontWeight.Normal,
@@ -210,7 +201,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .wrapContentHeight()
                         .offset(x = 90.dp, y = 116.dp)
                         .width(194.dp),
-                    text = Email_mensaje,
+                    text = emailMensaje,
                     color = Color(0xff000000),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
@@ -226,7 +217,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .background(Color.Black)
                         .clickable {
                             val intent = Intent(Intent.ACTION_SENDTO).apply {
-                                data = Uri.parse("mailto:a22310380@ceti.mx") // Correo Electronico
+                                data = "mailto:a22310380@ceti.mx".toUri() // Correo Electronico
                             }
                             context.startActivity(intent)
                         },
@@ -299,7 +290,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .align(Alignment.TopStart)
                         .wrapContentSize()
                         .offset(x = 81.dp, y = 42.dp),
-                    text = Seguidores1,
+                    text = seguidores1,
                     color = Color(0xff717171),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
@@ -315,7 +306,8 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .clip(RoundedCornerShape(100.dp))
                         .background(Color(0xFF377BAC))
                         .clickable {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/christian_slappy?igsh=MXhtMm02ejRxYjUxbg==")) // Reemplaza con el perfil real
+                            val intent = Intent(Intent.ACTION_VIEW,
+                                "https://www.instagram.com/christian_slappy?igsh=MXhtMm02ejRxYjUxbg==".toUri()) // Reemplaza con el perfil real
                             context.startActivity(intent)
                         },
                     contentAlignment = Alignment.Center
@@ -374,7 +366,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .align(Alignment.TopStart)
                         .wrapContentSize()
                         .offset(x = 81.dp, y = 42.dp),
-                    text = Seguidores2,
+                    text = seguidores2,
                     color = Color(0xff717171),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
@@ -390,7 +382,8 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .clip(RoundedCornerShape(100.dp))
                         .background(Color(0xFF377BAC))
                         .clickable {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://info.jalisco.gob.mx/instituciones/hospital-psiquiatrico-de-jalisco-estancia-prolongada")) // Reemplaza con el perfil real
+                            val intent = Intent(Intent.ACTION_VIEW,
+                                "https://info.jalisco.gob.mx/instituciones/hospital-psiquiatrico-de-jalisco-estancia-prolongada".toUri()) // Reemplaza con el perfil real
                             context.startActivity(intent)
                         },
                     contentAlignment = Alignment.Center
@@ -449,7 +442,7 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .align(Alignment.TopStart)
                         .wrapContentSize()
                         .offset(x = 81.dp, y = 42.dp),
-                    text = Seguidores3,
+                    text = seguidores3,
                     color = Color(0xff717171),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
@@ -465,7 +458,8 @@ fun ContactContent(navController: NavController, modifier: Modifier = Modifier){
                         .clip(RoundedCornerShape(100.dp))
                         .background(Color(0xFF377BAC))
                         .clickable {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/share/1Mk4xNzHmx/")) // Reemplaza con el perfil real
+                            val intent = Intent(Intent.ACTION_VIEW,
+                                "https://www.facebook.com/share/1Mk4xNzHmx/".toUri()) // Reemplaza con el perfil real
                             context.startActivity(intent)
                         },
                     contentAlignment = Alignment.Center

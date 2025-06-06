@@ -24,14 +24,6 @@ class ChatViewModel : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
     private var messagesListener: ListenerRegistration? = null
 
-
-    private val _currentTitle = MutableStateFlow("Chatbot")
-    val currentTitle: StateFlow<String> = _currentTitle
-
-    fun updateTitle(newTitle: String) {
-        _currentTitle.value = newTitle
-    }
-
     val messageList = mutableStateListOf<MessageModel>()
 
     val generativeModel : GenerativeModel = GenerativeModel(

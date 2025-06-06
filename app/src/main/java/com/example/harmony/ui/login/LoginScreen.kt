@@ -20,9 +20,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -31,6 +35,7 @@ import com.example.harmony.PasswordTextField
 import com.example.harmony.R
 import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.utils.ResultState
+import androidx.compose.ui.text.withStyle
 
 @Composable
 fun LoginScreen(
@@ -70,7 +75,7 @@ fun LoginScreen(
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        val (logo, emailField, passwordField, loginButton, googleButton, divider, signUpText, backgroundBox) = createRefs()
+        val (logo, emailField, passwordField, loginButton, googleButton, divider, signUpText, backgroundBox, forgotPassword) = createRefs()
 
         // Box para el fondo
         Box(
@@ -133,6 +138,15 @@ fun LoginScreen(
                 bottom.linkTo(loginButton.top, margin = 32.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
+            }
+        )
+
+        Text(
+            text = stringResource(id = R.string.forgot_password),
+            color = Color.White,
+            modifier = Modifier.constrainAs(forgotPassword) {
+                bottom.linkTo(loginButton.top, margin = 10.dp)
+                start.linkTo(parent.start, margin = 32.dp)
             }
         )
 
@@ -214,7 +228,19 @@ fun LoginScreen(
 
         // Texto de crear una cuenta
         Text(
-            text = stringResource(id = R.string.No_tienes_cuenta),
+            text = buildAnnotatedString {
+                append(stringResource(id = R.string.No_tienes_cuenta))
+                append(" ")
+
+                withStyle(
+                    style = SpanStyle(
+                        textDecoration = TextDecoration.Underline,
+                        fontWeight = FontWeight.Bold
+                    )
+                ) {
+                    append(stringResource(id = R.string.crea_una))
+                }
+            },
             color = Color.White,
             modifier = Modifier.constrainAs(signUpText) {
                 bottom.linkTo(parent.bottom, margin = 15.dp)

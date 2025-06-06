@@ -42,14 +42,13 @@ class ProfileModel(private val context: Context) {
 
         return@withContext try {
             val document = db.collection("usuarios").document(currentUser?.uid ?: "").get().await()
-            document.getString("imagenes") // <-- Este es el campo que guardas en guardarImagenEnFirestore
+            document.getString("imagenes")
         } catch (e: Exception) {
             null
         }
     }
 
 }
-
 
 data class PerfilModel(
     val userID: String = "",

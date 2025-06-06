@@ -19,9 +19,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -35,6 +40,7 @@ import com.example.harmony.ui.components.SystemBarStyle
 fun SignUpScreen(
     viewModel: SignUpViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     onNavigateToLogin: () -> Unit,
+    onNavigateToMain: () -> Unit
 ) {
     val context = LocalContext.current
     var apodo by remember { mutableStateOf("") }
@@ -190,7 +196,19 @@ fun SignUpScreen(
         }
 
         Text(
-            text = stringResource(id = R.string.Ya_tienes_cuenta),
+            text = buildAnnotatedString {
+                append(stringResource(id = R.string.Ya_tienes_cuenta))
+                append(" ")
+
+                withStyle(
+                    style = SpanStyle(
+                        textDecoration = TextDecoration.Underline,
+                        fontWeight = FontWeight.Bold
+                    )
+                ) {
+                    append(stringResource(id = R.string.inicia_sesion))
+                }
+            },
             color = Color.White,
             modifier = Modifier.constrainAs(signUpText) {
                 bottom.linkTo(parent.bottom, margin = 15.dp)

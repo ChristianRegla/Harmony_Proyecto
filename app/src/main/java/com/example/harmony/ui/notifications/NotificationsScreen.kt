@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,14 +40,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun NotificationsScreen(navController: NavHostController) {
-    val context = LocalContext.current
 
-    val headerTitle = context.getString(R.string.notificaciones)
-    val home = context.getString(R.string.header_menu_principal)
-    val relajacion = context.getString(R.string.relajacion)
+    val headerTitle = stringResource(R.string.notificaciones)
+    val home = stringResource(R.string.header_menu_principal)
+    val relajacion = stringResource(R.string.relajacion)
 
     SystemBarStyle(
         statusBarColor = Color.Transparent,
@@ -127,13 +126,12 @@ fun NotificationsContent(
     notificationsEnabled: Boolean,
     onNotificationSettingChanged: (Boolean) -> Unit
 ) {
-    val context = LocalContext.current
     Column(
         modifier = modifier
             .padding(16.dp)
     ) {
         Text(
-            text = context.getString(R.string.configuracion_de_notificaciones),
+            text = stringResource(R.string.configuracion_de_notificaciones),
             style = MaterialTheme.typography.headlineSmall,
             color = Color.White,
             fontWeight = FontWeight.Bold,
@@ -149,8 +147,8 @@ fun NotificationsContent(
         ) {
             Column {
                 NotificationSettingItem(
-                    title = context.getString(R.string.recordatorios_diarios),
-                    description = context.getString(R.string.recibir_recordatorios_para_registrar_emocion),
+                    title = stringResource(R.string.recordatorios_diarios),
+                    description = stringResource(R.string.recibir_recordatorios_para_registrar_emocion),
                     isChecked = notificationsEnabled,
                     onCheckedChanged = onNotificationSettingChanged
                 )

@@ -116,23 +116,7 @@ fun ChatScreen(navController: NavHostController, chatViewModel: ChatViewModel) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
-@Composable
-fun ChatPage(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
-    Column(
-        modifier = modifier
-    ) {
-        MessageList(
-            modifier = Modifier.weight(1f),
-            messageList = viewModel.messageList
-        )
-        MessageInput(
-            onMessageSend = {
-                viewModel.sendMessage(it)
-            }
-        )
-    }
-}
+
 
 @Composable
 fun MessageList(modifier: Modifier = Modifier, messageList: List<MessageModel>){
@@ -257,6 +241,7 @@ fun MessageInput(onMessageSend: (String) -> Unit){
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 @Preview(showBackground = true)
 @Composable
 fun ChatbotPreview() {

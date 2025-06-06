@@ -18,14 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class DonationViewModel(private val donationModel: DonationModel, private val context: Context) : ViewModel(), DrawerActions, DataBaseActions {
-
-    private val _currentTitle = MutableStateFlow("Donaciones")
-    val currentTitle: StateFlow<String> = _currentTitle
     private val firestore = FirebaseFirestore.getInstance()
-
-    fun updateTitle(newTitle: String) {
-        _currentTitle.value = newTitle
-    }
 
     private val _apodo = MutableStateFlow("")
     val apodo: StateFlow<String> = _apodo
@@ -46,13 +39,6 @@ class DonationViewModel(private val donationModel: DonationModel, private val co
         navController.navigate("login") {
             popUpTo(0) { inclusive = true }
         }
-    }
-
-    fun callPhoneNumber(phoneNumber: String) {
-        val intent = Intent(Intent.ACTION_DIAL).apply {
-            data = "tel:$phoneNumber".toUri()
-        }
-        startActivity(context, intent, null)
     }
 
     override fun uploadProfileImage(uri: Uri) {

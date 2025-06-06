@@ -8,8 +8,10 @@
     <string name="sign_up">Crear cuenta</string>
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="continuar_google">CONTINUAR CON GOOGLE</string>
-    <string name="No_tienes_cuenta">¿NO TIENES UNA CUENTA? CREA UNA</string>
-    <string name="Ya_tienes_cuenta">¿YA TIENES UNA CUENTA? INICIA SESIÓN</string>
+    <string name="No_tienes_cuenta">¿NO TIENES UNA CUENTA?</string>
+    <string name="crea_una">CREA UNA</string>
+    <string name="Ya_tienes_cuenta">¿YA TIENES UNA CUENTA?</string>
+    <string name="inicia_sesion">INICIA SESIÓN</string>
 
     <!-- Aquí van los mensajes de los toast para el login y registro -->
     <string name="error_campos_vacios">Por favor, complete todos los campos</string>

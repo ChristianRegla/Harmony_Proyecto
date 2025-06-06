@@ -1,6 +1,5 @@
 package com.example.harmony.ui.login
 
-import RegisterEmotionsScreen
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -58,10 +57,12 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.firebase.auth.FirebaseAuth
 import android.Manifest
 import android.content.Intent
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import com.example.harmony.notifications.ReminderReceiver
 import com.example.harmony.ui.notifications.NotificationsScreen
+import com.example.harmony.ui.registeremotions.RegisterEmotionsScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 class LoginActivity : ComponentActivity() {
@@ -70,34 +71,35 @@ class LoginActivity : ComponentActivity() {
     private val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(HomeModel(this), this)
     }
-    private val relaxViewModel: RelaxViewModel by viewModels() {
+    private val relaxViewModel: RelaxViewModel by viewModels {
         RelaxViewModelFactory(RelaxModel(this), this)
     }
     private val ChatViewModel: ChatViewModel by viewModels()
-    private val profileViewModel: ProfileViewModel by viewModels() {
+    private val profileViewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(ProfileModel(this), this)
     }
-    private val Editar_PerfilViewModel: Editar_PerfilViewModel by viewModels()
-    private val ContactanosViewModel: ContactanosViewModel by viewModels() {
+    private val editarPerfilViewModel: Editar_PerfilViewModel by viewModels()
+    private val contactanosViewModel: ContactanosViewModel by viewModels {
         ContactanosViewModelFactory(ContactanosModel(this), this)
     }
-    private val HelplineViewModel: HelplineViewModel by viewModels() {
+    private val helplineViewModel: HelplineViewModel by viewModels {
         HelplineViewModelFactory(HelplineModel(this), this)
     }
-    private val donationViewModel: DonationViewModel by viewModels() {
+    private val donationViewModel: DonationViewModel by viewModels {
         DonationViewModelFactory(DonationModel(this), this)
     }
-    private val privacyNoticeViewModel: PrivacyNoticeViewModel by viewModels(){
+    private val privacyNoticeViewModel: PrivacyNoticeViewModel by viewModels {
         PrivacyNoticeViewModelFactory(PrivacyNoticeModel(this), this)
     }
-    private val registerEmotionsViewModel: RegisterEmotionsViewModel by viewModels(){
+    private val registerEmotionsViewModel: RegisterEmotionsViewModel by viewModels {
         RegisterEmotionsViewModelFactory(RegisterEmotionsModel(this), this)
     }
-    private val ejerciciosViewModel: EjerciciosViewModel by viewModels(){
+    private val ejerciciosViewModel: EjerciciosViewModel by viewModels {
         EjerciciosViewModelFactory(EjerciciosModel(this), this)
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -189,19 +191,19 @@ class LoginActivity : ComponentActivity() {
                 composable("editar_perfil") {
                     Editar_PerfilScreen(
                         navController = navController,
-                        Editar_PerfilViewModel = Editar_PerfilViewModel
+                        editarPerfilViewModel = editarPerfilViewModel
                     )
                 }
                 composable("contactanos") {
                     ContactanosScreen(
                         navController = navController,
-                        contactanosViewModel = ContactanosViewModel
+                        contactanosViewModel = contactanosViewModel
                     )
                 }
                 composable("helpline") {
                         HelplineScreen(
                             navController = navController,
-                            helplineViewModel = HelplineViewModel
+                            helplineViewModel = helplineViewModel
                         )
                     }
                 composable("donation") {

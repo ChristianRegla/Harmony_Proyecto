@@ -20,8 +20,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -50,9 +48,6 @@ import androidx.navigation.NavHostController
 import com.example.harmony.ui.theme.BlueDark
 import kotlinx.coroutines.launch
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
@@ -72,15 +67,10 @@ import com.example.harmony.ui.home.TopBar
 import android.net.Uri
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.core.content.ContextCompat
-import android.Manifest
-import android.util.Log
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.filled.EmojiPeople
-import coil3.compose.rememberAsyncImagePainter
-import coil3.request.ImageRequest
 import com.example.harmony.ui.components.SystemBarStyle
 import androidx. compose. material3.Surface
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 
 
@@ -104,24 +94,21 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
     val context = LocalContext.current
     val viewModel = profileViewModel
     val perfilState = viewModel.perfil.collectAsState()
-    val isUploadingState by viewModel.isUploading.collectAsState()
-    val uploadErrorState by viewModel.uploadError.collectAsState()
 
     // Para los textos y que estén traducidos:
-    val usuario = context.getString(R.string.user_name)
-    val header = context.getString(R.string.header_perfil)
-    val inicio = context.getString(R.string.inicio)
-    val relajacion = context.getString(R.string.relajacion)
+    val header = stringResource(R.string.header_perfil)
+    val inicio = stringResource(R.string.inicio)
+    val relajacion = stringResource(R.string.relajacion)
 
     // Para el menu
-    val editarPerfil = context.getString(R.string.editar_informacion_de_perfil)
-    val notificaciones = context.getString(R.string.notificaciones)
-    val seguridad = context.getString(R.string.seguridad)
-    val idioma = context.getString(R.string.idioma)
-    val tema = context.getString(R.string.tema)
-    val ayudaSoporte = context.getString(R.string.ayuda_soporte)
-    val contactanos = context.getString(R.string.contactanos)
-    val politica_privacidad = context.getString(R.string.politica_privacidad)
+    val editarPerfil = stringResource(R.string.editar_informacion_de_perfil)
+    val notificaciones = stringResource(R.string.notificaciones)
+    val seguridad = stringResource(R.string.seguridad)
+    val idioma = stringResource(R.string.idioma)
+    val tema = stringResource(R.string.tema)
+    val ayudaSoporte = stringResource(R.string.ayuda_soporte)
+    val contactanos = stringResource(R.string.contactanos)
+    val politicaPrivacidad = stringResource(R.string.politica_privacidad)
 
     var apodo by remember { mutableStateOf("") }
 
@@ -481,7 +468,7 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                                     ProfileMenuItem(
                                         item = MenuItem(
                                             R.drawable.ico_politicas,
-                                            politica_privacidad
+                                            politicaPrivacidad
                                         ),
                                         onClick = { navController.navigate("privacyNotice") }
                                     )
@@ -497,7 +484,7 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
 }
 
 @Composable
-fun ProfileMenuItem(item: MenuItem, onClick: () -> Unit = {}, modifier: Modifier = Modifier) {
+fun ProfileMenuItem(modifier: Modifier = Modifier, item: MenuItem, onClick: () -> Unit = {}) {
     Box(
         contentAlignment = Alignment.TopStart,
         modifier = Modifier
