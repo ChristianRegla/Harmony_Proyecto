@@ -29,7 +29,7 @@ fun Container_Ejercicio(
     Subtitulo : String,
     Duracion : String,
     Imagen : Int = 0,
-    OnClick : () -> Unit
+    onClick : () -> Unit
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -64,7 +64,7 @@ fun Container_Ejercicio(
                     top.linkTo(imagen.bottom, margin = (-5).dp)
                     start.linkTo(parent.start)
                 }
-                .padding(start = 10.dp, )
+                .padding(start = 10.dp)
         )
 
         // Este es el subtítulo
@@ -95,7 +95,7 @@ fun Container_Ejercicio(
         )
 
         Button(
-            onClick = OnClick,
+            onClick = onClick,
             shape = RoundedCornerShape(50.dp),
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
                 containerColor = Color.White

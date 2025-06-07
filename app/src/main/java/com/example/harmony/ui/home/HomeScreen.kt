@@ -65,6 +65,7 @@ import co.yml.charts.ui.linechart.model.LineStyle
 import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
 import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
+import com.example.harmony.ui.components.RedirectHomeSection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
