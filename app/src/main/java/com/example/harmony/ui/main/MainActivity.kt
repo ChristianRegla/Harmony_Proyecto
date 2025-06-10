@@ -104,7 +104,6 @@ class MainActivity : ComponentActivity() {
         EjerciciosViewModelFactory(EjerciciosModel(this), this)
     }
 
-
     @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,7 +112,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            // Verificar si el usuario ya está autenticado para pasarlo al main
             val currentUser = FirebaseAuth.getInstance().currentUser
             val startDestination = if (currentUser != null) "main" else "login"
 
@@ -243,27 +241,23 @@ class MainActivity : ComponentActivity() {
             }
 
             // Navegar al destino de la notificación si existe y el usuario está autenticado
-            LaunchedEffect(intent, currentUser) { // Reaccionar a cambios en el intent
+            LaunchedEffect(intent, currentUser) {
                 val routeFromNotification =
                     intent.getStringExtra(ReminderReceiver.Companion.DESTINATION_ROUTE)
                 if (currentUser != null && routeFromNotification != null) {
                     navController.navigate(routeFromNotification) {
                         launchSingleTop = true
                     }
-                    // Limpiar el extra del intent para que no se vuelva a procesar
                     intent.removeExtra(ReminderReceiver.Companion.DESTINATION_ROUTE)
                 }
             }
         }
     }
 
-    // Manejar nuevos intents si la actividad ya está en primer plano
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        // Actualizar el intent de la actividad para que el LaunchedEffect en setContent lo recoja
-        // y procesar los extras del nuevo intent.
         handleIntentExtras(intent)
-        setIntent(intent) // Muy importante para que el LaunchedEffect reaccione
+        setIntent(intent)
     }
 
     // Función auxiliar para procesar los extras del intent

@@ -1,22 +1,12 @@
 package com.example.harmony.ui.login
 
-import android.content.Context
-import android.util.Log
 import android.util.Patterns
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.harmony.R
 import com.example.harmony.data.repository.AuthRepository
 import com.example.harmony.data.repository.UserPreferencesRepository
 import com.example.harmony.utils.ResultState
 import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import dataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
