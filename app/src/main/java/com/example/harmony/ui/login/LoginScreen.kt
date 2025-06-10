@@ -1,6 +1,7 @@
 package com.example.harmony.ui.login
 
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,18 +37,33 @@ import com.example.harmony.R
 import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.utils.ResultState
 import androidx.compose.ui.text.withStyle
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.navigation.NavHostController
+import com.example.harmony.CustomToast
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.launch
+import java.util.UUID
 
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     onNavigateToSignUp: () -> Unit,
-    onNavigateToMain: () -> Unit
+    onNavigateToMain: () -> Unit,
+    navController: NavHostController
 ) {
     val context = LocalContext.current
     val loginState by viewModel.loginState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val credentialManager = CredentialManager.create(context)
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+
 
     SystemBarStyle(
         statusBarColor = Color.Transparent,
@@ -201,7 +217,34 @@ fun LoginScreen(
 
         // Botón de continuar con Google
         Button(
-            onClick = { },
+            onClick = {
+                coroutineScope.launch {
+                    try {
+                        val nonce = UUID.randomUUID().toString()
+                        // Primero pues se construye la petición
+                        val signInWithGoogleOption: GetSignInWithGoogleOption = GetSignInWithGoogleOption.Builder(context.getString(R.string.web_client))
+                            .setNonce(nonce)
+                            .build()
+
+                        val request: GetCredentialRequest = GetCredentialRequest.Builder()
+                            .addCredentialOption(signInWithGoogleOption)
+                            .build()
+
+                        // Obtenemos la credencial del sistema
+                        val result = credentialManager.getCredential(
+                            request = request,
+                            context = context
+                        )
+
+                        // Luego ya con el resultado lo pasamos al viewmodel
+                        val credential = GoogleIdTokenCredential.createFrom(result.credential.data)
+                        val firebaseCredential = GoogleAuthProvider.getCredential(credential.idToken, null)
+                        viewModel.signInWithGoogleCredential(firebaseCredential, context)
+                    } catch (e: GetCredentialException) {
+                        CustomToast.showAlertWithIcon(context, e.message.toString(), R.drawable.ic_warning, Toast.LENGTH_SHORT)
+                    }
+                }
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorResource(id = R.color.google)
             ),
@@ -224,6 +267,16 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(text = stringResource(id = R.string.continuar_google), color = Color.Black)
+        }
+
+        val loginState by viewModel.loginState.collectAsState()
+
+        LaunchedEffect(loginState) {
+            if (loginState is ResultState.Success) {
+                navController.navigate("main") {
+                    popUpTo("login") { inclusive = true }
+                }
+            }
         }
 
         // Texto de crear una cuenta

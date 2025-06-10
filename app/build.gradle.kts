@@ -43,7 +43,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -78,8 +79,8 @@ dependencies {
     // Google Play Services
     implementation("androidx.credentials:credentials:1.5.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.5.0")
-    implementation("com.google.android.gms:play-services-auth:21.0.0")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
 
     implementation("androidx.datastore:datastore-preferences:1.1.3")
     implementation("androidx.navigation:navigation-compose:2.8.9")

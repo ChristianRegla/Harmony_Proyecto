@@ -415,7 +415,6 @@ fun WeeklyEmotionSummaryView(summary: List<DailyEmotionSummary>) {
                                     )
                                 } else {
                                     Icon(
-                                        // Por si está vacío de mientras dejo ese jeje
                                         painter = painterResource(id = R.drawable.ic_linea_de_ayuda),
                                         contentDescription = "Sin datos",
                                         modifier = Modifier.size(28.dp),

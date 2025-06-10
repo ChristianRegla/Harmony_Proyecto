@@ -154,7 +154,8 @@ class LoginActivity : ComponentActivity() {
                             navController.navigate("main") {
                                 popUpTo("login") { inclusive = true }
                             }
-                        }
+                        },
+                        navController = navController
                     )
                 }
                 composable(
