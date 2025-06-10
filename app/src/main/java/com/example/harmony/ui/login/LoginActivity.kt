@@ -53,13 +53,14 @@ import com.example.harmony.ui.relax.RelaxScreen
 import com.example.harmony.ui.relax.RelaxViewModel
 import com.example.harmony.ui.relax.RelaxViewModelFactory
 import com.example.harmony.ui.signup.SignUpScreen
-import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.firebase.auth.FirebaseAuth
 import android.Manifest
 import android.content.Intent
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.NavHost
 import com.example.harmony.notifications.ReminderReceiver
 import com.example.harmony.ui.notifications.NotificationsScreen
 import com.example.harmony.ui.registeremotions.RegisterEmotionsScreen
@@ -67,14 +68,16 @@ import com.example.harmony.ui.registeremotions.RegisterEmotionsScreen
 @OptIn(ExperimentalAnimationApi::class)
 class LoginActivity : ComponentActivity() {
 
-    private val loginViewModel: LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels {
+        LoginViewModelFactory(this)
+    }
     private val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(HomeModel(this), this)
     }
     private val relaxViewModel: RelaxViewModel by viewModels {
         RelaxViewModelFactory(RelaxModel(this), this)
     }
-    private val ChatViewModel: ChatViewModel by viewModels()
+    private val chatViewModel: ChatViewModel by viewModels()
     private val profileViewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(ProfileModel(this), this)
     }
@@ -139,13 +142,13 @@ class LoginActivity : ComponentActivity() {
                 }
             }
 
-            AnimatedNavHost(navController = navController, startDestination = startDestination) {
+            NavHost(navController = navController, startDestination = startDestination) {
                 composable(
                     "login",
-                    enterTransition = { slideIntoContainer(SlideDirection.Right) },
-                    exitTransition = { slideOutOfContainer(SlideDirection.Left) },
-                    popEnterTransition = { slideIntoContainer(SlideDirection.Left) },
-                    popExitTransition = { slideOutOfContainer(SlideDirection.Right) }
+                    enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
+                    exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
+                    popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
+                    popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) }
                 ) {
                     LoginScreen(
                         viewModel = loginViewModel,
@@ -154,16 +157,15 @@ class LoginActivity : ComponentActivity() {
                             navController.navigate("main") {
                                 popUpTo("login") { inclusive = true }
                             }
-                        },
-                        navController = navController
+                        }
                     )
                 }
                 composable(
                     "signup",
-                    enterTransition = { slideIntoContainer(SlideDirection.Left) },
-                    exitTransition = { slideOutOfContainer(SlideDirection.Right) },
-                    popEnterTransition = { slideIntoContainer(SlideDirection.Right) },
-                    popExitTransition = { slideOutOfContainer(SlideDirection.Left) }
+                    enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
+                    exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
+                    popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
+                    popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) }
                 ) {
                     SignUpScreen(
                         onNavigateToLogin = { navController.popBackStack() },
@@ -179,7 +181,7 @@ class LoginActivity : ComponentActivity() {
                 }
 
                 composable("chatbot") {
-                    ChatScreen(navController = navController, chatViewModel = ChatViewModel)
+                    ChatScreen(navController = navController, chatViewModel = chatViewModel)
                 }
 
                 composable("perfil") {

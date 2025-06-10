@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.harmony.R
 import com.example.harmony.data.repository.AuthRepository
+import com.example.harmony.data.repository.UserPreferencesRepository
 import com.example.harmony.utils.ResultState
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -21,12 +22,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
-
-    private val authRepository = AuthRepository()
-
-    private val auth: FirebaseAuth = Firebase.auth
-    private val db = FirebaseFirestore.getInstance()
+class LoginViewModel(
+    private val authRepository: AuthRepository,
+    private val userPreferencesRepository: UserPreferencesRepository
+) : ViewModel() {
 
     private val _loginState = MutableStateFlow<ResultState<String>>(ResultState.Idle)
     val loginState: StateFlow<ResultState<String>> = _loginState.asStateFlow()
@@ -34,82 +33,46 @@ class LoginViewModel : ViewModel() {
     private val _infoMessage = MutableStateFlow<String?>(null)
     val infoMessage: StateFlow<String?> = _infoMessage.asStateFlow()
 
-    fun signInWithGoogleCredential(credential: AuthCredential, context: Context) {
+    fun signInWithGoogleCredential(credential: AuthCredential) {
         _loginState.value = ResultState.Loading
-        auth.signInWithCredential(credential).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                // El resto de la lógica para obtener el apodo es igual
-                val user = auth.currentUser
-                user?.let { firebaseUser ->
-                    val userDocRef = db.collection("usuarios").document(firebaseUser.uid)
-                    userDocRef.get().addOnSuccessListener { document ->
-                        if (document.exists()) {
-                            val apodo = document.getString("apodo") ?: "Harmony"
-                            val bienvenida = context.getString(R.string.bienvenido)
+        viewModelScope.launch {
+            val result = authRepository.signInWithGoogleCredential(credential)
 
-                            _infoMessage.value = "$bienvenida, $apodo!"
+            result.onSuccess { userProfile ->
+                // Guardamos la sesión en DataStore a través del repositorio
+                userPreferencesRepository.saveUserSession(userProfile.nickname ?: "Harmony", userProfile.email)
 
-                            viewModelScope.launch {
-                                context.dataStore.edit { preferences ->
-                                    preferences[stringPreferencesKey("nickname")] = apodo
-                                    preferences[stringPreferencesKey("email")] = firebaseUser.email ?: ""
-                                }
-                            }
-                            _loginState.value = ResultState.Success("Inicio de sesión con Google exitoso.")
-                        } else {
-                            // Maneja el caso donde el usuario de Google no tiene documento en Firestore
-                            // Podrías crearlo aquí o redirigir a una pantalla para crear el perfil.
-                            Log.w("LoginViewModel", "Usuario de Google autenticado pero sin documento en Firestore.")
-                            _loginState.value = ResultState.Success("Inicio de sesión exitoso. Completa tu perfil.")
-                        }
-                    }
-                }
-            } else {
-                val mensaje = context.getString(R.string.error_al_iniciar_sesion_google) // Usa un string de error específico
-                _loginState.value = ResultState.Error(task.exception?.localizedMessage ?: mensaje)
+                // Emitimos el mensaje de bienvenida
+                _infoMessage.value = "¡Bienvenido, ${userProfile.nickname}!"
+                _loginState.value = ResultState.Success("Inicio de sesión con Google exitoso.")
+            }.onFailure { exception ->
+                _loginState.value = ResultState.Error(exception.localizedMessage ?: "Error desconocido en Google Sign-In")
             }
         }
     }
 
-    fun iniciarSesion(email: String, password: String, context: Context) {
+    fun iniciarSesion(email: String, password: String) {
         // Validación de campos vacíos
         if (email.isEmpty() || password.isEmpty()) {
-            _loginState.value = ResultState.Error(context.getString(R.string.error_campos_vacios))
+            _loginState.value = ResultState.Error("Los campos no pueden estar vacios")
             return
         }
 
         // Validación del formato del correo
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _loginState.value = ResultState.Error(context.getString(R.string.error_correo_invalido))
+            _loginState.value = ResultState.Error("El formato del correo no es válido")
             return
         }
         _loginState.value = ResultState.Loading
 
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val user = auth.currentUser
-                user?.let { firebaseUser ->
-                    val userDocRef = db.collection("usuarios").document(firebaseUser.uid)
-                    userDocRef.get().addOnSuccessListener { document ->
-                        if (document.exists()) {
-                            val apodo = document.getString("apodo") ?: "Harmony"
-                            val bienvenida = context.getString(R.string.bienvenido)
-                            _infoMessage.value = "$bienvenida, $apodo!"
+        viewModelScope.launch {
+            val result = authRepository.signInWithEmail(email, password)
 
-                            // Se guarda el apodo en el caché
-                            viewModelScope.launch {
-                                context.dataStore.edit { preferences ->
-                                    preferences[stringPreferencesKey("nickname")] = apodo
-                                }
-                            }
-                            _loginState.value = ResultState.Success("Inicio de sesión exitoso.")
-                        } else {
-                            _loginState.value = ResultState.Error(context.getString(R.string.error_apodo))
-                        }
-                    }
-                }
-            } else {
-                _loginState.value = ResultState.Error(context.getString(R.string.error_al_iniciar_sesion))
+            result.onSuccess { userProfile ->
+                _infoMessage.value = ResultState.Success("Inicio de sesión exitoso.").toString()
+                _loginState.value = ResultState.Success("Inicio de sesión exitoso.")
+            }.onFailure { exception ->
+                _loginState.value = ResultState.Error(exception.localizedMessage ?: "Error desconocido")
             }
         }
     }

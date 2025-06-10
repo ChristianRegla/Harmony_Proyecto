@@ -41,7 +41,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
-import androidx.navigation.NavHostController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.GoogleAuthProvider
@@ -50,10 +50,11 @@ import java.util.UUID
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    viewModel: LoginViewModel = viewModel(
+        factory = LoginViewModelFactory(LocalContext.current)
+    ),
     onNavigateToSignUp: () -> Unit,
-    onNavigateToMain: () -> Unit,
-    navController: NavHostController
+    onNavigateToMain: () -> Unit
 ) {
     // Intento de snackbar
     val snackbarHostState = remember { SnackbarHostState() }
@@ -183,7 +184,7 @@ fun LoginScreen(
 
             // Botón de inicio de sesión
             Button(
-                onClick = { viewModel.iniciarSesion(email, password, context) },
+                onClick = { viewModel.iniciarSesion(email, password) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(id = R.color.azul_oscuro)
                 ),
@@ -254,7 +255,7 @@ fun LoginScreen(
                             // Luego ya con el resultado lo pasamos al viewmodel
                             val credential = GoogleIdTokenCredential.createFrom(result.credential.data)
                             val firebaseCredential = GoogleAuthProvider.getCredential(credential.idToken, null)
-                            viewModel.signInWithGoogleCredential(firebaseCredential, context)
+                            viewModel.signInWithGoogleCredential(firebaseCredential)
                         } catch (e: GetCredentialException) {
                             scope.launch {
                                 snackbarHostState.showSnackbar(
