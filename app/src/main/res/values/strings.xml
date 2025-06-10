@@ -193,5 +193,6 @@
 
     <string name="web_client">58266237789-3hrbd9nsra34v6vvo70s13r105iv4cdm.apps.googleusercontent.com</string>
     <string name="error_al_iniciar_sesion_google">Error al iniciar sesión con Google</string>
+    <string name="error_google_login_cancelado">Inicio de sesión con Google cancelado.</string>
 
 </resources>
