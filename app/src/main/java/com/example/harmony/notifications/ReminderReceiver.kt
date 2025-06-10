@@ -9,7 +9,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.example.harmony.R
-import com.example.harmony.ui.login.LoginActivity
+import com.example.harmony.ui.main.MainActivity
 import android.Manifest
 import android.content.pm.PackageManager
 
@@ -34,7 +34,7 @@ class ReminderReceiver : BroadcastReceiver() {
         }
 
         // Crear el intent para la actividad de destino
-        val tapIntent = Intent(context, LoginActivity::class.java).apply {
+        val tapIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra(DESTINATION_ROUTE, "registerEmotions")
         }

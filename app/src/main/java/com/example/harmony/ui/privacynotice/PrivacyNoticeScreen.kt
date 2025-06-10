@@ -1,10 +1,8 @@
 package com.example.harmony.ui.privacynotice
 
-import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,16 +13,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.EmojiPeople
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -53,10 +47,9 @@ fun PrivacyNoticeScreen(navController: NavHostController, privacyNoticeViewModel
         navigationBarColor = Color.Transparent,
     )
 
-    val context = LocalContext.current
     val headerTitle = ""
-    val relajacion = context.getString(R.string.relajacion)
-    val inicio = context.getString(R.string.inicio)
+    val relajacion = stringResource(R.string.relajacion)
+    val inicio = stringResource(R.string.inicio)
 
 
     val configuration = LocalConfiguration.current

@@ -1,27 +1,29 @@
-package com.example.harmony.ui.login
+package com.example.harmony.ui.main
 
+import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
+import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.harmony.notifications.ReminderReceiver
 import com.example.harmony.ui.chat.ChatScreen
 import com.example.harmony.ui.chat.ChatViewModel
 import com.example.harmony.ui.contacto.ContactanosModel
-import com.example.harmony.ui.helpline.HelplineModel
-import com.example.harmony.ui.helpline.HelplineScreen
-import com.example.harmony.ui.helpline.HelplineViewModel
-import com.example.harmony.ui.helpline.HelplineViewModelFactory
-import com.example.harmony.ui.home.HomeModel
-import com.example.harmony.ui.home.HomeScreen
 import com.example.harmony.ui.contacto.ContactanosScreen
 import com.example.harmony.ui.contacto.ContactanosViewModel
 import com.example.harmony.ui.contacto.ContactanosViewModelFactory
@@ -33,19 +35,30 @@ import com.example.harmony.ui.ejercicios.EjerciciosModel
 import com.example.harmony.ui.ejercicios.EjerciciosScreen
 import com.example.harmony.ui.ejercicios.EjerciciosViewModel
 import com.example.harmony.ui.ejercicios.EjerciciosViewModelFactory
+import com.example.harmony.ui.helpline.HelplineModel
+import com.example.harmony.ui.helpline.HelplineScreen
+import com.example.harmony.ui.helpline.HelplineViewModel
+import com.example.harmony.ui.helpline.HelplineViewModelFactory
+import com.example.harmony.ui.home.HomeModel
+import com.example.harmony.ui.home.HomeScreen
 import com.example.harmony.ui.home.HomeViewModel
 import com.example.harmony.ui.home.HomeViewModelFactory
+import com.example.harmony.ui.login.LoginScreen
+import com.example.harmony.ui.login.LoginViewModel
+import com.example.harmony.ui.login.LoginViewModelFactory
+import com.example.harmony.ui.notifications.NotificationsScreen
 import com.example.harmony.ui.privacynotice.PrivacyNoticeModel
 import com.example.harmony.ui.privacynotice.PrivacyNoticeScreen
 import com.example.harmony.ui.privacynotice.PrivacyNoticeViewModel
 import com.example.harmony.ui.privacynotice.PrivacyNoticeViewModelFactory
-import com.example.harmony.ui.profile.Editar_PerfilViewModel
 import com.example.harmony.ui.profile.Editar_PerfilScreen
+import com.example.harmony.ui.profile.Editar_PerfilViewModel
 import com.example.harmony.ui.profile.ProfileModel
 import com.example.harmony.ui.profile.ProfileScreen
 import com.example.harmony.ui.profile.ProfileViewModel
 import com.example.harmony.ui.profile.ProfileViewModelFactory
 import com.example.harmony.ui.registeremotions.RegisterEmotionsModel
+import com.example.harmony.ui.registeremotions.RegisterEmotionsScreen
 import com.example.harmony.ui.registeremotions.RegisterEmotionsViewModel
 import com.example.harmony.ui.registeremotions.RegisterEmotionsViewModelFactory
 import com.example.harmony.ui.relax.RelaxModel
@@ -54,19 +67,9 @@ import com.example.harmony.ui.relax.RelaxViewModel
 import com.example.harmony.ui.relax.RelaxViewModelFactory
 import com.example.harmony.ui.signup.SignUpScreen
 import com.google.firebase.auth.FirebaseAuth
-import android.Manifest
-import android.content.Intent
-import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.compose.NavHost
-import com.example.harmony.notifications.ReminderReceiver
-import com.example.harmony.ui.notifications.NotificationsScreen
-import com.example.harmony.ui.registeremotions.RegisterEmotionsScreen
 
 @OptIn(ExperimentalAnimationApi::class)
-class LoginActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() {
 
     private val loginViewModel: LoginViewModel by viewModels {
         LoginViewModelFactory(this)
@@ -120,23 +123,22 @@ class LoginActivity : ComponentActivity() {
                     ActivityResultContracts.RequestPermission()
                 ) { isGranted: Boolean ->
                     if (isGranted) {
-                        // Permiso concedido
+                        Log.d("NotificationPermission", "Permiso concedido")
                     } else {
-                        // Permiso denegado
+                        Log.d("NotificationPermission", "Permiso denegado")
                     }
                 }
 
                 LaunchedEffect(Unit) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        when {
-                            ContextCompat.checkSelfPermission(
-                                context,
-                                Manifest.permission.POST_NOTIFICATIONS
-                            ) == PackageManager.PERMISSION_GRANTED -> {
-                            }
-                            else -> {
-                                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                            }
+                    when {
+                        ContextCompat.checkSelfPermission(
+                            context,
+                            Manifest.permission.POST_NOTIFICATIONS
+                        ) == PackageManager.PERMISSION_GRANTED -> {
+                        }
+
+                        else -> {
+                            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                         }
                     }
                 }
@@ -204,11 +206,11 @@ class LoginActivity : ComponentActivity() {
                     )
                 }
                 composable("helpline") {
-                        HelplineScreen(
-                            navController = navController,
-                            helplineViewModel = helplineViewModel
-                        )
-                    }
+                    HelplineScreen(
+                        navController = navController,
+                        helplineViewModel = helplineViewModel
+                    )
+                }
                 composable("donation") {
                     DonationScreen(
                         navController = navController,
@@ -242,13 +244,14 @@ class LoginActivity : ComponentActivity() {
 
             // Navegar al destino de la notificación si existe y el usuario está autenticado
             LaunchedEffect(intent, currentUser) { // Reaccionar a cambios en el intent
-                val routeFromNotification = intent.getStringExtra(ReminderReceiver.DESTINATION_ROUTE)
+                val routeFromNotification =
+                    intent.getStringExtra(ReminderReceiver.Companion.DESTINATION_ROUTE)
                 if (currentUser != null && routeFromNotification != null) {
                     navController.navigate(routeFromNotification) {
                         launchSingleTop = true
                     }
                     // Limpiar el extra del intent para que no se vuelva a procesar
-                    intent.removeExtra(ReminderReceiver.DESTINATION_ROUTE)
+                    intent.removeExtra(ReminderReceiver.Companion.DESTINATION_ROUTE)
                 }
             }
         }
@@ -265,7 +268,7 @@ class LoginActivity : ComponentActivity() {
 
     // Función auxiliar para procesar los extras del intent
     private fun handleIntentExtras(intent: Intent?) {
-        intent?.getStringExtra(ReminderReceiver.DESTINATION_ROUTE)?.let { route ->
+        intent?.getStringExtra(ReminderReceiver.Companion.DESTINATION_ROUTE)?.let { route ->
             println("Notification wants to navigate to: $route")
         }
     }

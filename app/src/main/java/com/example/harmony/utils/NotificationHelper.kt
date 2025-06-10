@@ -7,7 +7,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.harmony.R
-import com.example.harmony.ui.login.LoginActivity
+import com.example.harmony.ui.main.MainActivity
 
 object NotificationHelper {
     private const val CHANNEL_ID = "harmony_channel_id"
@@ -15,7 +15,7 @@ object NotificationHelper {
     fun showNotification(context: Context, title: String, content: String) {
         // Creamos el intent para abrir la app cuando se toca la noti
         // Y se apunta al LoginActivity que es el que se encarga de la nav
-        val intent = Intent(context, LoginActivity::class.java).apply {
+        val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
