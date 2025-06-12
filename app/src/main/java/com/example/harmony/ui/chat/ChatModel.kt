@@ -1,11 +1,13 @@
 package com.example.harmony.ui.chat
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -15,9 +17,9 @@ import com.example.harmony.ui.theme.Magenta
 
 @OptIn(ExperimentalMaterial3Api::class)
 class ChatModel : ComponentActivity() {
+    private val chatViewModel: ChatViewModel by viewModels()
 
-    private val ChatViewModel: ChatViewModel by viewModels()
-
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.auto(
@@ -30,10 +32,9 @@ class ChatModel : ComponentActivity() {
             val navController = rememberNavController()
             HarmonyTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    ChatScreen(navController = navController, chatViewModel = ChatViewModel)
+                    ChatScreen(navController = navController, chatViewModel = chatViewModel)
                 }
             }
         }
     }
-
 }

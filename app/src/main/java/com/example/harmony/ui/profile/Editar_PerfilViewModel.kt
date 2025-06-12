@@ -1,6 +1,5 @@
 package com.example.harmony.ui.profile
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
@@ -80,9 +79,6 @@ class Editar_PerfilViewModel : ViewModel() {
         }
     }
 
-    fun tituloActualizado(newTitle: String) {
-        _Title.value = newTitle
-    }
     fun cerrarSesion(navController: NavHostController) {
         FirebaseAuth.getInstance().signOut()
         navController.navigate("login") {

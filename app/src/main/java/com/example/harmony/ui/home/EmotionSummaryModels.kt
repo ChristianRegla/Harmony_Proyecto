@@ -11,11 +11,11 @@ data class DailyEmotionSummary (
 
 data class MonthlyEmotionDataPoint(
     val dayOfMonth: Int,
-    val averageEmotionValue: Float // El valor numérico promedio del día
+    val averageEmotionValue: Float
 )
 
 data class EmotionEntry(
     val emotionId: Long = 0L,
-    val activityId: Long = 0L, // Aunque no la usemos directamente en el resumen
-    val timestamp: String = "" // "yyyy-MM-dd HH:mm"
+    val activityId: Long = 0L,
+    val timestamp: String = ""
 )

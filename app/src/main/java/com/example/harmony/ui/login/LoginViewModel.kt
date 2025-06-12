@@ -1,90 +1,73 @@
 package com.example.harmony.ui.login
 
-import android.content.Context
 import android.util.Patterns
-import android.widget.Toast
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.harmony.CustomToast
-import com.example.harmony.R
 import com.example.harmony.data.repository.AuthRepository
+import com.example.harmony.data.repository.UserPreferencesRepository
 import com.example.harmony.utils.ResultState
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import dataStore
+import com.google.firebase.auth.AuthCredential
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+    private val authRepository: AuthRepository,
+    private val userPreferencesRepository: UserPreferencesRepository
+) : ViewModel() {
 
-    private val auth: FirebaseAuth = Firebase.auth
-    private val db = FirebaseFirestore.getInstance()
+    private val _loginState = MutableStateFlow<ResultState<String>>(ResultState.Idle)
+    val loginState: StateFlow<ResultState<String>> = _loginState.asStateFlow()
 
-    private val _loginState = MutableStateFlow<ResultState<Unit>>(ResultState.Loading)
-    val loginState: StateFlow<ResultState<Unit>> = _loginState
+    private val _infoMessage = MutableStateFlow<String?>(null)
+    val infoMessage: StateFlow<String?> = _infoMessage.asStateFlow()
 
-    fun iniciarSesion(email: String, password: String, context: Context) {
-        // Validación de campos vacíos
-        if (email.isEmpty() || password.isEmpty()) {
-            val mensaje = context.getString(R.string.error_campos_vacios)
-            CustomToast.showAlertWithIcon(context, mensaje, R.drawable.ic_warning, Toast.LENGTH_SHORT)
-            return
-        }
-
-        // Validación del formato del correo
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            val mensaje = context.getString(R.string.error_correo_invalido)
-            CustomToast.showAlertWithIcon(context, mensaje, R.drawable.ic_warning, Toast.LENGTH_SHORT)
-            return
-        }
-
+    fun signInWithGoogleCredential(credential: AuthCredential) {
         _loginState.value = ResultState.Loading
+        viewModelScope.launch {
+            val result = authRepository.signInWithGoogleCredential(credential)
 
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val user = auth.currentUser
-                user?.let { firebaseUser ->
-                    val userDocRef = db.collection("usuarios").document(firebaseUser.uid)
-                    userDocRef.get().addOnSuccessListener { document ->
-                        if (document.exists()) {
-                            val apodo = document.getString("apodo")
-                            val bienvenida = context.getString(R.string.bienvenido)
-                            CustomToast.showWelcomeWithIcon(
-                                context,
-                                "$bienvenida $apodo",
-                                R.drawable.logo_harmony,
-                                Toast.LENGTH_SHORT
-                            )
+            result.onSuccess { userProfile ->
+                userPreferencesRepository.saveUserSession(userProfile.nickname ?: "Harmony", userProfile.email)
 
-                            // Se guarda el apodo en el caché
-                            viewModelScope.launch {
-                                context.dataStore.edit { preferences ->
-                                    preferences[stringPreferencesKey("nickname")] = apodo ?: ""
-                                }
-                            }
-                            _loginState.value = ResultState.Success(Unit)
-                        } else {
-                            val mensaje = context.getString(R.string.error_apodo)
-                            CustomToast.showAlertWithIcon(
-                                context,
-                                mensaje,
-                                R.drawable.ic_warning,
-                                Toast.LENGTH_SHORT
-                            )
-                            _loginState.value = ResultState.Error(mensaje)
-                        }
-                    }
-                }
-            } else {
-                val mensaje = context.getString(R.string.error_al_iniciar_sesion)
-                CustomToast.showAlertWithIcon(context, mensaje, R.drawable.ic_warning, Toast.LENGTH_SHORT)
-                _loginState.value = ResultState.Error(mensaje)
+                _infoMessage.value = "¡Bienvenido, ${userProfile.nickname}!"
+                _loginState.value = ResultState.Success("Inicio de sesión con Google exitoso.")
+            }.onFailure { exception ->
+                _loginState.value = ResultState.Error(exception.localizedMessage ?: "Error desconocido en Google Sign-In")
             }
         }
+    }
+
+    fun iniciarSesion(email: String, password: String) {
+        if (email.isEmpty() || password.isEmpty()) {
+            _loginState.value = ResultState.Error("Los campos no pueden estar vacios")
+            return
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            _loginState.value = ResultState.Error("El formato del correo no es válido")
+            return
+        }
+        _loginState.value = ResultState.Loading
+
+        viewModelScope.launch {
+            val result = authRepository.signInWithEmail(email, password)
+
+            result.onSuccess { userProfile ->
+                _infoMessage.value = ResultState.Success("Inicio de sesión exitoso.").toString()
+                _loginState.value = ResultState.Success("Inicio de sesión exitoso.")
+            }.onFailure { exception ->
+                _loginState.value = ResultState.Error(exception.localizedMessage ?: "Error desconocido")
+            }
+        }
+    }
+
+    fun resetLoginState() {
+        _loginState.value = ResultState.Idle
+    }
+
+    fun onInfoMessageShown() {
+        _infoMessage.value = null
     }
 }

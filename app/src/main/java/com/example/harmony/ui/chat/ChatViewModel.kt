@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.example.harmony.ui.chat.Constants.apiKey
 import com.google.ai.client.generativeai.type.GenerationConfig
@@ -23,14 +21,6 @@ class ChatViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private var messagesListener: ListenerRegistration? = null
-
-
-    private val _currentTitle = MutableStateFlow("Chatbot")
-    val currentTitle: StateFlow<String> = _currentTitle
-
-    fun updateTitle(newTitle: String) {
-        _currentTitle.value = newTitle
-    }
 
     val messageList = mutableStateListOf<MessageModel>()
 

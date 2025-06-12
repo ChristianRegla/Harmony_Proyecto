@@ -205,7 +205,7 @@ fun RelaxScreenContent(navController: NavHostController) {
                             Subtitulo = ejercicio.subtitulo,
                             Duracion = ejercicio.duracion,
                             Imagen = ejercicio.imagenResId,
-                            OnClick = ejercicio.onClickAction
+                            onClick = ejercicio.onClickAction
                         )
                     }
                 }

@@ -14,13 +14,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ContactanosViewModel(private val contactanosModel: ContactanosModel, private val context: Context) : ViewModel(), DrawerActions, DataBaseActions {
-    private val _Title = MutableStateFlow("Contactanos")
-    val curTitle: StateFlow<String> = _Title
     private val firestore = FirebaseFirestore.getInstance()
 
-    fun tituloActualizado(newTitle: String) {
-        _Title.value = newTitle
-    }
     private val _apodo = MutableStateFlow("")
     val apodo: StateFlow<String> = _apodo
 

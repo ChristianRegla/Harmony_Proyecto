@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.example.harmony.R
 
 @Composable
@@ -13,12 +14,10 @@ fun ConfirmationDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    val context = LocalContext.current
-
-    val eliminarConversacion = context.getString(R.string.eliminar_conversacion)
-    val confirmacionEliminarConversacion = context.getString(R.string.confirmacion_eliminar_conversacion)
-    val eliminar = context.getString(R.string.eliminar)
-    val cancelar = context.getString(R.string.cancelar)
+    val eliminarConversacion = stringResource(R.string.eliminar_conversacion)
+    val confirmacionEliminarConversacion = stringResource(R.string.confirmacion_eliminar_conversacion)
+    val eliminar = stringResource(R.string.eliminar)
+    val cancelar = stringResource(R.string.cancelar)
 
     AlertDialog(
         onDismissRequest = onDismiss, // Acción cuando se toca fuera del diálogo o se presiona "atrás"

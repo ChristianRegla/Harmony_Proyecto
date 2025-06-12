@@ -8,8 +8,10 @@
     <string name="sign_up">Crear cuenta</string>
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="continuar_google">CONTINUAR CON GOOGLE</string>
-    <string name="No_tienes_cuenta">¿NO TIENES UNA CUENTA? CREA UNA</string>
-    <string name="Ya_tienes_cuenta">¿YA TIENES UNA CUENTA? INICIA SESIÓN</string>
+    <string name="No_tienes_cuenta">¿NO TIENES UNA CUENTA?</string>
+    <string name="crea_una">CREA UNA</string>
+    <string name="Ya_tienes_cuenta">¿YA TIENES UNA CUENTA?</string>
+    <string name="inicia_sesion">INICIA SESIÓN</string>
 
     <!-- Aquí van los mensajes de los toast para el login y registro -->
     <string name="error_campos_vacios">Por favor, complete todos los campos</string>
@@ -188,5 +190,9 @@
     <string name="recordatorios_diarios">Recordatorios diarios</string>
     <string name="recibir_recordatorios_para_registrar_emocion">Recibir recordatorios para registrar emoción</string>
     <string name="info_notificaciones_texto_ejemplo">Ejemplo de notificación</string>
+
+    <string name="web_client">58266237789-3hrbd9nsra34v6vvo70s13r105iv4cdm.apps.googleusercontent.com</string>
+    <string name="error_al_iniciar_sesion_google">Error al iniciar sesión con Google</string>
+    <string name="error_google_login_cancelado">Inicio de sesión con Google cancelado.</string>
 
 </resources>

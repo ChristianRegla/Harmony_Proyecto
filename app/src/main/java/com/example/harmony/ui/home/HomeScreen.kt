@@ -1,7 +1,5 @@
 package com.example.harmony.ui.home
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,7 +33,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
+
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -53,6 +51,8 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import co.yml.charts.axis.AxisData
 import co.yml.charts.common.model.Point
 import co.yml.charts.ui.linechart.LineChart
@@ -65,22 +65,14 @@ import co.yml.charts.ui.linechart.model.LineStyle
 import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
 import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
+import com.example.harmony.ui.components.RedirectHomeSection
 
-
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
-    val context = LocalContext.current
-    val currentRoute = navController.currentBackStackEntry?.destination?.route
+    val headerTitle = stringResource(R.string.header_menu_principal)
+    val relajacion = stringResource(R.string.relajacion)
 
-    // Para los textos y que estén traducidos:
-    val headerTitle = context.getString(R.string.header_menu_principal)
-    val relajacion = context.getString(R.string.relajacion)
-
-
-
-    // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -94,8 +86,6 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
         navigationBarColor = Color.Transparent,
     )
 
-
-    // Contenedor del Drawer (menú lateral, lo vuelvo a especificar por si acaso)
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -118,7 +108,6 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
             )
 
             Scaffold(
-                // Barra de arriba
                 topBar = {
                     TopBar(
                         onOpenDrawer = {
@@ -126,7 +115,6 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                                 if(drawerState.isClosed) drawerState.open()
                             }
                         },
-                        // Este es el título que va en medio de la barra superior
                         title = headerTitle,
                         navController = navController,
                         modifier = Modifier.wrapContentHeight()
@@ -186,7 +174,6 @@ fun ScreenContent(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel
 ) {
-    val context = LocalContext.current
     // Cargamos los estados del ViewModel
     val weeklySummary by homeViewModel.weeklySummary.collectAsState()
     val monthlySummary by homeViewModel.monthlySummary.collectAsState()
@@ -200,8 +187,8 @@ fun ScreenContent(
     ) {
         Spacer(modifier = Modifier.height(16.dp))
 
-        val tituloChatbot = context.getString(R.string.te_gustar_a_contar_algo)
-        val subtituloChatbot = context.getString(R.string.estoy_para_lo_que_necesites)
+        val tituloChatbot = stringResource(R.string.te_gustar_a_contar_algo)
+        val subtituloChatbot = stringResource(R.string.estoy_para_lo_que_necesites)
         ChatbotSection(
             titulo = tituloChatbot,
             subtitulo = subtituloChatbot,
@@ -238,7 +225,7 @@ fun ScreenContent(
                         contentColor = Color.White.copy(alpha = 0.8f)
                     )
                 ) {
-                    val mensajeSinDatos = context.getString(R.string.no_hay_datos_para_el_resumen_semanal)
+                    val mensajeSinDatos = stringResource(R.string.no_hay_datos_para_el_resumen_semanal)
                     Text(
                         mensajeSinDatos,
                         style = MaterialTheme.typography.titleMedium,
@@ -263,7 +250,7 @@ fun ScreenContent(
                         contentColor = Color.White.copy(alpha = 0.8f)
                     )
                 ) {
-                    val mensajeSinDatos = context.getString(R.string.no_hay_datos_para_el_resumen_mensual)
+                    val mensajeSinDatos = stringResource(R.string.no_hay_datos_para_el_resumen_mensual)
                     Text(
                         mensajeSinDatos,
                         style = MaterialTheme.typography.titleMedium,
@@ -276,8 +263,8 @@ fun ScreenContent(
             }
         }
 
-        val tituloEmociones = context.getString(R.string.como_estuvo_el_dia)
-        val subtituloEmociones = context.getString(R.string.lleva_un_registro)
+        val tituloEmociones = stringResource(R.string.como_estuvo_el_dia)
+        val subtituloEmociones = stringResource(R.string.lleva_un_registro)
         ChatbotSection(
             titulo = tituloEmociones,
             subtitulo = subtituloEmociones,
@@ -291,8 +278,8 @@ fun ScreenContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        val tituloLineaDeAyuda = context.getString(R.string.linea_de_ayuda)
-        val subtituloLineaDeAyuda = context.getString(R.string.disponible_24_7)
+        val tituloLineaDeAyuda = stringResource(R.string.linea_de_ayuda)
+        val subtituloLineaDeAyuda = stringResource(R.string.disponible_24_7)
         ChatbotSection(
             titulo = tituloLineaDeAyuda,
             subtitulo = subtituloLineaDeAyuda,
@@ -312,10 +299,10 @@ fun ScreenContent(
 
 @Composable
 fun ChatbotSection(
+    modifier: Modifier = Modifier,
     titulo: String,
     subtitulo: String,
     imageResId: Int = 0,
-    modifier: Modifier = Modifier,
     navController: NavController,
     onClick: () -> Unit = {}
 ) {
@@ -366,9 +353,8 @@ fun ChatbotSection(
 
 @Composable
 fun WeeklyEmotionSummaryView(summary: List<DailyEmotionSummary>) {
-    val context = LocalContext.current
     Column {
-        val tituloResumen = context.getString(R.string.resumen_semanal)
+        val tituloResumen = stringResource(R.string.resumen_semanal)
         Text(
             tituloResumen,
             style = MaterialTheme.typography.titleLarge,
@@ -429,7 +415,6 @@ fun WeeklyEmotionSummaryView(summary: List<DailyEmotionSummary>) {
                                     )
                                 } else {
                                     Icon(
-                                        // Por si está vacío de mientras dejo ese jeje
                                         painter = painterResource(id = R.drawable.ic_linea_de_ayuda),
                                         contentDescription = "Sin datos",
                                         modifier = Modifier.size(28.dp),
@@ -455,9 +440,8 @@ fun WeeklyEmotionSummaryView(summary: List<DailyEmotionSummary>) {
 
 @Composable
 fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
-    val context = LocalContext.current
     Column {
-        val resumenMensual = context.getString(R.string.resumen_mensual)
+        val resumenMensual = stringResource(R.string.resumen_mensual)
         Text(
             resumenMensual,
             style = MaterialTheme.typography.titleLarge,
@@ -492,7 +476,6 @@ fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
                 }
 
                 // 2. Configura los ejes
-                val maxDays = summaryPoints.maxOfOrNull { it.dayOfMonth }?.toFloat() ?: 31f
                 val stepsXAxis = summaryPoints.distinctBy { it.dayOfMonth }.count().coerceAtLeast(1)
 
                 val xAxisData = AxisData.Builder()
@@ -516,6 +499,7 @@ fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
                     .axisLineColor(Color.White.copy(alpha = 0.5f))
                     .build()
 
+                val diaTraducido = stringResource(R.string.popup_dia_grafico)
                 val lineChartData = LineChartData(
                     linePlotData = LinePlotData(
                         lines = listOf(
@@ -541,9 +525,9 @@ fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
                                         )
                                     )
                                 ),
+
                                 selectionHighlightPopUp = SelectionHighlightPopUp(
                                     popUpLabel = { x, y ->
-                                        val diaTraducido = context.getString(R.string.popup_dia_grafico)
                                         "$diaTraducido ${x.toInt()}: ${String.format("%.1f", y)}"
                                     },
                                     labelColor = Color.Black,
@@ -581,7 +565,6 @@ fun Color.luminance(): Float {
     return (0.2126f * r + 0.7152f * g + 0.0722f * b)
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {

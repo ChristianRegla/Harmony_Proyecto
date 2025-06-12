@@ -20,10 +20,6 @@ import java.io.File
 import java.io.FileOutputStream
 
 class ProfileViewModel(private val profileModel: ProfileModel, private val context: Context) : ViewModel(), DrawerActions, DataBaseActions{
-
-    private val _currentTitle = MutableStateFlow("Perfil")
-    val currentTitle: StateFlow<String> = _currentTitle
-
     private val firestore = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
 
@@ -108,13 +104,6 @@ class ProfileViewModel(private val profileModel: ProfileModel, private val conte
             .addOnFailureListener { e ->
                 Log.e("Firebase", "Error al guardar nombre de imagen: ${e.message}")
             }
-    }
-
-
-
-
-    fun updateTitle(newTitle: String) {
-        _currentTitle.value = newTitle
     }
 
     override fun cargarApodoEnDrawerContent() {

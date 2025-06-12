@@ -14,8 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,9 +29,8 @@ fun Container_Ejercicio(
     Subtitulo : String,
     Duracion : String,
     Imagen : Int = 0,
-    OnClick : () -> Unit
+    onClick : () -> Unit
 ) {
-    val context = LocalContext.current
     ConstraintLayout(
         modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
@@ -65,7 +64,7 @@ fun Container_Ejercicio(
                     top.linkTo(imagen.bottom, margin = (-5).dp)
                     start.linkTo(parent.start)
                 }
-                .padding(start = 10.dp, )
+                .padding(start = 10.dp)
         )
 
         // Este es el subtítulo
@@ -96,7 +95,7 @@ fun Container_Ejercicio(
         )
 
         Button(
-            onClick = OnClick,
+            onClick = onClick,
             shape = RoundedCornerShape(50.dp),
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
                 containerColor = Color.White
@@ -111,7 +110,7 @@ fun Container_Ejercicio(
                 .padding(bottom = 5.dp, end = 5.dp)
         ) {
             Text(
-                text = context.getString(R.string.iniciar),
+                text = stringResource(R.string.iniciar),
                 fontSize = 10.sp,
                 color = Color.Black
             )

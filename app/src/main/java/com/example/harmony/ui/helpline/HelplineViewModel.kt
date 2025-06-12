@@ -17,14 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class HelplineViewModel(private val helplineModel: HelplineModel, private val context: Context) : ViewModel(), DrawerActions, DataBaseActions {
-
-    private val _currentTitle = MutableStateFlow("Linea de Ayuda")
-    val currentTitle: StateFlow<String> = _currentTitle
     private val firestore = FirebaseFirestore.getInstance()
-
-    fun updateTitle(newTitle: String) {
-        _currentTitle.value = newTitle
-    }
 
     private val _apodo = MutableStateFlow("")
     val apodo: StateFlow<String> = _apodo

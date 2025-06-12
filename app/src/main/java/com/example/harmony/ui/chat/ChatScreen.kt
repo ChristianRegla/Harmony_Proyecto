@@ -37,8 +37,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,7 +57,6 @@ import com.example.harmony.ui.theme.Sendbutton
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(navController: NavHostController, chatViewModel: ChatViewModel) {
-    val context = LocalContext.current
 
     var showConfirmationDialog by remember { mutableStateOf(false) }
 
@@ -91,7 +90,7 @@ fun ChatScreen(navController: NavHostController, chatViewModel: ChatViewModel) {
             topBar = {
                 ChatTopBar(
                     onBackClick = { navController.popBackStack() },
-                    title = context.getString(R.string.chatbot),
+                    title = stringResource(R.string.chatbot),
                     onDeleteChatClick = { showConfirmationDialog = true },
                     modifier = Modifier.size(56.dp)
                 )
@@ -116,28 +115,11 @@ fun ChatScreen(navController: NavHostController, chatViewModel: ChatViewModel) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
-@Composable
-fun ChatPage(modifier: Modifier = Modifier, viewModel: ChatViewModel) {
-    Column(
-        modifier = modifier
-    ) {
-        MessageList(
-            modifier = Modifier.weight(1f),
-            messageList = viewModel.messageList
-        )
-        MessageInput(
-            onMessageSend = {
-                viewModel.sendMessage(it)
-            }
-        )
-    }
-}
+
 
 @Composable
 fun MessageList(modifier: Modifier = Modifier, messageList: List<MessageModel>){
-    val context = LocalContext.current
-    val mensajePredeterminado = context.getString(R.string.hola_soy_harmony)
+    val mensajePredeterminado = stringResource(R.string.hola_soy_harmony)
 
     if(messageList.isEmpty()){
         Column(
@@ -257,6 +239,7 @@ fun MessageInput(onMessageSend: (String) -> Unit){
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 @Preview(showBackground = true)
 @Composable
 fun ChatbotPreview() {

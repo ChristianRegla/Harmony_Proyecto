@@ -1,38 +1,37 @@
 package com.example.harmony
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx. compose. ui. res. painterResource
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx. compose. material. icons. filled. ArrowDropDown
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.toSize
 
 
 @Composable
@@ -46,13 +45,19 @@ fun ApodoTextField(
         onValueChange = onApodoChange,
         label = { Text(text = stringResource(id = R.string.user_name)) },
         shape = RoundedCornerShape(15.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color(0xFFEEEEEE),
-            focusedBorderColor = Color.Black,
-            unfocusedBorderColor = Color.Gray,
-            textColor = Color.Black,
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color(0xFFEEEEEE),
+            focusedContainerColor = Color(0xFFEEEEEE),
+
+            unfocusedIndicatorColor = Color.Gray,
+            focusedIndicatorColor = Color.Black,
+
+            unfocusedTextColor = Color.Black,
+            focusedTextColor = Color.Black,
+            unfocusedLabelColor = Color.Gray,
             focusedLabelColor = Color.Black,
-            unfocusedLabelColor = Color.Gray
+
+            cursorColor = Color.Black
         ),
         modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
         singleLine = true
@@ -70,13 +75,19 @@ fun EmailTextField(
         onValueChange = onEmailChange,
         label = { Text(text = stringResource(id = R.string.email)) },
         shape = RoundedCornerShape(15.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color(0xFFEEEEEE),
-            focusedBorderColor = Color.Black,
-            unfocusedBorderColor = Color.Gray,
-            textColor = Color.Black,
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color(0xFFEEEEEE),
+            focusedContainerColor = Color(0xFFEEEEEE),
+
+            unfocusedIndicatorColor = Color.Gray,
+            focusedIndicatorColor = Color.Black,
+
+            unfocusedTextColor = Color.Black,
+            focusedTextColor = Color.Black,
+            unfocusedLabelColor = Color.Gray,
             focusedLabelColor = Color.Black,
-            unfocusedLabelColor = Color.Gray
+
+            cursorColor = Color.Black
         ),
         modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
         singleLine = true,
@@ -101,13 +112,19 @@ fun PasswordTextField(
         label = { Text(text = stringResource(id = R.string.password)) },
         shape = RoundedCornerShape(15.dp),
         visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color(0xFFEEEEEE),
-            focusedBorderColor = Color.Black,
-            unfocusedBorderColor = Color.Gray,
-            textColor = Color.Black,
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color(0xFFEEEEEE),
+            focusedContainerColor = Color(0xFFEEEEEE),
+
+            unfocusedIndicatorColor = Color.Gray,
+            focusedIndicatorColor = Color.Black,
+
+            unfocusedTextColor = Color.Black,
+            focusedTextColor = Color.Black,
+            unfocusedLabelColor = Color.Gray,
             focusedLabelColor = Color.Black,
-            unfocusedLabelColor = Color.Gray
+
+            cursorColor = Color.Black
         ),
         modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
         singleLine = true,
@@ -132,13 +149,19 @@ fun NombreTextField(
         onValueChange = onNombreChange,
         label = { Text(text = stringResource(id = R.string.nombre)) },
         shape = RoundedCornerShape(15.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color(0xFFEEEEEE),
-            focusedBorderColor = Color.Black,
-            unfocusedBorderColor = Color.Gray,
-            textColor = Color.Black,
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color(0xFFEEEEEE),
+            focusedContainerColor = Color(0xFFEEEEEE),
+
+            unfocusedIndicatorColor = Color.Gray,
+            focusedIndicatorColor = Color.Black,
+
+            unfocusedTextColor = Color.Black,
+            focusedTextColor = Color.Black,
+            unfocusedLabelColor = Color.Gray,
             focusedLabelColor = Color.Black,
-            unfocusedLabelColor = Color.Gray
+
+            cursorColor = Color.Black
         ),
         modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
         singleLine = true,
@@ -156,13 +179,19 @@ fun Apodo2TextField(
         onValueChange = onApodo2Change,
         label = { Text(text = stringResource(id = R.string.apodo)) },
         shape = RoundedCornerShape(15.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color(0xFFEEEEEE),
-            focusedBorderColor = Color.Black,
-            unfocusedBorderColor = Color.Gray,
-            textColor = Color.Black,
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color(0xFFEEEEEE),
+            focusedContainerColor = Color(0xFFEEEEEE),
+
+            unfocusedIndicatorColor = Color.Gray,
+            focusedIndicatorColor = Color.Black,
+
+            unfocusedTextColor = Color.Black,
+            focusedTextColor = Color.Black,
+            unfocusedLabelColor = Color.Gray,
             focusedLabelColor = Color.Black,
-            unfocusedLabelColor = Color.Gray
+
+            cursorColor = Color.Black
         ),
         modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
         singleLine = true,
@@ -185,13 +214,19 @@ fun NumeroTextField(
         },
         label = { Text(text = stringResource(id = R.string.Numero_Telefonico)) },
         shape = RoundedCornerShape(15.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color(0xFFEEEEEE),
-            focusedBorderColor = Color.Black,
-            unfocusedBorderColor = Color.Gray,
-            textColor = Color.Black,
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color(0xFFEEEEEE),
+            focusedContainerColor = Color(0xFFEEEEEE),
+
+            unfocusedIndicatorColor = Color.Gray,
+            focusedIndicatorColor = Color.Black,
+
+            unfocusedTextColor = Color.Black,
+            focusedTextColor = Color.Black,
+            unfocusedLabelColor = Color.Gray,
             focusedLabelColor = Color.Black,
-            unfocusedLabelColor = Color.Gray
+
+            cursorColor = Color.Black
         ),
         modifier = modifier
             .fillMaxWidth()
@@ -226,13 +261,19 @@ fun CiudadDropdown(
             onValueChange = {},
             label = { Text(text = stringResource(id = R.string.ciudad)) },
             shape = RoundedCornerShape(15.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                backgroundColor = Color(0xFFEEEEEE),
-                focusedBorderColor = Color.Black,
-                unfocusedBorderColor = Color.Gray,
-                textColor = Color.Black,
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = Color(0xFFEEEEEE),
+                focusedContainerColor = Color(0xFFEEEEEE),
+
+                unfocusedIndicatorColor = Color.Gray,
+                focusedIndicatorColor = Color.Black,
+
+                unfocusedTextColor = Color.Black,
+                focusedTextColor = Color.Black,
+                unfocusedLabelColor = Color.Gray,
                 focusedLabelColor = Color.Black,
-                unfocusedLabelColor = Color.Gray
+
+                cursorColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth(1f) // Ancho ajustado para ser más compacto
@@ -254,12 +295,13 @@ fun CiudadDropdown(
                 .fillMaxWidth(0.75f) // Menú ajustado
         ) {
             ciudades.forEach { ciudad ->
-                DropdownMenuItem(onClick = {
-                    onCiudadSeleccionada(ciudad)
-                    expanded = false
-                }) {
-                    Text(text = ciudad)
-                }
+                DropdownMenuItem(
+                    text = { Text(text = ciudad) },
+                    onClick = {
+                        onCiudadSeleccionada(ciudad)
+                        expanded = false
+                    }
+                )
             }
         }
     }
@@ -283,13 +325,19 @@ fun GeneroDropdown(
             onValueChange = {},
             label = { Text(text = stringResource(id = R.string.genero)) },
             shape = RoundedCornerShape(15.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                backgroundColor = Color(0xFFEEEEEE),
-                focusedBorderColor = Color.Black,
-                unfocusedBorderColor = Color.Gray,
-                textColor = Color.Black,
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = Color(0xFFEEEEEE),
+                focusedContainerColor = Color(0xFFEEEEEE),
+
+                unfocusedIndicatorColor = Color.Gray,
+                focusedIndicatorColor = Color.Black,
+
+                unfocusedTextColor = Color.Black,
+                focusedTextColor = Color.Black,
+                unfocusedLabelColor = Color.Gray,
                 focusedLabelColor = Color.Black,
-                unfocusedLabelColor = Color.Gray
+
+                cursorColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth(1f) // Ancho ajustado
@@ -311,12 +359,13 @@ fun GeneroDropdown(
                 .fillMaxWidth(0.75f)
         ) {
             generos.forEach { genero ->
-                DropdownMenuItem(onClick = {
-                    onGeneroSeleccionado(genero)
-                    expanded = false
-                }) {
-                    Text(text = genero)
-                }
+                DropdownMenuItem(
+                    text = { Text(text = genero) },
+                    onClick = {
+                        onGeneroSeleccionado(genero)
+                        expanded = false
+                    }
+                )
             }
         }
     }
@@ -333,13 +382,19 @@ fun DomicilioTextField(
         onValueChange = onDomicilioChange,
         label = { Text(text = stringResource(id =R.string.domicilio)) },
         shape = RoundedCornerShape(15.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color(0xFFEEEEEE),
-            focusedBorderColor = Color.Black,
-            unfocusedBorderColor = Color.Gray,
-            textColor = Color.Black,
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color(0xFFEEEEEE),
+            focusedContainerColor = Color(0xFFEEEEEE),
+
+            unfocusedIndicatorColor = Color.Gray,
+            focusedIndicatorColor = Color.Black,
+
+            unfocusedTextColor = Color.Black,
+            focusedTextColor = Color.Black,
+            unfocusedLabelColor = Color.Gray,
             focusedLabelColor = Color.Black,
-            unfocusedLabelColor = Color.Gray
+
+            cursorColor = Color.Black
         ),
         modifier = modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp),
         singleLine = true,

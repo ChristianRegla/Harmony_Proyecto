@@ -1,7 +1,5 @@
 package com.example.harmony.ui.home
 
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -38,7 +36,7 @@ fun BottomNavBar(
                 )
             },
             colors = NavigationBarItemDefaults.colors(
-                indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                indicatorColor = Color.Transparent,
                 selectedIconColor = Color.Transparent,
                 unselectedIconColor = Color.Transparent
             )
@@ -61,7 +59,7 @@ fun BottomNavBar(
                 )
             },
             colors = NavigationBarItemDefaults.colors(
-                indicatorColor = Color.Transparent, // Cambia el color de fondo a transparente
+                indicatorColor = Color.Transparent,
                 selectedIconColor = Color.Transparent,
                 unselectedIconColor = Color.Transparent
             )

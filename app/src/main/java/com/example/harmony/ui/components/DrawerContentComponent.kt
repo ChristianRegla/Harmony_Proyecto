@@ -15,8 +15,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.filled.NotificationsNone
-import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationDrawerItem
@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -130,7 +131,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     ) },
                 label = {
                     Text(
-                        text = context.getString(R.string.editar_perfil),
+                        text = stringResource(R.string.editar_perfil),
                         fontSize = 16.sp,
                         color = Color.Black,
                         modifier = Modifier.padding(16.dp)
@@ -164,7 +165,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     ) },
                 label = {
                     Text(
-                        text = context.getString(R.string.notificaciones),
+                        text = stringResource(R.string.notificaciones),
                         fontSize = 16.sp,
                         color = Color.Black,
                         modifier = Modifier.padding(16.dp)
@@ -198,7 +199,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     ) },
                 label = {
                     Text(
-                        text = context.getString(R.string.donaciones),
+                        text = stringResource(R.string.donaciones),
                         fontSize = 16.sp,
                         color = Color.Black,
                         modifier = Modifier.padding(16.dp)
@@ -233,7 +234,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     ) },
                 label = {
                     Text(
-                        text = context.getString(R.string.centro_de_ayuda),
+                        text = stringResource(R.string.centro_de_ayuda),
                         fontSize = 16.sp,
                         color = Color.Black,
                         modifier = Modifier
@@ -261,7 +262,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
             NavigationDrawerItem(
                 icon = {
                     Icon(
-                        imageVector = Icons.Outlined.Logout,
+                        imageVector = Icons.AutoMirrored.Outlined.Logout,
                         contentDescription = "Account",
                         tint = Color.Black,
                         modifier = Modifier
@@ -269,7 +270,7 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     ) },
                 label = {
                     Text(
-                        text = context.getString(R.string.cerrar_sesi_n),
+                        text = stringResource(R.string.cerrar_sesi_n),
                         fontSize = 16.sp,
                         color = Color.Black,
                         modifier = Modifier.padding(16.dp)
