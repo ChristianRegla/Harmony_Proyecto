@@ -41,13 +41,11 @@ class SignUpViewModel(
         email: String,
         password: String
     ) {
-        // Validación que los campos no estén vacíos
         if (username.isBlank() || email.isBlank() || password.isBlank()) {
             _signUpState.value = ResultState.Error("Por favor, complete todos los campos")
             return
         }
 
-        // Validación de formato de correo electrónico
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _signUpState.value = ResultState.Error("Por favor, ingrese un correo electrónico válido")
             return

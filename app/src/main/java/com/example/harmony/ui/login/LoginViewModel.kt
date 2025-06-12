@@ -29,10 +29,8 @@ class LoginViewModel(
             val result = authRepository.signInWithGoogleCredential(credential)
 
             result.onSuccess { userProfile ->
-                // Guardamos la sesión en DataStore a través del repositorio
                 userPreferencesRepository.saveUserSession(userProfile.nickname ?: "Harmony", userProfile.email)
 
-                // Emitimos el mensaje de bienvenida
                 _infoMessage.value = "¡Bienvenido, ${userProfile.nickname}!"
                 _loginState.value = ResultState.Success("Inicio de sesión con Google exitoso.")
             }.onFailure { exception ->
@@ -42,13 +40,11 @@ class LoginViewModel(
     }
 
     fun iniciarSesion(email: String, password: String) {
-        // Validación de campos vacíos
         if (email.isEmpty() || password.isEmpty()) {
             _loginState.value = ResultState.Error("Los campos no pueden estar vacios")
             return
         }
 
-        // Validación del formato del correo
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _loginState.value = ResultState.Error("El formato del correo no es válido")
             return

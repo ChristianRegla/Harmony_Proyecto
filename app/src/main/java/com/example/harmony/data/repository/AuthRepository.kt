@@ -8,7 +8,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 
-// 1. Data Class para un retorno de datos claro
 data class UserProfile(
     val uid: String,
     val email: String?,
@@ -20,7 +19,6 @@ class AuthRepository(
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) {
 
-    // Obtiene el usuario actualmente autenticado
     fun getCurrentUser(): FirebaseUser? {
         return auth.currentUser
     }
