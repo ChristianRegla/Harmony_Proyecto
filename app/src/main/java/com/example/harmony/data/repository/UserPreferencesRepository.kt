@@ -3,7 +3,7 @@ package com.example.harmony.data.repository
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.example.harmony.dataStore
+import com.example.harmony.utils.dataStore
 
 class UserPreferencesRepository(private val context: Context) {
 

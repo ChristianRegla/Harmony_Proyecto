@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.harmony.R
 import com.example.harmony.ui.common.DrawerActions
-import com. example. harmony. ui. profile. ProfileModel
+import com.example.harmony.ui.model.ProfileModel
 import com.google.firebase.firestore.FirebaseFirestore
 
 @SuppressLint("SuspiciousIndentation")
