@@ -63,7 +63,16 @@ fun PrivacyNoticeScreen(navController: NavHostController, privacyNoticeViewModel
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = privacyNoticeViewModel,isDrawerOpen = drawerState.isOpen)
+                DrawerContentComponent(
+                    navController = navController,
+                    drawerActions = privacyNoticeViewModel,
+                    isDrawerOpen = drawerState.isOpen,
+                    onCloseDrawer = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
+                )
             }
         },
         gesturesEnabled = drawerState.isOpen

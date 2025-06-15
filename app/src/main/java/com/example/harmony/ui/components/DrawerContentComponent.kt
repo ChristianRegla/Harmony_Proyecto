@@ -48,7 +48,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 fun DrawerContentComponent(
     navController: NavHostController,
     drawerActions: DrawerActions,
-    isDrawerOpen: Boolean
+    isDrawerOpen: Boolean,
+    onCloseDrawer: () -> Unit
 ) {
     val context = LocalContext.current
     val db = FirebaseFirestore.getInstance()
@@ -142,7 +143,9 @@ fun DrawerContentComponent(
                     )
                 },
                 selected = false,
-                onClick = { navController.navigate("perfil") },
+                onClick = {
+                    onCloseDrawer()
+                    navController.navigate("perfil") },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()
@@ -176,7 +179,10 @@ fun DrawerContentComponent(
                     )
                 },
                 selected = false,
-                onClick = { navController.navigate("notifications") },
+                onClick = {
+                    onCloseDrawer()
+                    navController.navigate("notifications")
+                          },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()
@@ -210,7 +216,10 @@ fun DrawerContentComponent(
                     )
                 },
                 selected = false,
-                onClick = { navController.navigate("donation") },
+                onClick = {
+                    onCloseDrawer()
+                    navController.navigate("donation")
+                          },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()
@@ -246,7 +255,10 @@ fun DrawerContentComponent(
                     )
                 },
                 selected = false,
-                onClick = { navController.navigate("privacyNotice") },
+                onClick = {
+                    onCloseDrawer()
+                    navController.navigate("privacyNotice")
+                          },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()
@@ -281,7 +293,10 @@ fun DrawerContentComponent(
                     )
                 },
                 selected = false,
-                onClick = { drawerActions.cerrarSesion(navController) },
+                onClick = {
+                    onCloseDrawer()
+                    drawerActions.cerrarSesion(navController)
+                          },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()

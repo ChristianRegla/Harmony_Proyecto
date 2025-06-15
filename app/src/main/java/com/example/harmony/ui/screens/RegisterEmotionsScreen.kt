@@ -271,7 +271,16 @@ fun RegisterEmotionsScreen(navController: NavHostController, registerEmotionsVie
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = registerEmotionsViewModel, isDrawerOpen = drawerState.isOpen)
+                DrawerContentComponent(
+                    navController = navController,
+                    drawerActions = registerEmotionsViewModel,
+                    isDrawerOpen = drawerState.isOpen,
+                    onCloseDrawer = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
+                )
             }
         },
         gesturesEnabled = drawerState.isOpen

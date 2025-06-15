@@ -39,7 +39,6 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
 
     // Para los textos y que estén traducidos:
     val headerTitle = context.getString(R.string.header_linea_ayuda)
-    val relajacion = context.getString(R.string.relajacion)
 
     // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -57,7 +56,16 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = helplineViewModel, isDrawerOpen = drawerState.isOpen)
+                DrawerContentComponent(
+                    navController = navController,
+                    drawerActions = helplineViewModel,
+                    isDrawerOpen = drawerState.isOpen,
+                    onCloseDrawer = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
+                )
             }
         },
         gesturesEnabled = drawerState.isOpen

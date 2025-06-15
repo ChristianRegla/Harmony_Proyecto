@@ -47,11 +47,8 @@ import com.example.harmony.ui.viewModel.RelaxViewModel
 fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel) {
     val context = LocalContext.current
 
-
     // Para los textos y que estén traducidos:
     val headerTitle = context.getString(R.string.relajacion)
-    val inicio = context.getString(R.string.inicio)
-    val relajacion = context.getString(R.string.relajacion)
 
     // Controlador del Drawer (o sea el menu lateral pues)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -67,7 +64,16 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = relaxViewModel, isDrawerOpen = drawerState.isOpen)
+                DrawerContentComponent(
+                    navController = navController,
+                    drawerActions = relaxViewModel,
+                    isDrawerOpen = drawerState.isOpen,
+                    onCloseDrawer = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
+                )
             }
         },
         gesturesEnabled = drawerState.isOpen

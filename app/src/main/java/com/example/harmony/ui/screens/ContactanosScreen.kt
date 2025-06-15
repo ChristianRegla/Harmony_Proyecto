@@ -25,6 +25,7 @@ import com.example.harmony.ui.components.DrawerContentComponent
 import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.ui.theme.BlueDark
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
@@ -36,14 +37,14 @@ import com.example.harmony.ui.components.EmailContainer
 import com.example.harmony.ui.components.SocialNetworkContainer
 import com.example.harmony.ui.model.ContactanosModel
 import com.example.harmony.ui.viewModel.ContactanosViewModel
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactanosScreen(navController: NavHostController, contactanosViewModel: ContactanosViewModel) {
-    val relajacion = stringResource(R.string.relajacion)
-    val home = stringResource(R.string.inicio)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
     SystemBarStyle()
     ModalNavigationDrawer(
@@ -54,7 +55,16 @@ fun ContactanosScreen(navController: NavHostController, contactanosViewModel: Co
                 modifier = Modifier
                     .width(250.dp)
             ){
-                DrawerContentComponent(navController = navController, drawerActions = contactanosViewModel, isDrawerOpen = drawerState.isOpen)
+                DrawerContentComponent(
+                    navController = navController,
+                    drawerActions = contactanosViewModel,
+                    isDrawerOpen = drawerState.isOpen,
+                    onCloseDrawer = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
+                )
             }
         },
         gesturesEnabled = drawerState.isOpen

@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -48,17 +49,20 @@ fun AppBottomNavigationBar(navController: NavHostController) {
             containerColor = if (currentRoute == "relax") DarkerPurpleColor else BlueDark,
             contentColor = Color.White
         ) {
+           val currentDestination = navBackStackEntry?.destination
            items.forEach { item ->
-               val isSelected = currentRoute == item.route
+               val isSelected = currentDestination?.hierarchy?.any { it.route == item.route } == true
                NavigationBarItem(
                    selected = isSelected,
                    onClick = {
-                       navController.navigate(item.route) {
-                           popUpTo(navController.graph.findStartDestination().id) {
-                               saveState = true
+                       if (!isSelected) {
+                           navController.navigate(item.route) {
+                               popUpTo(navController.graph.findStartDestination().id) {
+                                   saveState = true
+                               }
+                               launchSingleTop = true
+                               restoreState = item.route != BottomNavItem.Home.route
                            }
-                           launchSingleTop = true
-                           restoreState = true
                        }
                    },
                    icon = {

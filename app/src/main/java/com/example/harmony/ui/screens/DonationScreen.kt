@@ -57,8 +57,6 @@ private const val PAYPAL_DONATION_URL = "https://www.paypal.com/paypalme/arturoy
 @Composable
 fun DonationScreen(navController: NavHostController, donationViewModel: DonationViewModel) {
     val headerTitle = stringResource(R.string.donacion)
-    val relajacion = stringResource(R.string.relajacion)
-    val inicio = ("Inicio")
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -80,7 +78,16 @@ fun DonationScreen(navController: NavHostController, donationViewModel: Donation
                 drawerContainerColor = BlueDark,
                 modifier = Modifier.width(250.dp)
             ) {
-                DrawerContentComponent(navController = navController, drawerActions = donationViewModel, isDrawerOpen = drawerState.isOpen)
+                DrawerContentComponent(
+                    navController = navController,
+                    drawerActions = donationViewModel,
+                    isDrawerOpen = drawerState.isOpen,
+                    onCloseDrawer = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
+                )
             }
         },
         gesturesEnabled = drawerState.isOpen && !showPayPalWebView
