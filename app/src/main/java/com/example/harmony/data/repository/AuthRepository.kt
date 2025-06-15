@@ -23,10 +23,7 @@ class AuthRepository(
         return auth.currentUser
     }
 
-    /**
-     * Inicia sesión con email y contraseña.
-     * @return Result<UserProfile> que contiene el perfil del usuario en caso de éxito.
-     */
+    // Para iniciar sesión con email y contraseña
     suspend fun signInWithEmail(email: String, password: String): Result<UserProfile> {
         return try {
             val authResult = auth.signInWithEmailAndPassword(email, password).await()
@@ -44,10 +41,7 @@ class AuthRepository(
         }
     }
 
-    /**
-     * Inicia sesión o registra un usuario usando una credencial de Google.
-     * @return Result<UserProfile> que contiene el perfil del usuario.
-     */
+    // Lógica para crear un perfil de usuario en Firestore con Google
     suspend fun signInWithGoogleCredential(credential: AuthCredential): Result<UserProfile> {
         return try {
             val authResult = auth.signInWithCredential(credential).await()
@@ -77,10 +71,7 @@ class AuthRepository(
         }
     }
 
-    /**
-     * Registra un nuevo usuario con email, contraseña y datos de perfil.
-     * @return Result<UserProfile> que contiene el nuevo perfil del usuario.
-     */
+    // Para registrar un nuevo usuario
     suspend fun signUp(email: String, password: String, profileData: Map<String, Any>): Result<UserProfile> {
         return try {
             val authResult = auth.createUserWithEmailAndPassword(email, password).await()
@@ -102,16 +93,12 @@ class AuthRepository(
         }
     }
 
-    /**
-     * Cierra la sesión del usuario actual.
-     */
+    // Para cerrar sesión
     fun signOut() {
         auth.signOut()
     }
 
-    /**
-     * Función privada para obtener el perfil de un usuario desde Firestore.
-     */
+    // Para obtener el perfil del usuario
     private suspend fun getUserProfile(uid: String): UserProfile? {
         return try {
             val document = db.collection("usuarios").document(uid).get().await()
@@ -130,15 +117,11 @@ class AuthRepository(
         }
     }
 
-    /**
-     * Función privada para crear un documento de perfil en Firestore.
-     */
+    // Para crear un documento de perfil en Firestore.
     private suspend fun createUserProfileInFirestore(profile: UserProfile) {
         val userData = hashMapOf(
             "email" to profile.email,
             "apodo" to profile.nickname,
-            // Puedes añadir otros campos por defecto aquí, como la fecha de creación
-            // "fechaCreacion" to FieldValue.serverTimestamp()
         )
         db.collection("usuarios").document(profile.uid).set(userData, SetOptions.merge()).await()
     }

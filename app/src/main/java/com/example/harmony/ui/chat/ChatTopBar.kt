@@ -1,5 +1,6 @@
 package com.example.harmony.ui.chat
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -31,9 +32,6 @@ fun ChatTopBar(
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Magenta.copy(alpha = 0.8f)
-        ),
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
@@ -64,6 +62,12 @@ fun ChatTopBar(
                     modifier = Modifier
                 )
             }
-        }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Magenta.copy(alpha = 0.8f),
+            titleContentColor = Color.White,
+            actionIconContentColor = Color.White
+        ),
+        modifier = modifier
     )
 }

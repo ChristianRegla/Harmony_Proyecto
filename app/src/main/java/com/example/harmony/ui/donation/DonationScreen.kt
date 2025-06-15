@@ -108,31 +108,6 @@ fun DonationScreen(navController: NavHostController, donationViewModel: Donation
                             navController = navController,
                         )
                     },
-                    bottomBar = {
-                        NavigationBar(
-                            modifier = Modifier.height(80.dp),
-                            containerColor = BlueDark
-                        ) {
-                            NavigationBarItem(
-                                icon = { Icon(painter = painterResource(id = R.drawable.home_unselected), contentDescription = "Home", tint = Color.White) },
-                                label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                                selected = false,
-                                onClick = { if (!showPayPalWebView) navController.navigate("main") },
-                                colors = NavigationBarItemDefaults.colors(
-                                    indicatorColor = Color.Transparent,
-                                )
-                            )
-                            NavigationBarItem(
-                                icon = { Icon(painter = painterResource(id = R.drawable.relax_unselected), contentDescription = "Relaxing", tint = Color.White) },
-                                label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                                selected = false,
-                                onClick = { if (!showPayPalWebView) navController.navigate("relax") },
-                                colors = NavigationBarItemDefaults.colors(
-                                    indicatorColor = Color.Transparent
-                                )
-                            )
-                        }
-                    },
                     containerColor = Color.Transparent,
                     contentColor = Color.White
                 ) { paddingValues ->

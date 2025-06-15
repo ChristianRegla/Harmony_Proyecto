@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -62,10 +63,7 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    SystemBarStyle(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-    )
+    SystemBarStyle()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -98,50 +96,8 @@ fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel
                         },
                         title = headerTitle,
                         navController = navController,
-                        modifier = Modifier.size(56.dp)
+                        modifier = Modifier.wrapContentHeight()
                     )
-                },
-                // Barra de abajo
-                bottomBar = {
-                    NavigationBar(
-                        modifier = Modifier.height(80.dp),
-                        containerColor = DarkerPurpleColor
-                    ) {
-                        NavigationBarItem(
-                            icon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.home_unselected),
-                                    contentDescription = "Home",
-                                    tint = Color.White
-                                )
-                                   },
-                            label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                            selected = false,
-                            onClick = { navController.navigate("main") },
-                            colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent,
-                                selectedIconColor = Color.Transparent,
-                                unselectedIconColor = Color.Transparent
-                            )
-                        )
-                        NavigationBarItem(
-                            icon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.relax_selected),
-                                    contentDescription = "Relaxing",
-                                    tint = Color.White
-                                )
-                                   },
-                            label = { Text(relajacion, color = Color.White) },
-                            selected = true,
-                            onClick = {  },
-                            colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent,
-                                selectedIconColor = Color.Transparent,
-                                unselectedIconColor = Color.Transparent
-                            )
-                        )
-                    }
                 },
                 containerColor = Color.Transparent,
                 contentColor = Color.White

@@ -11,11 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -24,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -34,7 +29,6 @@ import androidx.navigation.NavHostController
 import com.example.harmony.R
 import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.ui.components.TopBarEditar
-import com.example.harmony.ui.theme.BlueDark
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -46,13 +40,8 @@ import androidx.compose.ui.res.stringResource
 fun NotificationsScreen(navController: NavHostController) {
 
     val headerTitle = stringResource(R.string.notificaciones)
-    val home = stringResource(R.string.header_menu_principal)
-    val relajacion = stringResource(R.string.relajacion)
 
-    SystemBarStyle(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-    )
+    SystemBarStyle()
 
     var localNotificationsEnabled by remember { mutableStateOf(true) }
 
@@ -69,39 +58,6 @@ fun NotificationsScreen(navController: NavHostController) {
                     onBackClick = { navController.popBackStack() },
                     title = headerTitle
                 )
-            },
-            bottomBar = {
-                NavigationBar(
-                    modifier = Modifier.height(80.dp),
-                    containerColor = BlueDark
-                ) {
-                    NavigationBarItem(
-                        icon = { Icon(painterResource(id = R.drawable.home_unselected), contentDescription = "Home", tint = Color.White) },
-                        label = { Text(home, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                        selected = false,
-                        onClick = { navController.navigate("main") },
-                        colors = NavigationBarItemDefaults.colors(
-                            indicatorColor = Color.Transparent,
-                            selectedIconColor = Color.Transparent,
-                            unselectedIconColor = Color.Transparent
-                        )
-                    )
-                    NavigationBarItem(
-                        icon = { Icon(
-                            painter = painterResource(id = R.drawable.relax_unselected),
-                            contentDescription = "Relaxing",
-                            tint = Color.White
-                        ) },
-                        label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                        selected = false,
-                        onClick = { navController.navigate("relax") },
-                        colors = NavigationBarItemDefaults.colors(
-                            indicatorColor = Color.Transparent,
-                            selectedIconColor = Color.Transparent,
-                            unselectedIconColor = Color.Transparent
-                        )
-                    )
-                }
             },
             containerColor = Color.Transparent,
             contentColor = Color.White

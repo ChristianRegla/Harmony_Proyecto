@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -79,38 +80,8 @@ fun HelplineScreen(navController: NavHostController, helplineViewModel: Helpline
                         // Este es el título que va en medio de la barra superior
                         title = headerTitle,
                         navController = navController,
-                        modifier = Modifier.size(56.dp)
+                        modifier = Modifier.wrapContentHeight()
                     )
-                },
-                // Barra de abajo
-                bottomBar = {
-                    NavigationBar(
-                        modifier = Modifier.height(80.dp),
-                        containerColor = BlueDark
-                    ) {
-                        NavigationBarItem(
-                            icon = { Icon(painter = painterResource(id = R.drawable.home_unselected), contentDescription = "Home", tint = Color.White) },
-                            label = { Text(inicio, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                            selected = false,
-                            onClick = { navController.navigate("main") },
-                            colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent,
-                                selectedIconColor = Color.Transparent,
-                                unselectedIconColor = Color.Transparent
-                            )
-                        )
-                        NavigationBarItem(
-                            icon = { Icon(painter = painterResource(id = R.drawable.relax_unselected), contentDescription = "Relaxing", tint = Color.White) },
-                            label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                            selected = false,
-                            onClick = { navController.navigate("relax") },
-                            colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent,
-                                selectedIconColor = Color.Transparent,
-                                unselectedIconColor = Color.Transparent
-                            )
-                        )
-                    }
                 },
                 containerColor = Color.Transparent,
                 contentColor = Color.White

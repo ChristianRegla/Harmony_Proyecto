@@ -23,10 +23,7 @@ import com.example.harmony.ui.components.TopBarEditar
 
 @Composable
 fun EjerciciosScreen(navController: NavHostController, ejerciciosViewModel: EjerciciosViewModel) {
-    SystemBarStyle(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-    )
+    SystemBarStyle()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(

@@ -11,10 +11,18 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
@@ -23,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.harmony.notifications.ReminderReceiver
 import com.example.harmony.ui.chat.ChatScreen
 import com.example.harmony.ui.chat.ChatViewModel
+import com.example.harmony.ui.components.AppBottomNavigationBar
 import com.example.harmony.ui.contacto.ContactanosModel
 import com.example.harmony.ui.contacto.ContactanosScreen
 import com.example.harmony.ui.contacto.ContactanosViewModel
@@ -66,6 +75,7 @@ import com.example.harmony.ui.relax.RelaxScreen
 import com.example.harmony.ui.relax.RelaxViewModel
 import com.example.harmony.ui.relax.RelaxViewModelFactory
 import com.example.harmony.ui.signup.SignUpScreen
+import com.example.harmony.ui.theme.HarmonyTheme
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -106,149 +116,162 @@ class MainActivity : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
         handleIntentExtras(intent)
 
         setContent {
-            val navController = rememberNavController()
-            val currentUser = FirebaseAuth.getInstance().currentUser
-            val startDestination = if (currentUser != null) "main" else "login"
+            HarmonyTheme {
+                val navController = rememberNavController()
+                val currentUser = FirebaseAuth.getInstance().currentUser
+                val startDestination = if (currentUser != null) "main" else "login"
 
-            if (startDestination == "main") {
-                val context = LocalContext.current
-                val requestPermissionLauncher = rememberLauncherForActivityResult(
-                    ActivityResultContracts.RequestPermission()
-                ) { isGranted: Boolean ->
-                    if (isGranted) {
-                        Log.d("NotificationPermission", "Permiso concedido")
-                    } else {
-                        Log.d("NotificationPermission", "Permiso denegado")
-                    }
-                }
-
-                LaunchedEffect(Unit) {
-                    when {
-                        ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.POST_NOTIFICATIONS
-                        ) == PackageManager.PERMISSION_GRANTED -> {
-                        }
-
-                        else -> {
-                            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                if (startDestination == "main") {
+                    val context = LocalContext.current
+                    val requestPermissionLauncher = rememberLauncherForActivityResult(
+                        ActivityResultContracts.RequestPermission()
+                    ) { isGranted: Boolean ->
+                        if (isGranted) {
+                            Log.d("NotificationPermission", "Permiso concedido")
+                        } else {
+                            Log.d("NotificationPermission", "Permiso denegado")
                         }
                     }
-                }
-            }
 
-            NavHost(navController = navController, startDestination = startDestination) {
-                composable(
-                    "login",
-                    enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
-                    exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
-                    popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
-                    popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) }
-                ) {
-                    LoginScreen(
-                        viewModel = loginViewModel,
-                        onNavigateToSignUp = { navController.navigate("signup") },
-                        onNavigateToMain = {
-                            navController.navigate("main") {
-                                popUpTo("login") { inclusive = true }
+                    LaunchedEffect(Unit) {
+                        when {
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.POST_NOTIFICATIONS
+                            ) == PackageManager.PERMISSION_GRANTED -> {
+                            }
+
+                            else -> {
+                                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                             }
                         }
-                    )
-                }
-                composable(
-                    "signup",
-                    enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
-                    exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
-                    popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
-                    popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) }
-                ) {
-                    SignUpScreen(
-                        onNavigateToLogin = { navController.popBackStack() },
-                        onNavigateToMain = { navController.navigate("main") }
-                    )
-                }
-                composable("main") {
-                    HomeScreen(navController = navController, homeViewModel = homeViewModel)
-                }
-
-                composable("relax") {
-                    RelaxScreen(navController = navController, relaxViewModel = relaxViewModel)
-                }
-
-                composable("chatbot") {
-                    ChatScreen(navController = navController, chatViewModel = chatViewModel)
-                }
-
-                composable("perfil") {
-                    ProfileScreen(
-                        navController = navController,
-                        profileViewModel = profileViewModel
-                    )
-                }
-
-                composable("editar_perfil") {
-                    Editar_PerfilScreen(
-                        navController = navController,
-                        editarPerfilViewModel = editarPerfilViewModel
-                    )
-                }
-                composable("contactanos") {
-                    ContactanosScreen(
-                        navController = navController,
-                        contactanosViewModel = contactanosViewModel
-                    )
-                }
-                composable("helpline") {
-                    HelplineScreen(
-                        navController = navController,
-                        helplineViewModel = helplineViewModel
-                    )
-                }
-                composable("donation") {
-                    DonationScreen(
-                        navController = navController,
-                        donationViewModel = donationViewModel
-                    )
-                }
-                composable("privacyNotice") {
-                    PrivacyNoticeScreen(
-                        navController = navController,
-                        privacyNoticeViewModel = privacyNoticeViewModel
-                    )
-                }
-                composable("registerEmotions") {
-                    RegisterEmotionsScreen(
-                        navController = navController,
-                        registerEmotionsViewModel = registerEmotionsViewModel
-                    )
-                }
-                composable("ejercicios") {
-                    EjerciciosScreen(
-                        navController = navController,
-                        ejerciciosViewModel = ejerciciosViewModel
-                    )
-                }
-                composable("notifications") {
-                    NotificationsScreen(
-                        navController = navController
-                    )
-                }
-            }
-
-            // Navegar al destino de la notificación si existe y el usuario está autenticado
-            LaunchedEffect(intent, currentUser) {
-                val routeFromNotification =
-                    intent.getStringExtra(ReminderReceiver.Companion.DESTINATION_ROUTE)
-                if (currentUser != null && routeFromNotification != null) {
-                    navController.navigate(routeFromNotification) {
-                        launchSingleTop = true
                     }
-                    intent.removeExtra(ReminderReceiver.Companion.DESTINATION_ROUTE)
+                }
+
+                Scaffold(
+                    bottomBar = {
+                        AppBottomNavigationBar(navController = navController)
+                    },
+                    contentWindowInsets = ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.systemBars)
+                ) { innerPadding ->
+                    NavHost(
+                        navController = navController,
+                        startDestination = startDestination,
+                        modifier = Modifier.padding(innerPadding)
+                    ) {
+                        composable(
+                            "login",
+                            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
+                            exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
+                            popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
+                            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) }
+                        ) {
+                            LoginScreen(
+                                viewModel = loginViewModel,
+                                onNavigateToSignUp = { navController.navigate("signup") },
+                                onNavigateToMain = {
+                                    navController.navigate("main") {
+                                        popUpTo("login") { inclusive = true }
+                                    }
+                                }
+                            )
+                        }
+                        composable(
+                            "signup",
+                            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
+                            exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
+                            popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
+                            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) }
+                        ) {
+                            SignUpScreen(
+                                onNavigateToLogin = { navController.popBackStack() },
+                                onNavigateToMain = { navController.navigate("main") }
+                            )
+                        }
+                        composable("main") {
+                            HomeScreen(navController = navController, homeViewModel = homeViewModel)
+                        }
+
+                        composable("relax") {
+                            RelaxScreen(navController = navController, relaxViewModel = relaxViewModel)
+                        }
+
+                        composable("chatbot") {
+                            ChatScreen(navController = navController, chatViewModel = chatViewModel)
+                        }
+
+                        composable("perfil") {
+                            ProfileScreen(
+                                navController = navController,
+                                profileViewModel = profileViewModel
+                            )
+                        }
+
+                        composable("editar_perfil") {
+                            Editar_PerfilScreen(
+                                navController = navController,
+                                editarPerfilViewModel = editarPerfilViewModel
+                            )
+                        }
+                        composable("contactanos") {
+                            ContactanosScreen(
+                                navController = navController,
+                                contactanosViewModel = contactanosViewModel
+                            )
+                        }
+                        composable("helpline") {
+                            HelplineScreen(
+                                navController = navController,
+                                helplineViewModel = helplineViewModel
+                            )
+                        }
+                        composable("donation") {
+                            DonationScreen(
+                                navController = navController,
+                                donationViewModel = donationViewModel
+                            )
+                        }
+                        composable("privacyNotice") {
+                            PrivacyNoticeScreen(
+                                navController = navController,
+                                privacyNoticeViewModel = privacyNoticeViewModel
+                            )
+                        }
+                        composable("registerEmotions") {
+                            RegisterEmotionsScreen(
+                                navController = navController,
+                                registerEmotionsViewModel = registerEmotionsViewModel
+                            )
+                        }
+                        composable("ejercicios") {
+                            EjerciciosScreen(
+                                navController = navController,
+                                ejerciciosViewModel = ejerciciosViewModel
+                            )
+                        }
+                        composable("notifications") {
+                            NotificationsScreen(
+                                navController = navController
+                            )
+                        }
+                    }
+                }
+
+                // Navegar al destino de la notificación si existe y el usuario está autenticado
+                LaunchedEffect(intent, currentUser) {
+                    val routeFromNotification =
+                        intent.getStringExtra(ReminderReceiver.Companion.DESTINATION_ROUTE)
+                    if (currentUser != null && routeFromNotification != null) {
+                        navController.navigate(routeFromNotification) {
+                            launchSingleTop = true
+                        }
+                        intent.removeExtra(ReminderReceiver.Companion.DESTINATION_ROUTE)
+                    }
                 }
             }
         }

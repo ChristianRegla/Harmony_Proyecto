@@ -1,5 +1,6 @@
 package com.example.harmony.ui.relax
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -34,9 +35,6 @@ fun RelaxTopBar(
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = PurpleColor.copy(alpha = 0.8f)
-        ),
         navigationIcon = {
             IconButton(onClick = onOpenDrawer) {
                 Icon(
@@ -73,6 +71,12 @@ fun RelaxTopBar(
                         .size(25.dp)
                 )
             }
-        }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = PurpleColor.copy(alpha = 0.8f),
+            titleContentColor = Color.White,
+            actionIconContentColor = Color.White
+        ),
+        modifier = modifier
     )
 }

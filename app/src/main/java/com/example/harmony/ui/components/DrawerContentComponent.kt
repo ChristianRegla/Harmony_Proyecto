@@ -45,7 +45,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun DrawerContentComponent(navController: NavHostController, drawerActions: DrawerActions, isDrawerOpen: Boolean) {
+fun DrawerContentComponent(
+    navController: NavHostController,
+    drawerActions: DrawerActions,
+    isDrawerOpen: Boolean
+) {
     val context = LocalContext.current
     val db = FirebaseFirestore.getInstance()
     val apodoState = remember { mutableStateOf("") }

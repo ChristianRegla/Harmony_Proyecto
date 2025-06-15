@@ -1,5 +1,6 @@
 package com.example.harmony.ui.home
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,9 +30,6 @@ fun TopBar(
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = BlueDark //.copy(alpha = 0.95f) si queremos un fondo más transparente
-        ),
         navigationIcon = {
             IconButton(onClick = onOpenDrawer) {
                 Icon(
@@ -68,6 +66,12 @@ fun TopBar(
                         .size(25.dp)
                 )
             }
-        }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = BlueDark,
+            titleContentColor = Color.White,
+            actionIconContentColor = Color.White
+        ),
+        modifier = modifier
     )
 }

@@ -86,19 +86,13 @@ data class MenuItem(
 @Composable
 fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileViewModel) {
 
-    SystemBarStyle(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-    )
+    SystemBarStyle()
 
     val context = LocalContext.current
     val viewModel = profileViewModel
     val perfilState = viewModel.perfil.collectAsState()
 
-    // Para los textos y que estén traducidos:
     val header = stringResource(R.string.header_perfil)
-    val inicio = stringResource(R.string.inicio)
-    val relajacion = stringResource(R.string.relajacion)
 
     // Para el menu
     val editarPerfil = stringResource(R.string.editar_informacion_de_perfil)
@@ -192,53 +186,8 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                         // Este es el título que va en medio de la barra superior
                         title = header,
                         navController = navController,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.wrapContentHeight()
                     )
-                },
-                bottomBar = {
-                    NavigationBar(
-                        modifier = Modifier.height(80.dp),
-                        containerColor = BlueDark
-                    ) {
-                        NavigationBar(containerColor = BlueDark) {
-                            NavigationBarItem(
-                                icon = {
-                                    Icon(
-                                        painterResource(id = R.drawable.home_unselected),
-                                        contentDescription = "Home",
-                                        tint = Color.White
-                                    )
-                                },
-                                label = {
-                                    Text(
-                                    inicio,
-                                    color = Color.White,
-                                    modifier = Modifier.alpha(0.5f)
-                                ) },
-                                selected = false,
-                                onClick = { navController.navigate("main") },
-                            )
-                            NavigationBarItem(
-                                icon = {
-                                    Icon(
-                                        painterResource(id = R.drawable.relax_unselected),
-                                        contentDescription = "Profile",
-                                        tint = Color.White
-                                    )
-                                },
-                                label = {
-                                    Text(
-                                        relajacion,
-                                        color = Color.White,
-                                        modifier = Modifier.alpha(0.5f)
-                                    )
-                                },
-                                selected = false,
-                                onClick = { navController.navigate("relax") }
-                            )
-                        }
-                    }
-
                 },
                 containerColor = Color.Transparent, // haz el scaffold transparente
                 contentColor = Color.White, // Ajusta el color del contenido si es necesario

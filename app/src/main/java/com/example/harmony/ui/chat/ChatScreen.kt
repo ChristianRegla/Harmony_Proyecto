@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -60,10 +61,7 @@ fun ChatScreen(navController: NavHostController, chatViewModel: ChatViewModel) {
 
     var showConfirmationDialog by remember { mutableStateOf(false) }
 
-    SystemBarStyle(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-    )
+    SystemBarStyle()
 
     // Esto es para el diálogo de confirmar o cancelar el eliminar una conversación
     if (showConfirmationDialog) {
@@ -92,7 +90,7 @@ fun ChatScreen(navController: NavHostController, chatViewModel: ChatViewModel) {
                     onBackClick = { navController.popBackStack() },
                     title = stringResource(R.string.chatbot),
                     onDeleteChatClick = { showConfirmationDialog = true },
-                    modifier = Modifier.size(56.dp)
+                    modifier = Modifier.wrapContentHeight()
                 )
             },
             containerColor = Color.Transparent,

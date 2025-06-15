@@ -1,5 +1,6 @@
 package com.example.harmony.ui.signup
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +43,7 @@ import com.example.harmony.ui.components.SystemBarStyle
 import com.example.harmony.utils.ResultState
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignUpScreen(
     viewModel: SignUpViewModel = viewModel(
@@ -52,6 +54,7 @@ fun SignUpScreen(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     var apodo by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -62,8 +65,9 @@ fun SignUpScreen(
     LaunchedEffect(signUpState) {
         when (val state = signUpState) {
             is ResultState.Error -> {
+                val message = state.message.asString(context)
                 scope.launch {
-                    snackbarHostState.showSnackbar(message = state.message, withDismissAction = true)
+                    snackbarHostState.showSnackbar(message = message, withDismissAction = true)
                     viewModel.resetSignUpState()
                 }
             }
@@ -76,19 +80,15 @@ fun SignUpScreen(
         }
     }
 
-    SystemBarStyle(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-    )
+    SystemBarStyle()
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         containerColor = Color.Transparent
-    ) { contentPadding ->
+    ) { _ ->
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(contentPadding)
         ) {
             val (logo, apodoField, emailField, passwordField, loginButton, googleButton, divider, signUpText, backgroundBox) = createRefs()
 

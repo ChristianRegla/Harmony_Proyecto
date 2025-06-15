@@ -12,6 +12,7 @@ import com.example.harmony.R
 import com.example.harmony.data.repository.AuthRepository
 import com.example.harmony.data.repository.UserPreferencesRepository
 import com.example.harmony.utils.ResultState
+import com.example.harmony.utils.UiText
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -33,8 +34,8 @@ class SignUpViewModel(
     private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
-    private val _signUpState = MutableStateFlow<ResultState<String>>(ResultState.Idle)
-    val signUpState: StateFlow<ResultState<String>> = _signUpState.asStateFlow()
+    private val _signUpState = MutableStateFlow<ResultState<UiText>>(ResultState.Idle)
+    val signUpState: StateFlow<ResultState<UiText>> = _signUpState.asStateFlow()
 
     fun crearCuenta(
         username: String,
@@ -42,17 +43,17 @@ class SignUpViewModel(
         password: String
     ) {
         if (username.isBlank() || email.isBlank() || password.isBlank()) {
-            _signUpState.value = ResultState.Error("Por favor, complete todos los campos")
+            _signUpState.value = ResultState.Error(UiText.StringResource(R.string.error_campos_vacios))
             return
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _signUpState.value = ResultState.Error("Por favor, ingrese un correo electrónico válido")
+            _signUpState.value = ResultState.Error(UiText.StringResource(R.string.error_correo_invalido))
             return
         }
 
         if(password.length < 6) {
-            _signUpState.value = ResultState.Error("La contraseña debe tener al menos 6 caracteres")
+            _signUpState.value = ResultState.Error(UiText.StringResource(R.string.error_contraseña_corta))
             return
         }
 
@@ -63,12 +64,15 @@ class SignUpViewModel(
 
             result.onSuccess { userProfile ->
                 userPreferencesRepository.saveUserSession(userProfile.nickname ?: "Harmony", userProfile.email)
-                _signUpState.value = ResultState.Success("Cuenta creada exitosamente")
+                _signUpState.value = ResultState.Success(UiText.StringResource(R.string.registro_exitoso))
             }.onFailure { exception ->
                 val errorMessage = when (exception) {
-                    is FirebaseAuthUserCollisionException -> "El correo electrónico ya está en uso"
-                    is FirebaseAuthInvalidCredentialsException -> "El correo electrónico no es válido"
-                    else -> exception.localizedMessage ?: "Error al crear la cuenta"
+                    is FirebaseAuthUserCollisionException -> UiText.StringResource(R.string.correo_en_uso)
+                    is FirebaseAuthInvalidCredentialsException -> UiText.StringResource(R.string.error_correo_invalido)
+                    else -> {
+                        exception.localizedMessage?.let { UiText.DynamicString(it) }
+                            ?: UiText.StringResource(R.string.error_signup_failed)
+                    }
                 }
                 _signUpState.value = ResultState.Error(errorMessage)
 

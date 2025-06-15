@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -93,10 +94,7 @@ fun Editar_PerfilScreen(
         generoSeleccionado = generoActual
         domicilio = domicilioActual
     }
-    SystemBarStyle(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-    )
+    SystemBarStyle()
 
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
@@ -125,7 +123,7 @@ fun Editar_PerfilScreen(
                     onBackClick = { navController.popBackStack() },
                     // Este es el título que va en medio de la barra superior
                     title = header,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.wrapContentHeight()
                 )
             },
             containerColor = Color.Transparent,

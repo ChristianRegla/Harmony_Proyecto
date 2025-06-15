@@ -29,11 +29,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -65,13 +63,12 @@ import co.yml.charts.ui.linechart.model.LineStyle
 import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
 import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
-import com.example.harmony.ui.components.RedirectHomeSection
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
     val headerTitle = stringResource(R.string.header_menu_principal)
-    val relajacion = stringResource(R.string.relajacion)
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -80,11 +77,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
         homeViewModel.loadEmotionSummaries()
     }
 
-
-    SystemBarStyle(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-    )
+    SystemBarStyle()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -119,40 +112,6 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
                         navController = navController,
                         modifier = Modifier.wrapContentHeight()
                     )
-                },
-                // Barra de abajo
-                bottomBar = {
-                    NavigationBar(
-                        modifier = Modifier.height(80.dp),
-                        containerColor = BlueDark
-                    ) {
-                        NavigationBarItem(
-                            icon = { Icon(painterResource(id = R.drawable.home_selected), contentDescription = "Home", tint = Color.White) },
-                            label = { Text(headerTitle, color = Color.White) },
-                            selected = true,
-                            onClick = {},
-                            colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent,
-                                selectedIconColor = Color.Transparent,
-                                unselectedIconColor = Color.Transparent
-                            )
-                        )
-                        NavigationBarItem(
-                            icon = { Icon(
-                                painter = painterResource(id = R.drawable.relax_unselected),
-                                contentDescription = "Relaxing",
-                                tint = Color.White
-                            ) },
-                            label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                            selected = false,
-                            onClick = { navController.navigate("relax") },
-                            colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent,
-                                selectedIconColor = Color.Transparent,
-                                unselectedIconColor = Color.Transparent
-                            )
-                        )
-                    }
                 },
                 containerColor = Color.Transparent,
                 contentColor = Color.White
@@ -446,17 +405,17 @@ fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
             resumenMensual,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            color = Color.White // Asumiendo fondo oscuro
+            color = Color.White
         )
         Spacer(modifier = Modifier.height(12.dp))
 
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(280.dp), // Un poco más de altura para los gráficos de YCharts a veces viene bien
+                .height(280.dp),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Color.White.copy(alpha = 0.2f) // Fondo semi-transparente
+                containerColor = Color.White.copy(alpha = 0.2f)
             ),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
@@ -495,7 +454,7 @@ fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
                 val yAxisData = AxisData.Builder()
                     .steps(((maxYValue - minYValue).coerceAtLeast(1f)).toInt().coerceAtLeast(1))
                     .backgroundColor(Color.Transparent)
-                    .labelData { value -> String.format("%.1f", value * (maxYValue-minYValue)/((maxYValue - minYValue).coerceAtLeast(1f)).toInt().coerceAtLeast(1) + minYValue) }
+                    .labelData { value -> String.format(Locale.US, "%.1f", value * (maxYValue-minYValue)/((maxYValue - minYValue).coerceAtLeast(1f)).toInt().coerceAtLeast(1) + minYValue) }
                     .axisLineColor(Color.White.copy(alpha = 0.5f))
                     .build()
 
@@ -528,7 +487,7 @@ fun MonthlyEmotionChartView(summaryPoints: List<MonthlyEmotionDataPoint>) {
 
                                 selectionHighlightPopUp = SelectionHighlightPopUp(
                                     popUpLabel = { x, y ->
-                                        "$diaTraducido ${x.toInt()}: ${String.format("%.1f", y)}"
+                                        "$diaTraducido ${x.toInt()}: ${String.format(Locale.US, "%.1f", y)}"
                                     },
                                     labelColor = Color.Black,
                                     labelSize = 12.sp,

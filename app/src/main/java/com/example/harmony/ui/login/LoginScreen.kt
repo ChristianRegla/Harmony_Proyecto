@@ -1,5 +1,6 @@
 package com.example.harmony.ui.login
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,9 +14,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -48,6 +52,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
 import java.util.UUID
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = viewModel(
@@ -56,7 +61,6 @@ fun LoginScreen(
     onNavigateToSignUp: () -> Unit,
     onNavigateToMain: () -> Unit
 ) {
-    // Intento de snackbar
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -69,23 +73,21 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    SystemBarStyle(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-    )
+    SystemBarStyle()
 
-    // Observa el estado
     LaunchedEffect(loginState, infoMessage) {
         if (loginState is ResultState.Error) {
-            val message = (loginState as ResultState.Error).message
+            val uiText = (loginState as ResultState.Error).message
+            val message = uiText.asString(context)
             scope.launch {
                 snackbarHostState.showSnackbar(message = message, withDismissAction = true)
                 viewModel.resetLoginState()
             }
         }
 
-        infoMessage?.let { message ->
+        infoMessage?.let { uiText ->
             scope.launch {
+                val message = uiText.asString(context)
                 snackbarHostState.showSnackbar(message = message)
                 viewModel.onInfoMessageShown()
             }
@@ -100,16 +102,14 @@ fun LoginScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         containerColor = Color.Transparent
-    ) { contentPadding ->
+    ) { _ ->
 
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(contentPadding)
         ) {
             val (logo, emailField, passwordField, loginButton, googleButton, divider, signUpText, backgroundBox, forgotPassword) = createRefs()
 
-            // Box para el fondo
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -120,14 +120,12 @@ fun LoginScreen(
                         end.linkTo(parent.end)
                     }
             ) {
-                // Imagen de fondo
                 Image(
                     painter = painterResource(id = R.drawable.background_login_signup),
                     contentDescription = stringResource(id = R.string.background_image),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
                 )
-                // Imagen de fondo con opacidad
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -135,7 +133,6 @@ fun LoginScreen(
                 )
             }
 
-            // Nombre de la app centrado
             Text(
                 text = stringResource(id = R.string.app_name),
                 fontSize = 64.sp,
@@ -151,7 +148,6 @@ fun LoginScreen(
                 textAlign = TextAlign.Center
             )
 
-            // Campo de entrada para el correo
             EmailTextField(
                 email = email,
                 onEmailChange = { email = it },
@@ -162,7 +158,6 @@ fun LoginScreen(
                 }
             )
 
-            // Campo de entrada para la contraseña
             PasswordTextField(
                 password = password,
                 onPasswordChange = { password = it },

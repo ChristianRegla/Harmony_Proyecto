@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,7 +41,7 @@ fun ApodoTextField(
     onApodoChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    OutlinedTextField(
+    TextField(
         value = apodo,
         onValueChange = onApodoChange,
         label = { Text(text = stringResource(id = R.string.user_name)) },
@@ -49,8 +50,8 @@ fun ApodoTextField(
             unfocusedContainerColor = Color(0xFFEEEEEE),
             focusedContainerColor = Color(0xFFEEEEEE),
 
-            unfocusedIndicatorColor = Color.Gray,
-            focusedIndicatorColor = Color.Black,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
 
             unfocusedTextColor = Color.Black,
             focusedTextColor = Color.Black,
@@ -70,7 +71,7 @@ fun EmailTextField(
     onEmailChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    OutlinedTextField(
+    TextField(
         value = email,
         onValueChange = onEmailChange,
         label = { Text(text = stringResource(id = R.string.email)) },
@@ -79,8 +80,8 @@ fun EmailTextField(
             unfocusedContainerColor = Color(0xFFEEEEEE),
             focusedContainerColor = Color(0xFFEEEEEE),
 
-            unfocusedIndicatorColor = Color.Gray,
-            focusedIndicatorColor = Color.Black,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
 
             unfocusedTextColor = Color.Black,
             focusedTextColor = Color.Black,
@@ -106,7 +107,7 @@ fun PasswordTextField(
 ) {
     val passwordVisible = remember { mutableStateOf(false) }
 
-    OutlinedTextField(
+    TextField(
         value = password,
         onValueChange = onPasswordChange,
         label = { Text(text = stringResource(id = R.string.password)) },
@@ -116,8 +117,8 @@ fun PasswordTextField(
             unfocusedContainerColor = Color(0xFFEEEEEE),
             focusedContainerColor = Color(0xFFEEEEEE),
 
-            unfocusedIndicatorColor = Color.Gray,
-            focusedIndicatorColor = Color.Black,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
 
             unfocusedTextColor = Color.Black,
             focusedTextColor = Color.Black,
@@ -144,7 +145,7 @@ fun NombreTextField(
     onNombreChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    OutlinedTextField(
+    TextField(
         value = nombre,
         onValueChange = onNombreChange,
         label = { Text(text = stringResource(id = R.string.nombre)) },
@@ -153,8 +154,8 @@ fun NombreTextField(
             unfocusedContainerColor = Color(0xFFEEEEEE),
             focusedContainerColor = Color(0xFFEEEEEE),
 
-            unfocusedIndicatorColor = Color.Gray,
-            focusedIndicatorColor = Color.Black,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
 
             unfocusedTextColor = Color.Black,
             focusedTextColor = Color.Black,
@@ -174,7 +175,7 @@ fun Apodo2TextField(
     onApodo2Change: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    OutlinedTextField(
+    TextField(
         value = apodo2,
         onValueChange = onApodo2Change,
         label = { Text(text = stringResource(id = R.string.apodo)) },
@@ -183,8 +184,8 @@ fun Apodo2TextField(
             unfocusedContainerColor = Color(0xFFEEEEEE),
             focusedContainerColor = Color(0xFFEEEEEE),
 
-            unfocusedIndicatorColor = Color.Gray,
-            focusedIndicatorColor = Color.Black,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
 
             unfocusedTextColor = Color.Black,
             focusedTextColor = Color.Black,
@@ -204,7 +205,7 @@ fun NumeroTextField(
     onNumeroChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    OutlinedTextField(
+    TextField(
         value = numero,
         onValueChange = { newValue ->
             // Solo permite números enteros
@@ -218,8 +219,8 @@ fun NumeroTextField(
             unfocusedContainerColor = Color(0xFFEEEEEE),
             focusedContainerColor = Color(0xFFEEEEEE),
 
-            unfocusedIndicatorColor = Color.Gray,
-            focusedIndicatorColor = Color.Black,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
 
             unfocusedTextColor = Color.Black,
             focusedTextColor = Color.Black,
@@ -256,7 +257,7 @@ fun CiudadDropdown(
     var expanded by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.padding(horizontal = 25.dp)) { // Reducir padding horizontal
-        OutlinedTextField(
+        TextField(
             value = ciudadSeleccionada,
             onValueChange = {},
             label = { Text(text = stringResource(id = R.string.ciudad)) },
@@ -265,8 +266,8 @@ fun CiudadDropdown(
                 unfocusedContainerColor = Color(0xFFEEEEEE),
                 focusedContainerColor = Color(0xFFEEEEEE),
 
-                unfocusedIndicatorColor = Color.Gray,
-                focusedIndicatorColor = Color.Black,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
 
                 unfocusedTextColor = Color.Black,
                 focusedTextColor = Color.Black,
@@ -320,7 +321,7 @@ fun GeneroDropdown(
     var expanded by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.padding(horizontal = 25.dp)) { // Reducir padding horizontal
-        OutlinedTextField(
+        TextField(
             value = generoSeleccionado,
             onValueChange = {},
             label = { Text(text = stringResource(id = R.string.genero)) },
@@ -329,8 +330,8 @@ fun GeneroDropdown(
                 unfocusedContainerColor = Color(0xFFEEEEEE),
                 focusedContainerColor = Color(0xFFEEEEEE),
 
-                unfocusedIndicatorColor = Color.Gray,
-                focusedIndicatorColor = Color.Black,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
 
                 unfocusedTextColor = Color.Black,
                 focusedTextColor = Color.Black,
@@ -377,7 +378,7 @@ fun DomicilioTextField(
     onDomicilioChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    OutlinedTextField(
+    TextField(
         value = domicilio,
         onValueChange = onDomicilioChange,
         label = { Text(text = stringResource(id =R.string.domicilio)) },
@@ -386,8 +387,8 @@ fun DomicilioTextField(
             unfocusedContainerColor = Color(0xFFEEEEEE),
             focusedContainerColor = Color(0xFFEEEEEE),
 
-            unfocusedIndicatorColor = Color.Gray,
-            focusedIndicatorColor = Color.Black,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
 
             unfocusedTextColor = Color.Black,
             focusedTextColor = Color.Black,
@@ -401,4 +402,3 @@ fun DomicilioTextField(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
     )
 }
-

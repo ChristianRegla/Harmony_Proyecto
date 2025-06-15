@@ -42,10 +42,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun PrivacyNoticeScreen(navController: NavHostController, privacyNoticeViewModel: PrivacyNoticeViewModel) {
 
-    SystemBarStyle(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-    )
+    SystemBarStyle()
 
     val headerTitle = ""
     val relajacion = stringResource(R.string.relajacion)
@@ -86,47 +83,6 @@ fun PrivacyNoticeScreen(navController: NavHostController, privacyNoticeViewModel
                     navController = navController,
                     modifier = Modifier.wrapContentHeight()
                 )
-            },
-            // Barra de abajo
-            bottomBar = {
-                NavigationBar(
-                    modifier = Modifier.height(80.dp),
-                    containerColor = BlueDark
-                ) {
-                    NavigationBarItem(
-                        icon = { Icon(painterResource(id = R.drawable.home_unselected),
-                            contentDescription = "Home",
-                            tint = Color.White
-                        ) },
-                        label = { Text(
-                            inicio,
-                            color = Color.White,
-                            modifier = Modifier.alpha(0.5f)
-                        ) },
-                        selected = true,
-                        onClick = { navController.navigate("main") },
-                        colors = NavigationBarItemDefaults.colors(
-                            indicatorColor = Color.Transparent,
-                            selectedIconColor = Color.Transparent,
-                            unselectedIconColor = Color.Transparent
-                        )
-                    )
-                    NavigationBarItem(
-                        icon = { Icon(
-                            painter = painterResource(id = R.drawable.relax_unselected),
-                            contentDescription = "Relaxing",
-                            tint = Color.White
-                        ) },
-                        label = { Text(relajacion, color = Color.White, modifier = Modifier.alpha(0.5f)) },
-                        selected = false,
-                        onClick = { navController.navigate("relax") },
-                        colors = NavigationBarItemDefaults.colors(
-                            indicatorColor = Color.Transparent,
-                            selectedIconColor = Color.Transparent,
-                            unselectedIconColor = Color.Transparent
-                        )
-                    )
-                }
             },
             containerColor = Color.Transparent,
             contentColor = Color.White

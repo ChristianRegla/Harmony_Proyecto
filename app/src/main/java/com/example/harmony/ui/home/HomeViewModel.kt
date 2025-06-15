@@ -13,12 +13,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import com.example.harmony.dataStore
 import com.example.harmony.ui.common.DataBaseActions
 import com.example.harmony.ui.common.DrawerActions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import dataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -83,9 +83,7 @@ class HomeViewModel(private val homeModel: HomeModel, private val context: Conte
 
     init {
         cargarApodoEnDrawerContent()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            loadEmotionSummaries()
-        }
+        loadEmotionSummaries()
     }
 
     override fun cargarApodoEnDrawerContent() {
@@ -106,10 +104,10 @@ class HomeViewModel(private val homeModel: HomeModel, private val context: Conte
             kotlinx.coroutines.delay(100)
 
             navController.navigate("login") {
-                popUpTo(navController.graph.findStartDestination().id) { // Pop up to the start of the graph
+                popUpTo(navController.graph.findStartDestination().id) {
                     inclusive = true
                 }
-                launchSingleTop = true // Asegura que no haya múltiples "login"
+                launchSingleTop = true
             }
         }
     }
