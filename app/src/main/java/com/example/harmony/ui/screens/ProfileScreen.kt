@@ -69,6 +69,8 @@ import com.example.harmony.ui.components.SystemBarStyle
 import androidx. compose. material3.Surface
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
+import coil3.request.colorSpace
+import com.example.harmony.ui.components.ProfileItemMenu
 import com.example.harmony.ui.model.ProfileModel
 import com.example.harmony.ui.viewModel.ProfileViewModel
 
@@ -80,7 +82,6 @@ data class MenuItem(
     val onClick: () -> Unit = {}
 )
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileViewModel) {
@@ -369,6 +370,30 @@ fun ProfileScreen(navController: NavHostController, profileViewModel: ProfileVie
                             }
                             Spacer(modifier = Modifier.height(14.dp))
 
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(Color.Transparent)
+                                    .fillMaxWidth()
+                                    .wrapContentHeight()
+                                    .padding(start = 16.dp, end = 16.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(BlueDark)
+                                ) {
+                                    ProfileItemMenu(
+                                        imageId = R.drawable.ico_editar_perfil,
+                                        title = editarPerfil,
+                                        option = "",
+                                        onClick = { navController.navigate("editar_perfil") }
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(14.dp))
+
                             // Grupo de 2
                             Box(
                                 modifier = Modifier
@@ -450,7 +475,6 @@ fun ProfileMenuItem(modifier: Modifier = Modifier, item: MenuItem, onClick: () -
             .size(342.dp, 40.dp)
             .clickable(onClick = onClick),
     ) {
-        //(Reutilizado para todos los items)
         Box(
             modifier = Modifier
                 .advancedShadow(

@@ -148,7 +148,6 @@ fun ScreenContent(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel
 ) {
-    // Cargamos los estados del ViewModel
     val weeklySummary by homeViewModel.weeklySummary.collectAsState()
     val monthlySummary by homeViewModel.monthlySummary.collectAsState()
     val isLoadingSummaries by homeViewModel.isLoadingSummaries.collectAsState()

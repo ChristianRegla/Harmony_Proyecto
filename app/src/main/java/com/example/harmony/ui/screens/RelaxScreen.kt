@@ -41,7 +41,6 @@ import com.example.harmony.ui.model.RelaxModel
 import com.example.harmony.ui.components.RelaxTopBar
 import com.example.harmony.ui.viewModel.RelaxViewModel
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RelaxScreen(navController: NavHostController, relaxViewModel: RelaxViewModel) {
