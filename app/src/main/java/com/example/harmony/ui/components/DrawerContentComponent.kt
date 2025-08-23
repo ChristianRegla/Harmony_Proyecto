@@ -40,12 +40,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.harmony.R
 import com.example.harmony.ui.common.DrawerActions
-import com. example. harmony. ui. profile. ProfileModel
+import com.example.harmony.ui.model.ProfileModel
 import com.google.firebase.firestore.FirebaseFirestore
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun DrawerContentComponent(navController: NavHostController, drawerActions: DrawerActions, isDrawerOpen: Boolean) {
+fun DrawerContentComponent(
+    navController: NavHostController,
+    drawerActions: DrawerActions,
+    isDrawerOpen: Boolean,
+    onCloseDrawer: () -> Unit
+) {
     val context = LocalContext.current
     val db = FirebaseFirestore.getInstance()
     val apodoState = remember { mutableStateOf("") }
@@ -138,7 +143,9 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     )
                 },
                 selected = false,
-                onClick = { navController.navigate("perfil") },
+                onClick = {
+                    onCloseDrawer()
+                    navController.navigate("perfil") },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()
@@ -172,7 +179,10 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     )
                 },
                 selected = false,
-                onClick = { navController.navigate("notifications") },
+                onClick = {
+                    onCloseDrawer()
+                    navController.navigate("notifications")
+                          },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()
@@ -206,7 +216,10 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     )
                 },
                 selected = false,
-                onClick = { navController.navigate("donation") },
+                onClick = {
+                    onCloseDrawer()
+                    navController.navigate("donation")
+                          },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()
@@ -242,7 +255,10 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     )
                 },
                 selected = false,
-                onClick = { navController.navigate("privacyNotice") },
+                onClick = {
+                    onCloseDrawer()
+                    navController.navigate("privacyNotice")
+                          },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()
@@ -277,7 +293,10 @@ fun DrawerContentComponent(navController: NavHostController, drawerActions: Draw
                     )
                 },
                 selected = false,
-                onClick = { drawerActions.cerrarSesion(navController) },
+                onClick = {
+                    onCloseDrawer()
+                    drawerActions.cerrarSesion(navController)
+                          },
                 modifier = Modifier
                     .background(color = Color(0xFFE3E3E3))
                     .wrapContentHeight()

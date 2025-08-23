@@ -17,6 +17,7 @@
     <string name="error_campos_vacios">Por favor, complete todos los campos</string>
     <string name="error_correo_invalido">Por favor, introduce un correo electrónico válido</string>"
     <string name="bienvenido">Bienvenido</string>
+    <string name="login_success">Inicio de sesión exitoso</string>
     <string name="error_apodo">Error al obtener el apodo</string>
     <string name="cuenta_creada_exitosamente">Cuenta creada exitosamente</string>
     <string name="correo_en_uso">El correo electrónico ya está en uso</string>
@@ -194,5 +195,9 @@
     <string name="web_client">58266237789-3hrbd9nsra34v6vvo70s13r105iv4cdm.apps.googleusercontent.com</string>
     <string name="error_al_iniciar_sesion_google">Error al iniciar sesión con Google</string>
     <string name="error_google_login_cancelado">Inicio de sesión con Google cancelado.</string>
+    <string name="error_unknown">Error desconocido</string>
+    <string name="error_contraseña_corta">La contraseña debe tener al menos 6 caracteres.</string>
+    <string name="registro_exitoso">Cuenta creada con éxito.</string>
+    <string name="error_signup_failed">Error al crear cuenta.</string>
 
 </resources>
