@@ -119,4 +119,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("co.yml:ycharts:2.1.0")
+
+    // Dependencia para que funcione lo del smartwatch
+    implementation("androidx.health.connect:connect-client:1.2.0-alpha01")
 }

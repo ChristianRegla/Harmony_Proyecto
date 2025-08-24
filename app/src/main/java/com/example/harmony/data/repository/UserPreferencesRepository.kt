@@ -7,7 +7,7 @@ import com.example.harmony.utils.dataStore
 
 class UserPreferencesRepository(private val context: Context) {
 
-    // Centraliza las claves de tus preferencias
+    // Centralize las claves de tus preferences
     private object PreferencesKeys {
         val NICKNAME = stringPreferencesKey("nickname")
         val EMAIL = stringPreferencesKey("email")
